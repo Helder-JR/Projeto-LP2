@@ -27,17 +27,18 @@ public class Facade {
     }
 
     public String exibirPessoa(String dni) {
-       return this.systemController.exibePessoa(dni);
+       return this.systemController.exibirPessoa(dni);
     }
 
-    public String exibeBase() {
-        return this.systemController.exibeBase();
+    public String exibirBase() {
+        return this.systemController.exibirBase();
     }
 
     public static void main(String[] args) {
         args = new String[] {"projeto.Facade", "acceptance_test/use_case_1.txt",
                                                "acceptance_test/use_case_2.txt",
-                                               "acceptance_test/use_case_3.txt"};
+                                               "acceptance_test/use_case_3.txt",
+                                               "acceptance_test/use_case_4.txt"};
         EasyAccept.main(args);
     }
 }

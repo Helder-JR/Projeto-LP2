@@ -34,11 +34,11 @@ public class SystemController {
         return true;
     }
 
-    public String exibePessoa(String dni) {
+    public String exibirPessoa(String dni) {
         return this.cadastroPessoas.get(dni).toString();
     }
 
-    public String exibeBase() {
+    public String exibirBase() {
         ArrayList<String> listaPartidos = new ArrayList<>(this.partidosGovernistas);
         listaPartidos.sort(null);
         return String.join(",",listaPartidos);
