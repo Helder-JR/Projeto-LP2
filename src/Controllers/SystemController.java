@@ -2,6 +2,7 @@ package Controllers;
 
 import Entidades.Deputado;
 import Entidades.Pessoa;
+import Validadores.ValidaSystemController;
 
 import java.util.*;
 
@@ -9,10 +10,12 @@ public class SystemController {
 
     private Map<String, Pessoa> cadastroPessoas;
     private Set<String> partidosGovernistas;
+    private ValidaSystemController validador;
 
     public SystemController() {
         this.cadastroPessoas = new HashMap<>();
         this.partidosGovernistas = new HashSet<>();
+        this.validador = new ValidaSystemController();
     }
 
     public boolean cadastrarPessoa(String nome, String dni, String estado, String interesses, String partido) {
@@ -34,6 +37,7 @@ public class SystemController {
     }
 
     public boolean cadastrarPartido(String partido) {
+        validador.validaCadastrarPartido(partido);
         this.partidosGovernistas.add(partido);
         return true;
     }
