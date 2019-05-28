@@ -1,5 +1,9 @@
 package Controllers;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+
 public class ValidaSystemController {
 
     public void validaCadastrarPessoaComPartido(String nome, String dni, String estado, String interesses, String partido) {
@@ -44,6 +48,16 @@ public class ValidaSystemController {
                 throw new IllegalArgumentException("Erro ao cadastrar deputado: dni invalido");
             }
             if (i == 8){ i = 10;}
+        }
+
+        DateFormat format = new SimpleDateFormat("ddMMyyyy");
+        format.setLenient(false);
+        String date = dataDeInicio;
+
+        try {
+            format.parse(date);
+        } catch (ParseException e) {
+            throw new IllegalArgumentException("Erro ao cadastrar deputado: data invalida");
         }
     }
 
