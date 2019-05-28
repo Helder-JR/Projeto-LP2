@@ -38,6 +38,13 @@ public class ValidaSystemController {
         if (dataDeInicio == null || "".equals(dataDeInicio.trim())) {
             throw new IllegalArgumentException("Erro ao cadastrar deputado: data nao pode ser vazio ou nulo");
         }
+
+        for (int i = 0; i < dni.length(); i++) {
+            if (!Character.isDigit(dni.charAt(i))) {
+                throw new IllegalArgumentException("Erro ao cadastrar deputado: dni invalido");
+            }
+            if (i == 8){ i = 10;}
+        }
     }
 
     public void validaCadastrarPartido(String partido) {
