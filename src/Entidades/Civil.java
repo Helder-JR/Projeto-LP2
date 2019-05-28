@@ -25,11 +25,14 @@ public class Civil implements Funcao {
 
     public String toString(String nome, String estado, String partido, String interesses) {
         if ("".equals(partido.trim()) && !"".equals(interesses.trim())) {
-            return String.format("POL: %s - %s (%s) - Interesses: %s", nome, this.dni, estado, interesses);
+            return String.format("%s - %s (%s) - Interesses: %s", nome, this.dni, estado, interesses);
         }
         if ("".equals(interesses.trim()) && !"".equals(partido.trim())) {
-            return String.format("POL: %s - %s (%s) - %s", nome, this.dni, estado, partido);
+            return String.format("%s - %s (%s) - %s", nome, this.dni, estado, partido);
         }
-        return String.format("POL: %s - %s (%s) - %s - Interesses: %s", nome, this.dni, estado, partido, interesses);
+        if ("".equals(interesses.trim()) && "".equals(partido.trim())) {
+            return String.format("%s - %s (%s)", nome, this.dni, estado);
+        }
+        return String.format("%s - %s (%s) - %s - Interesses: %s", nome, this.dni, estado, partido, interesses);
     }
 }

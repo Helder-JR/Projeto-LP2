@@ -42,6 +42,9 @@ public class Deputado implements Funcao {
         if ("".equals(interesses.trim()) && !"".equals(partido.trim())) {
             return String.format("POL: %s - %s (%s) - %s - %s - %s Leis", nome, this.dni, estado, partido, dateFormat.format(this.dataDeInicio), this.LeisAprovadas);
         }
+        if ("".equals(interesses.trim()) && "".equals(partido.trim())) {
+            return String.format("POL: %s - %s (%s) - %s - %s Leis", nome, this.dni, estado, dateFormat.format(this.dataDeInicio), this.LeisAprovadas);
+        }
         return String.format("POL: %s - %s (%s) - %s - Interesses: %s - %s - %s Leis", nome, this.dni, estado, partido, interesses, dateFormat.format(this.dataDeInicio), this.LeisAprovadas);
     }
 }
