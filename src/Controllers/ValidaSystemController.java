@@ -6,6 +6,10 @@ public class ValidaSystemController {
         if (partido == null || "".equals(partido.trim())) {
             throw new IllegalArgumentException("Erro ao cadastrar partido: partido nao pode ser vazio ou nulo");
         }
+
+        public void validaCadastrarPessoa() {
+            
+        }
     }
 
     public void validaCadastrarDeputado(String dni, String dataDeInicio) {
