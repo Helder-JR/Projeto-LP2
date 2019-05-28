@@ -1,4 +1,4 @@
-package projeto;
+package Entidades;
 
 public interface Funcao {
 

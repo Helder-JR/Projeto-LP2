@@ -1,4 +1,4 @@
-package projeto;
+package Entidades;
 
 import java.util.Objects;
 

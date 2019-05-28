@@ -1,4 +1,7 @@
-package projeto;
+package Controllers;
+
+import Entidades.Deputado;
+import Entidades.Pessoa;
 
 import java.util.*;
 

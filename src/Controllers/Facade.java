@@ -1,4 +1,4 @@
-package projeto;
+package Controllers;
 
 import easyaccept.EasyAccept;
 
@@ -35,7 +35,7 @@ public class Facade {
     }
 
     public static void main(String[] args) {
-        args = new String[] {"projeto.Facade", "acceptance_test/use_case_1.txt",
+        args = new String[] {"Controllers.Facade", "acceptance_test/use_case_1.txt",
                                                "acceptance_test/use_case_2.txt",
                                                "acceptance_test/use_case_3.txt",
                                                "acceptance_test/use_case_4.txt"};
