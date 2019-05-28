@@ -25,7 +25,8 @@ public class SystemController {
     }
 
     public boolean cadastrarDeputado(String dni, String dataDeInicio) {
-        this.cadastroPessoas.get(dni).setFuncao("Deputado", dataDeInicio);
+        Deputado funcao = new Deputado(dni,dataDeInicio);
+        this.cadastroPessoas.get(dni).setFuncao(funcao);
         return true;
     }
 

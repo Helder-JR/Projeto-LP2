@@ -23,11 +23,8 @@ public class Pessoa {
         this(nome, dni, estado, interesses,"Sem partido");
     }
 
-    public void setFuncao(String funcao, String dataDeInicio) {
-        if ("Deputado".equals(funcao)) {
-            Deputado deputado = new Deputado(this.dni,dataDeInicio);
-            this.funcao = deputado;
-        }
+    public void setFuncao(Funcao funcao) {
+        this.funcao = funcao;
     }
 
     @Override
