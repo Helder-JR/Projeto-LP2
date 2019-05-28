@@ -2,6 +2,8 @@ package Controllers;
 
 import easyaccept.EasyAccept;
 
+import java.text.ParseException;
+
 public class Facade {
 
     private SystemController systemController;
@@ -18,7 +20,7 @@ public class Facade {
         this.systemController.cadastrarPessoa(nome, dni, estado, interesses);
     }
 
-    public void cadastrarDeputado(String dni, String dataDeInicio) {
+    public void cadastrarDeputado(String dni, String dataDeInicio) throws ParseException {
         this.systemController.cadastrarDeputado(dni, dataDeInicio);
     }
 
@@ -36,9 +38,9 @@ public class Facade {
 
     public static void main(String[] args) {
         args = new String[] {"Controllers.Facade", "acceptance_test/use_case_1.txt",
-                                               "acceptance_test/use_case_2.txt",
-                                               "acceptance_test/use_case_3.txt",
-                                               "acceptance_test/use_case_4.txt"};
+                                                   "acceptance_test/use_case_2.txt",
+                                                   "acceptance_test/use_case_3.txt",
+                                                   "acceptance_test/use_case_4.txt"};
         EasyAccept.main(args);
     }
 }

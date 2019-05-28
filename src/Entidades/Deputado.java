@@ -1,16 +1,21 @@
 package Entidades;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Objects;
 
 public class Deputado implements Funcao {
 
     private String dni;
-    private String dataDeInicio;
+    private Date dataDeInicio;
     private int LeisAprovadas;
 
-    public Deputado(String dni, String dataDeInicio) {
+    public Deputado(String dni, String dataDeInicio) throws ParseException {
         this.dni = dni;
-        this.dataDeInicio = dataDeInicio;
+        SimpleDateFormat dateFormat = new SimpleDateFormat("ddMMyyyy");
+        this.dataDeInicio = dateFormat.parse(dataDeInicio);
         this.LeisAprovadas = 0;
     }
 
@@ -29,12 +34,14 @@ public class Deputado implements Funcao {
         return Objects.hash(dni, dataDeInicio, LeisAprovadas);
     }
 
-    @Override
-    public String toString() {
-        return "Deputado{" +
-                "dni='" + dni + '\'' +
-                ", dataDeInicio='" + dataDeInicio + '\'' +
-                ", LeisAprovadas=" + LeisAprovadas +
-                '}';
+    public String toString(String nome, String estado, String partido, String interesses) {
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        if ("".equals(partido.trim()) && !"".equals(interesses.trim())) {
+            return String.format("POL: %s - %s (%s) - Interesses: %s - %s - %s Leis", nome, this.dni, estado, interesses, dateFormat.format(this.dataDeInicio), this.LeisAprovadas);
+        }
+        if ("".equals(interesses.trim()) && !"".equals(partido.trim())) {
+            return String.format("POL: %s - %s (%s) - %s - %s - %s Leis", nome, this.dni, estado, partido, dateFormat.format(this.dataDeInicio), this.LeisAprovadas);
+        }
+        return String.format("POL: %s - %s (%s) - %s - Interesses: %s - %s - %s Leis", nome, this.dni, estado, partido, interesses, dateFormat.format(this.dataDeInicio), this.LeisAprovadas);
     }
 }
