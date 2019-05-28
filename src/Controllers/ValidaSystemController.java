@@ -7,8 +7,19 @@ public class ValidaSystemController {
             throw new IllegalArgumentException("Erro ao cadastrar partido: partido nao pode ser vazio ou nulo");
         }
 
-        public void validaCadastrarPessoa() {
-            
+    }
+
+    public void validaCadastrarPessoa(String nome, String dni, String estado, String interesses, String partido) {
+        if (nome == null || "".equals(nome.trim())) {
+            throw new IllegalArgumentException("Erro ao cadastrar pessoa: nome nao pode ser vazio ou nulo");
+        }
+
+        if (dni == null || "".equals(dni.trim())) {
+            throw new IllegalArgumentException("Erro ao cadastrar pessoa: dni nao pode ser vazio ou nulo");
+        }
+
+        if (estado == null || "".equals(estado.trim())) {
+            throw new IllegalArgumentException("Erro ao cadastrar pessoa: estado nao pode ser vazio ou nulo");
         }
     }
 
