@@ -11,7 +11,7 @@ public class Pessoa {
     private String partido;
     private Funcao funcao;
 
-    public Pessoa(String nome, String dni, String interesses, String estado, String partido) {
+    public Pessoa(String nome, String dni, String estado, String interesses, String partido) {
         this.nome = nome;
         this.dni = dni;
         this.interesses = interesses;
