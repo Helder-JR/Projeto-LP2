@@ -2,7 +2,6 @@ package Controllers;
 
 import Entidades.Deputado;
 import Entidades.Pessoa;
-import Validadores.ValidaSystemController;
 
 import java.text.ParseException;
 import java.util.*;

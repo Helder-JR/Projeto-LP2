@@ -1,4 +1,4 @@
-package Validadores;
+package Controllers;
 
 public class ValidaSystemController {
 
