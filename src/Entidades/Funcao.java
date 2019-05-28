@@ -4,6 +4,6 @@ public interface Funcao {
 
     boolean equals(Object o);
     int hashCode();
-    String toString();
+    String toString(String nome, String estado, String partido, String interesses);
 
 }

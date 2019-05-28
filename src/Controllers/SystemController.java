@@ -4,6 +4,7 @@ import Entidades.Deputado;
 import Entidades.Pessoa;
 import Validadores.ValidaSystemController;
 
+import java.text.ParseException;
 import java.util.*;
 
 public class SystemController {
@@ -30,7 +31,7 @@ public class SystemController {
         return true;
     }
 
-    public boolean cadastrarDeputado(String dni, String dataDeInicio) {
+    public boolean cadastrarDeputado(String dni, String dataDeInicio) throws ParseException {
         Deputado funcao = new Deputado(dni,dataDeInicio);
         this.cadastroPessoas.get(dni).setFuncao(funcao);
         return true;

@@ -17,10 +17,11 @@ public class Pessoa {
         this.interesses = interesses;
         this.estado = estado;
         this.partido = partido;
+        this.funcao = new Civil(dni);
     }
 
     public Pessoa(String nome, String dni, String estado, String interesses) {
-        this(nome, dni, estado, interesses,"Sem partido");
+        this(nome, dni, estado, interesses,"");
     }
 
     public void setFuncao(Funcao funcao) {
@@ -45,15 +46,7 @@ public class Pessoa {
         return Objects.hash(nome, dni, estado, interesses, partido, funcao);
     }
 
-    @Override
     public String toString() {
-        return "Pessoa{" +
-                "nome='" + nome + '\'' +
-                ", dni='" + dni + '\'' +
-                ", estado='" + estado + '\'' +
-                ", interesses='" + interesses + '\'' +
-                ", partido='" + partido + '\'' +
-                ", funcao=" + funcao +
-                '}';
+        return this.funcao.toString(this.nome, this.estado, this.partido, this.interesses);
     }
 }
