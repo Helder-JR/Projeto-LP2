@@ -7,4 +7,8 @@ public class ValidaSystemController {
             throw new IllegalArgumentException("Erro ao cadastrar partido: partido nao pode ser vazio ou nulo");
         }
     }
+
+    public void validaCadastrarPessoa(String nome, String dni, String estado, String interesses, String partido) {
+        
+    }
 }
