@@ -20,16 +20,28 @@ public class SystemController {
 
     public boolean cadastrarPessoa(String nome, String dni, String estado, String interesses, String partido) {
         this.validador.validaCadastrarPessoaComPartido(nome, dni, estado, interesses, partido);
-        Pessoa pessoa = new Pessoa(nome, dni, estado, interesses, partido);
-        this.cadastroPessoas.put(dni, pessoa);
-        return true;
+        if (!this.cadastroPessoas.containsKey(dni)) {
+            Pessoa pessoa = new Pessoa(nome, dni, estado, interesses, partido);
+            this.cadastroPessoas.put(dni, pessoa);
+            return true;
+        }
+        if (this.cadastroPessoas.containsKey(dni)) {
+            throw new IllegalArgumentException("Erro ao cadastrar pessoa: dni ja cadastrado");
+        }
+        return false;
     }
 
     public boolean cadastrarPessoa(String nome, String dni, String estado, String interesses) {
         this.validador.validaCadastrarPessoaSemPartido(nome, dni, estado, interesses);
-        Pessoa pessoa = new Pessoa(nome, dni, estado, interesses);
-        this.cadastroPessoas.put(dni, pessoa);
-        return true;
+        if (!this.cadastroPessoas.containsKey(dni)) {
+            Pessoa pessoa = new Pessoa(nome, dni, estado, interesses);
+            this.cadastroPessoas.put(dni, pessoa);
+            return true;
+        }
+        if (this.cadastroPessoas.containsKey(dni)) {
+            throw new IllegalArgumentException("Erro ao cadastrar pessoa: dni ja cadastrado");
+        }
+        return false;
     }
 
     public boolean cadastrarDeputado(String dni, String dataDeInicio) throws ParseException {
