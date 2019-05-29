@@ -54,6 +54,10 @@ public class Pessoa {
         this.funcao = funcao;
     }
 
+    public String getPartido() {
+        return partido;
+    }
+
     /**
      * Compara um objeto do tipo Pessoa com outro objeto e verifica se são iguais.
      *

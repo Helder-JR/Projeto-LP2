@@ -46,9 +46,17 @@ public class SystemController {
 
     public boolean cadastrarDeputado(String dni, String dataDeInicio) throws ParseException {
         this.validador.validaCadastrarDeputado(dni, dataDeInicio);
-        Deputado funcao = new Deputado(dni,dataDeInicio);
-        this.cadastroPessoas.get(dni).setFuncao(funcao);
-        return true;
+        if (this.cadastroPessoas.containsKey(dni)) {
+            if (!"".equals(this.cadastroPessoas.get(dni).getPartido())) {
+                Deputado funcao = new Deputado(dni,dataDeInicio);
+                this.cadastroPessoas.get(dni).setFuncao(funcao);
+                return true;
+            } else {
+                throw new IllegalArgumentException("Erro ao cadastrar deputado: pessoa sem partido");
+            }
+        } else {
+            throw new NullPointerException("Erro ao cadastrar deputado: pessoa nao encontrada");
+        }
     }
 
     public boolean cadastrarPartido(String partido) {
@@ -58,7 +66,11 @@ public class SystemController {
     }
 
     public String exibirPessoa(String dni) {
-        return this.cadastroPessoas.get(dni).toString();
+        if (this.cadastroPessoas.containsKey(dni)) {
+            return this.cadastroPessoas.get(dni).toString();
+        } else {
+            throw new NullPointerException("Erro ao exibir pessoa: pessoa nao encontrada");
+        }
     }
 
     public String exibirBase() {
