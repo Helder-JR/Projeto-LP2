@@ -11,13 +11,14 @@ public class ValidaSystemController {
         if (nome == null || "".equals(nome.trim())) {
             throw new IllegalArgumentException("Erro ao cadastrar pessoa: nome nao pode ser vazio ou nulo");
         }
-
         if (dni == null || "".equals(dni.trim())) {
             throw new IllegalArgumentException("Erro ao cadastrar pessoa: dni nao pode ser vazio ou nulo");
         }
-
         if (estado == null || "".equals(estado.trim())) {
             throw new IllegalArgumentException("Erro ao cadastrar pessoa: estado nao pode ser vazio ou nulo");
+        }
+        if (!dni.matches("\\d{9}[-]\\d")) {
+            throw new IllegalArgumentException("Erro ao cadastrar pessoa: dni invalido");
         }
     }
 
@@ -25,13 +26,14 @@ public class ValidaSystemController {
         if (nome == null || "".equals(nome.trim())) {
             throw new IllegalArgumentException("Erro ao cadastrar pessoa: nome nao pode ser vazio ou nulo");
         }
-
         if (dni == null || "".equals(dni.trim())) {
             throw new IllegalArgumentException("Erro ao cadastrar pessoa: dni nao pode ser vazio ou nulo");
         }
-
         if (estado == null || "".equals(estado.trim())) {
             throw new IllegalArgumentException("Erro ao cadastrar pessoa: estado nao pode ser vazio ou nulo");
+        }
+        if (!dni.matches("\\d{9}[-]\\d")) {
+            throw new IllegalArgumentException("Erro ao cadastrar pessoa: dni invalido");
         }
     }
 
