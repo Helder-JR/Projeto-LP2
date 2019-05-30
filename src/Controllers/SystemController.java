@@ -45,8 +45,9 @@ public class SystemController {
     }
 
     public boolean cadastrarDeputado(String dni, String dataDeInicio) throws ParseException {
-        this.validador.validaCadastrarDeputado(dni, dataDeInicio);
+        validador.validaCadastraDeputadoDni(dni);
         if (this.cadastroPessoas.containsKey(dni)) {
+            this.validador.validaCadastrarDeputado(dataDeInicio);
             if (!"".equals(this.cadastroPessoas.get(dni).getPartido())) {
                 Deputado funcao = new Deputado(dni,dataDeInicio);
                 this.cadastroPessoas.get(dni).setFuncao(funcao);

@@ -35,15 +35,21 @@ public class ValidaSystemController {
         }
     }
 
-    public void validaCadastrarDeputado(String dni, String dataDeInicio) throws ParseException {
-        if (dni == null || "".equals(dni.trim())) {
+    public void validaCadastraDeputadoDni(String dni) {
+        if (dni == null) {
+            throw new NullPointerException("Erro ao cadastrar pessoa: dni nao pode ser vazio ou nulo");
+        }
+        if ("".equals(dni.trim())) {
             throw new IllegalArgumentException("Erro ao cadastrar pessoa: dni nao pode ser vazio ou nulo");
         }
 
-        if (dni.matches("\\d{9}[-]\\d") == false) {
+        if (!dni.matches("\\d{9}[-]\\d")) {
             throw new IllegalArgumentException("Erro ao cadastrar deputado: dni invalido");
         }
 
+    }
+
+    public void validaCadastrarDeputado(String dataDeInicio) throws ParseException {
         if (dataDeInicio == null || "".equals(dataDeInicio.trim())) {
             throw new IllegalArgumentException("Erro ao cadastrar deputado: data nao pode ser vazio ou nulo");
         }
