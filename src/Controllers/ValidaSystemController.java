@@ -3,6 +3,7 @@ package Controllers;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class ValidaSystemController {
 
@@ -34,20 +35,17 @@ public class ValidaSystemController {
         }
     }
 
-    public void validaCadastrarDeputado(String dni, String dataDeInicio) {
+    public void validaCadastrarDeputado(String dni, String dataDeInicio) throws ParseException {
         if (dni == null || "".equals(dni.trim())) {
             throw new IllegalArgumentException("Erro ao cadastrar pessoa: dni nao pode ser vazio ou nulo");
         }
 
-        if (dataDeInicio == null || "".equals(dataDeInicio.trim())) {
-            throw new IllegalArgumentException("Erro ao cadastrar deputado: data nao pode ser vazio ou nulo");
+        if (dni.matches("\\d{9}[-]\\d") == false) {
+            throw new IllegalArgumentException("Erro ao cadastrar deputado: dni invalido");
         }
 
-        for (int i = 0; i < dni.length(); i++) {
-            if (!Character.isDigit(dni.charAt(i))) {
-                throw new IllegalArgumentException("Erro ao cadastrar deputado: dni invalido");
-            }
-            if (i == 8){ i = 10;}
+        if (dataDeInicio == null || "".equals(dataDeInicio.trim())) {
+            throw new IllegalArgumentException("Erro ao cadastrar deputado: data nao pode ser vazio ou nulo");
         }
 
         DateFormat format = new SimpleDateFormat("ddMMyyyy");
@@ -58,6 +56,13 @@ public class ValidaSystemController {
             format.parse(date);
         } catch (ParseException e) {
             throw new IllegalArgumentException("Erro ao cadastrar deputado: data invalida");
+        }
+
+        Date atualDate = new Date();
+        Date inicioDate = new SimpleDateFormat("ddMMyyyy").parse(dataDeInicio);
+
+        if (inicioDate.after(atualDate)) {
+            throw new IllegalArgumentException("Erro ao cadastrar deputado: data futura");
         }
     }
 
