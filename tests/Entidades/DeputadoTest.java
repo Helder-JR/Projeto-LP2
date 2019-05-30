@@ -59,7 +59,7 @@ class DeputadoTest {
     }
 
     @Test
-    void testHashCode() throws ParseException {
+    void testHashCode4() throws ParseException {
         Deputado d2 = new Deputado("111111111-9", "02012018");
         assertNotEquals(Objects.hashCode(d1), Objects.hashCode(d2));
     }
