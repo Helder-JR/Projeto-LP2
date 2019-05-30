@@ -79,4 +79,16 @@ public class SystemController {
         listaPartidos.sort(null);
         return String.join(",",listaPartidos);
     }
+
+    public void salvarSistema() {
+
+    }
+
+    public void carregarSistema() {
+
+    }
+
+    public void limparSistema() {
+
+    }
 }

@@ -36,6 +36,18 @@ public class Facade {
         return this.systemController.exibirBase();
     }
 
+    public void salvarSistema() {
+
+    }
+
+    public void carregarSistema() {
+
+    }
+
+    public void limparSistema() {
+
+    }
+
     public static void main(String[] args) {
         args = new String[] {"Controllers.Facade", "acceptance_test/use_case_1.txt",
                                                    "acceptance_test/use_case_2.txt",
