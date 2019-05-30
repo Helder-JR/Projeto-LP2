@@ -20,25 +20,25 @@ class DeputadoTest {
     @Test
     void testEquals1() throws ParseException {
         Deputado d2 = new Deputado("222222222-8", "02012018");
-        assertFalse(d1.equals(d2));
+        assertNotEquals(d1, d2);
     }
 
     @Test
     void testEquals2() throws ParseException {
         Deputado d2 = new Deputado("111111111-9", "01012018");
-        assertTrue(d1.equals(d2));
+        assertEquals(d1, d2);
     }
 
     @Test
     void testEquals3() throws ParseException {
         Deputado d2 = new Deputado("222222222-8", "01012018");
-        assertFalse(d1.equals(d2));
+        assertNotEquals(d1, d2);
     }
 
     @Test
     void testEquals4() throws ParseException {
         Deputado d2 = new Deputado("111111111-9", "02012018");
-        assertFalse(d1.equals(d2));
+        assertNotEquals(d1, d2);
     }
 
     @Test
