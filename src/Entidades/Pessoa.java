@@ -4,7 +4,8 @@ import java.util.Objects;
 
 /**
  * Representação de uma pessoa no E-CO, com informações referentes a nome, DNI, estado, interesses em relação a política,
- * partido a qual está afiliada e sua função, caso exerça cargo político. É possível exibir uma representação textual da mesma e compará-la a outros objetos.
+ * partido a qual está afiliada e sua função, caso exerça cargo político. É possível exibir uma representação textual da
+ * mesma, compará-la a outros objetos, definir sua função pública e recuperar a informação sobre seu partido.
  */
 public class Pessoa {
 
@@ -54,14 +55,19 @@ public class Pessoa {
         this.funcao = funcao;
     }
 
+    /**
+     * Recupera a informação referente ao partido dessa pessoa.
+     *
+     * @return o partido a qual a pessoa está afiliada.
+     */
     public String getPartido() {
         return partido;
     }
 
     /**
-     * Compara um objeto do tipo Pessoa com outro objeto e verifica se são iguais.
+     * Compara um objeto com outro e verifica se são iguais.
      *
-     * @param o o objeto que séra comparado à pessoa.
+     * @param o o objeto que séra comparado a pessoa.
      * @return um booleano true caso a comparação resulte em igualdade ou um false, caso negativo.
      */
     @Override
