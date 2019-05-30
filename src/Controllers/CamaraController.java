@@ -6,20 +6,20 @@ import Entidades.Pessoa;
 import java.text.ParseException;
 import java.util.*;
 
-public class SystemController {
+public class CamaraController {
 
     private Map<String, Pessoa> cadastroPessoas;
     private Set<String> partidosGovernistas;
     private ValidaSystemController validador;
 
-    public SystemController() {
+    public CamaraController() {
         this.cadastroPessoas = new HashMap<>();
         this.partidosGovernistas = new HashSet<>();
         this.validador = new ValidaSystemController();
     }
 
     public boolean cadastrarPessoa(String nome, String dni, String estado, String interesses, String partido) {
-        this.validador.validaCadastrarPessoaComPartido(nome, dni, estado, interesses, partido);
+        this.validador.validaCadastrarPessoa(nome, dni, estado);
         if (!this.cadastroPessoas.containsKey(dni)) {
             Pessoa pessoa = new Pessoa(nome, dni, estado, interesses, partido);
             this.cadastroPessoas.put(dni, pessoa);
@@ -32,7 +32,7 @@ public class SystemController {
     }
 
     public boolean cadastrarPessoa(String nome, String dni, String estado, String interesses) {
-        this.validador.validaCadastrarPessoaSemPartido(nome, dni, estado, interesses);
+        this.validador.validaCadastrarPessoa(nome, dni, estado);
         if (!this.cadastroPessoas.containsKey(dni)) {
             Pessoa pessoa = new Pessoa(nome, dni, estado, interesses);
             this.cadastroPessoas.put(dni, pessoa);
@@ -67,6 +67,7 @@ public class SystemController {
     }
 
     public String exibirPessoa(String dni) {
+        this.validador.validaExibirPessoa(dni);
         if (this.cadastroPessoas.containsKey(dni)) {
             return this.cadastroPessoas.get(dni).toString();
         } else {
@@ -76,7 +77,7 @@ public class SystemController {
 
     public String exibirBase() {
         ArrayList<String> listaPartidos = new ArrayList<>(this.partidosGovernistas);
-        listaPartidos.sort(null);
+        listaPartidos.sort(String::compareTo);
         return String.join(",",listaPartidos);
     }
 
