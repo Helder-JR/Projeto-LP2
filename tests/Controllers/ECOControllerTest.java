@@ -14,12 +14,21 @@ class ECOControllerTest {
     @BeforeEach
     void setUp() throws ParseException {
         controller = new ECOController();
-        controller.cadastrarPessoa("Thanos","234567890-1", "PB","Interesses: economia, minerais","MCU");
-        controller.cadastrarDeputado("234567890-1", "01011019");
+    }
+
+    // Testes para Cadastrar Pessoa
+    @Test
+    void cadastrarPessoaComPartido() {
+        assertTrue(controller.cadastrarPessoa("Thanos","234567890-1", "SP","Interesses: economia, minerais","MCU"));
     }
 
     @Test
-    void cadastrarPessoaNulaTest() {
+    void cadastrarPessoaSemPartido() {
+        assertTrue(controller.cadastrarPessoa("Matheus G.", "123456789-0", "PB", "Interesses: ensino superior, cooperativismo"));
+    }
+
+    @Test
+    void cadastrarPessoaNuloTest() {
         try {
             controller.cadastrarPessoa(null,null, null,null,null);
             fail("Deveria lançar exceção");
@@ -27,23 +36,133 @@ class ECOControllerTest {
     }
 
     @Test
-    void cadastrarPessoa1() {
+    void cadastrarPessoaVazioTest() {
+        try {
+            controller.cadastrarPessoa("   ","   ", "   ","   ","    ");
+            fail("Deveria lançar exceção");
+        } catch (IllegalArgumentException iae) {}
     }
 
     @Test
-    void cadastrarDeputado() {
+    void cadastraPessoaRepetidaTest() {
+        controller.cadastrarPessoa("Matheus G.", "123456789-0", "PB", "Interesses: ensino superior, cooperativismo");
+        try {
+            controller.cadastrarPessoa("Matheus G.", "123456789-0", "PB", "Interesses: ensino superior, cooperativismo");
+            fail("Deveria lançar exceção");
+        } catch (IllegalArgumentException iae) {}
     }
 
     @Test
-    void cadastrarPartido() {
+    void cadastraPessoaRepetidaTest2() {
+        controller.cadastrarPessoa("Thanos","234567890-1", "SP","Interesses: economia, minerais","MCU");
+        try {
+            controller.cadastrarPessoa("Thanos","234567890-1", "SP","Interesses: economia, minerais","MCU");
+            fail("Deveria lançar exceção");
+        } catch (IllegalArgumentException iae) {}
+    }
+
+
+    // Testes para Cadastrar Deputado
+    @Test
+    void cadastraDeputadoTest() throws ParseException {
+        controller.cadastrarPessoa("Thanos","234567890-1", "SP","Interesses: economia, minerais","MCU");
+        assertTrue(controller.cadastrarDeputado("234567890-1", "01011019"));
     }
 
     @Test
-    void exibirPessoa() {
+    void cadastrarDeputadoNuloTest() throws ParseException {
+        try {
+            controller.cadastrarDeputado(null, null);
+            fail("Deveria lançar exceção");
+        } catch (NullPointerException npe) {}
     }
 
+    @Test
+    void cadastrarDeputadoVazioTest() throws ParseException {
+        try {
+            controller.cadastrarDeputado("    ", " ");
+            fail("Deveria lançar exceção");
+        } catch (IllegalArgumentException iae) {}
+    }
+
+    @Test
+    void cadastraDeputadoSemPartidoTest() throws ParseException {
+        controller.cadastrarPessoa("Matheus G.", "123456789-0", "PB", "Interesses: ensino superior, cooperativismo");
+        try {
+            controller.cadastrarDeputado("123456789-0", "01011019");
+            fail("Deveria lançar exceção");
+        } catch (IllegalArgumentException iae) {}
+    }
+
+    @Test
+    void cadastraDeputadoPessoaInexistenteTest() throws ParseException {
+        try {
+            controller.cadastrarDeputado("123456789-0", "01011019");
+            fail("Deveria lançar exceção");
+        } catch (NullPointerException npe) {}
+    }
+
+
+    // Testes para Cadastrar Partido
+    @Test
+    void cadastraPartidoTest() {
+        assertTrue(controller.cadastrarPartido("ABC"));
+    }
+
+    @Test
+    void cadastrarPartidoNuloTest() {
+        try {
+            controller.cadastrarPartido(null);
+            fail("Deveria lançar exceção");
+        } catch (NullPointerException npe) {}
+    }
+
+    @Test
+    void cadastrarPartidoVazioTest() {
+        try {
+            controller.cadastrarPartido("     ");
+            fail("Deveria lançar exceção");
+        } catch (IllegalArgumentException iae) {}
+    }
+
+
+    // Testes para Exibir Pessoa
+    @Test
+    void exibirPessoaTest() {
+        controller.cadastrarPessoa("Thanos","234567890-1", "SP","Interesses: economia, minerais","MCU");
+        assertEquals("Thanos - 234567890-1 (SP) - MCU - Interesses: Interesses: economia, minerais", controller.exibirPessoa("234567890-1"));
+    }
+    @Test
+    void exibirPessoaNuloTest() {
+        try {
+            controller.exibirPessoa(null);
+            fail("Deveria lançar exceção");
+        } catch (NullPointerException npe) {}
+    }
+
+    @Test
+    void exibirPessoaVazioTest() {
+        try {
+            controller.exibirPessoa("    ");
+            fail("Deveria lançar exceção");
+        } catch (IllegalArgumentException iae) {}
+    }
+
+    @Test
+    void exibirPessoaInexistenteTest() {
+        try {
+            controller.exibirPessoa("123456789-0");
+            fail("Deveria lançar exceção");
+        } catch (NullPointerException npe) {}
+    }
+
+
+    // Testes para Exibir Base
     @Test
     void exibirBase() {
+        controller.cadastrarPartido("CBA");
+        controller.cadastrarPartido("ABC");
+        assertEquals("ABC,CBA", controller.exibirBase());
     }
 
     @Test

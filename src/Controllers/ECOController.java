@@ -24,11 +24,9 @@ public class ECOController {
             Pessoa pessoa = new Pessoa(nome, dni, estado, interesses, partido);
             this.cadastroPessoas.put(dni, pessoa);
             return true;
-        }
-        if (this.cadastroPessoas.containsKey(dni)) {
+        } else {
             throw new IllegalArgumentException("Erro ao cadastrar pessoa: dni ja cadastrado");
         }
-        return false;
     }
 
     public boolean cadastrarPessoa(String nome, String dni, String estado, String interesses) {
@@ -37,11 +35,9 @@ public class ECOController {
             Pessoa pessoa = new Pessoa(nome, dni, estado, interesses);
             this.cadastroPessoas.put(dni, pessoa);
             return true;
-        }
-        if (this.cadastroPessoas.containsKey(dni)) {
+        } else {
             throw new IllegalArgumentException("Erro ao cadastrar pessoa: dni ja cadastrado");
         }
-        return false;
     }
 
     public boolean cadastrarDeputado(String dni, String dataDeInicio) throws ParseException {

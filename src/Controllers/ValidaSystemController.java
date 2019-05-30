@@ -33,9 +33,7 @@ public class ValidaSystemController {
     }
 
     public void validaCadastrarDeputado(String dataDeInicio) throws ParseException {
-        if (dataDeInicio == null || "".equals(dataDeInicio.trim())) {
-            throw new IllegalArgumentException("Erro ao cadastrar deputado: data nao pode ser vazio ou nulo");
-        }
+        validaEntradaNulaVazia(dataDeInicio, "Erro ao cadastrar deputado: data nao pode ser vazio ou nulo");
 
         DateFormat format = new SimpleDateFormat("ddMMyyyy");
         format.setLenient(false);
