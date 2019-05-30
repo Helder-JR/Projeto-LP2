@@ -7,29 +7,26 @@ import java.util.Date;
 
 public class ValidaSystemController {
 
+    private void validaEntradaNulaVazia(String entrada, String mensagem) {
+        if (entrada == null) {
+            throw new NullPointerException(mensagem);
+        }
+        if ("".equals(entrada.trim())) {
+            throw new IllegalArgumentException(mensagem);
+        }
+    }
+
     public void validaCadastrarPessoa(String nome, String dni, String estado) {
-        if (nome == null || "".equals(nome.trim())) {
-            throw new IllegalArgumentException("Erro ao cadastrar pessoa: nome nao pode ser vazio ou nulo");
-        }
-        if (dni == null || "".equals(dni.trim())) {
-            throw new IllegalArgumentException("Erro ao cadastrar pessoa: dni nao pode ser vazio ou nulo");
-        }
-        if (estado == null || "".equals(estado.trim())) {
-            throw new IllegalArgumentException("Erro ao cadastrar pessoa: estado nao pode ser vazio ou nulo");
-        }
+        validaEntradaNulaVazia(nome, "Erro ao cadastrar pessoa: nome nao pode ser vazio ou nulo");
+        validaEntradaNulaVazia(dni, "Erro ao cadastrar pessoa: dni nao pode ser vazio ou nulo");
+        validaEntradaNulaVazia(estado, "Erro ao cadastrar pessoa: estado nao pode ser vazio ou nulo");
         if (!dni.matches("\\d{9}[-]\\d")) {
             throw new IllegalArgumentException("Erro ao cadastrar pessoa: dni invalido");
         }
     }
 
     public void validaCadastraDeputadoDni(String dni) {
-        if (dni == null) {
-            throw new NullPointerException("Erro ao cadastrar pessoa: dni nao pode ser vazio ou nulo");
-        }
-        if ("".equals(dni.trim())) {
-            throw new IllegalArgumentException("Erro ao cadastrar pessoa: dni nao pode ser vazio ou nulo");
-        }
-
+        validaEntradaNulaVazia(dni, "Erro ao cadastrar pessoa: dni nao pode ser vazio ou nulo");
         if (!dni.matches("\\d{9}[-]\\d")) {
             throw new IllegalArgumentException("Erro ao cadastrar deputado: dni invalido");
         }
@@ -58,19 +55,11 @@ public class ValidaSystemController {
     }
 
     public void validaCadastrarPartido(String partido) {
-        if (partido == null || "".equals(partido.trim())) {
-            throw new IllegalArgumentException("Erro ao cadastrar partido: partido nao pode ser vazio ou nulo");
-        }
+        validaEntradaNulaVazia(partido, "Erro ao cadastrar partido: partido nao pode ser vazio ou nulo");
     }
 
     public void validaExibirPessoa(String dni) {
-        if (dni == null) {
-            throw new NullPointerException("Erro ao exibir pessoa: dni nao pode ser vazio ou nulo");
-        }
-        if ("".equals(dni.trim())) {
-            throw new IllegalArgumentException("Erro ao exibir pessoa: dni nao pode ser vazio ou nulo");
-        }
-
+        validaEntradaNulaVazia(dni, "Erro ao exibir pessoa: dni nao pode ser vazio ou nulo");
         if (!dni.matches("\\d{9}[-]\\d")) {
             throw new IllegalArgumentException("Erro ao exibir pessoa: dni invalido");
         }

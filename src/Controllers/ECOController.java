@@ -6,13 +6,13 @@ import Entidades.Pessoa;
 import java.text.ParseException;
 import java.util.*;
 
-public class CamaraController {
+public class ECOController {
 
     private Map<String, Pessoa> cadastroPessoas;
     private Set<String> partidosGovernistas;
     private ValidaSystemController validador;
 
-    public CamaraController() {
+    public ECOController() {
         this.cadastroPessoas = new HashMap<>();
         this.partidosGovernistas = new HashSet<>();
         this.validador = new ValidaSystemController();

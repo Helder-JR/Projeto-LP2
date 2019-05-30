@@ -6,34 +6,34 @@ import java.text.ParseException;
 
 public class Facade {
 
-    private CamaraController camaraController;
+    private ECOController ECOController;
 
     public Facade() {
-        this.camaraController = new CamaraController();
+        this.ECOController = new ECOController();
     }
 
     public void cadastrarPessoa(String nome, String dni, String estado, String interesses, String partido) {
-        this.camaraController.cadastrarPessoa(nome, dni, estado, interesses, partido);
+        this.ECOController.cadastrarPessoa(nome, dni, estado, interesses, partido);
     }
 
     public void cadastrarPessoa(String nome, String dni, String estado, String interesses) {
-        this.camaraController.cadastrarPessoa(nome, dni, estado, interesses);
+        this.ECOController.cadastrarPessoa(nome, dni, estado, interesses);
     }
 
     public void cadastrarDeputado(String dni, String dataDeInicio) throws ParseException {
-        this.camaraController.cadastrarDeputado(dni, dataDeInicio);
+        this.ECOController.cadastrarDeputado(dni, dataDeInicio);
     }
 
     public void cadastrarPartido(String partido) {
-        this.camaraController.cadastrarPartido(partido);
+        this.ECOController.cadastrarPartido(partido);
     }
 
     public String exibirPessoa(String dni) {
-       return this.camaraController.exibirPessoa(dni);
+       return this.ECOController.exibirPessoa(dni);
     }
 
     public String exibirBase() {
-        return this.camaraController.exibirBase();
+        return this.ECOController.exibirBase();
     }
 
     public void salvarSistema() {
