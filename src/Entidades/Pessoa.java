@@ -1,5 +1,6 @@
 package Entidades;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
@@ -7,7 +8,7 @@ import java.util.Objects;
  * partido a qual está afiliada e sua função, caso exerça cargo político. É possível exibir uma representação textual da
  * mesma, compará-la a outros objetos, definir sua função pública e recuperar a informação sobre seu partido.
  */
-public class Pessoa {
+public class Pessoa implements Serializable {
 
     private String nome;
     private String dni;
@@ -31,7 +32,7 @@ public class Pessoa {
         this.interesses = interesses;
         this.estado = estado;
         this.partido = partido;
-        this.funcao = new Civil(dni);
+        this.funcao = new Civil();
     }
 
     /**
@@ -99,6 +100,6 @@ public class Pessoa {
      * @return a String que representa textualmente essa pessoa.
      */
     public String toString() {
-        return this.funcao.toString(this.nome, this.estado, this.partido, this.interesses);
+        return this.funcao.toString(this.nome, this.dni, this.estado, this.partido, this.interesses);
     }
 }

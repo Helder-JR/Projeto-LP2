@@ -1,11 +1,12 @@
 package Controllers;
 
+import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class ValidaSystemController {
+public class ValidaSystemController implements Serializable {
 
     private void validaEntradaNulaVazia(String entrada, String mensagem) {
         if (entrada == null) {

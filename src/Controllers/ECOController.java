@@ -3,10 +3,11 @@ package Controllers;
 import Entidades.Deputado;
 import Entidades.Pessoa;
 
+import java.io.Serializable;
 import java.text.ParseException;
 import java.util.*;
 
-public class ECOController {
+public class ECOController implements Serializable {
 
     private Map<String, Pessoa> cadastroPessoas;
     private Set<String> partidosGovernistas;
@@ -75,17 +76,5 @@ public class ECOController {
         ArrayList<String> listaPartidos = new ArrayList<>(this.partidosGovernistas);
         listaPartidos.sort(String::compareTo);
         return String.join(",",listaPartidos);
-    }
-
-    public void salvarSistema() {
-
-    }
-
-    public void carregarSistema() {
-
-    }
-
-    public void limparSistema() {
-
     }
 }

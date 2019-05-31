@@ -1,38 +1,19 @@
 package Entidades;
 
-import java.util.Objects;
-
 public class Civil implements Funcao {
 
-    private String dni;
+    public String toString(String nome, String dni, String estado, String partido, String interesses) {
+        String toString = String.format("%s - %s (%s) - %s - Interesses: %s", nome, dni, estado, partido, interesses);
 
-    public Civil(String dni) {
-        this.dni = dni;
-    }
+        if ("".equals(partido.trim()) && !"".equals(interesses.trim()))
+            toString = String.format("%s - %s (%s) - Interesses: %s", nome, dni, estado, interesses);
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Civil civil = (Civil) o;
-        return dni.equals(civil.dni);
-    }
+        else if ("".equals(interesses.trim()) && !"".equals(partido.trim()))
+            toString = String.format("%s - %s (%s) - %s", nome, dni, estado, partido);
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(dni);
-    }
+        else if ("".equals(interesses.trim()) && "".equals(partido.trim()))
+            toString = String.format("%s - %s (%s)", nome, dni, estado);
 
-    public String toString(String nome, String estado, String partido, String interesses) {
-        if ("".equals(partido.trim()) && !"".equals(interesses.trim())) {
-            return String.format("%s - %s (%s) - Interesses: %s", nome, this.dni, estado, interesses);
-        }
-        if ("".equals(interesses.trim()) && !"".equals(partido.trim())) {
-            return String.format("%s - %s (%s) - %s", nome, this.dni, estado, partido);
-        }
-        if ("".equals(interesses.trim()) && "".equals(partido.trim())) {
-            return String.format("%s - %s (%s)", nome, this.dni, estado);
-        }
-        return String.format("%s - %s (%s) - %s - Interesses: %s", nome, this.dni, estado, partido, interesses);
+        return toString;
     }
 }

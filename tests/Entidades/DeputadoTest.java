@@ -66,21 +66,21 @@ class DeputadoTest {
 
     @Test
     void testToString1() throws ParseException {
-        assertEquals("POL: João Silva - 111111111-9 (PB) - PCC - Interesses: saude,educacao - 01/01/2018 - 0 Leis", d1.toString("João Silva", "PB", "PCC", "saude,educacao"));
+        assertEquals("POL: João Silva - 111111111-9 (PB) - PCC - Interesses: saude,educacao - 01/01/2018 - 0 Leis", d1.toString("João Silva", "111111111-9", "PB", "PCC", "saude,educacao"));
     }
 
     @Test
     void testToString2() throws ParseException {
-        assertEquals("POL: João Silva - 111111111-9 (PB) - PCC - 01/01/2018 - 0 Leis", d1.toString("João Silva", "PB", "PCC", ""));
+        assertEquals("POL: João Silva - 111111111-9 (PB) - PCC - 01/01/2018 - 0 Leis", d1.toString("João Silva", "111111111-9", "PB", "PCC", ""));
     }
 
     @Test
     void testToString3() throws ParseException {
-        assertEquals("POL: João Silva - 111111111-9 (PB) - Interesses: saude,educacao - 01/01/2018 - 0 Leis", d1.toString("João Silva", "PB", "", "saude,educacao"));
+        assertEquals("POL: João Silva - 111111111-9 (PB) - Interesses: saude,educacao - 01/01/2018 - 0 Leis", d1.toString("João Silva", "111111111-9", "PB", "", "saude,educacao"));
     }
 
     @Test
     void testToString4() throws ParseException {
-        assertEquals("POL: João Silva - 111111111-9 (PB) - 01/01/2018 - 0 Leis", d1.toString("João Silva", "PB", "", ""));
+        assertEquals("POL: João Silva - 111111111-9 (PB) - 01/01/2018 - 0 Leis", d1.toString("João Silva", "111111111-9", "PB", "", ""));
     }
 }

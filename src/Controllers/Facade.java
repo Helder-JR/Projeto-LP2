@@ -1,15 +1,23 @@
 package Controllers;
 
 import easyaccept.EasyAccept;
+import util.Dados;
 
+import java.io.File;
 import java.text.ParseException;
 
 public class Facade {
-
+    private Dados dados;
     private ECOController ECOController;
+    private File save;
+    private File reset;
 
     public Facade() {
+        this.dados = new Dados();
         this.ECOController = new ECOController();
+        this.save = new File("save.data");
+        this.reset = new File("reset.data");
+        this.dados.salvar(ECOController,this.reset);
     }
 
     public void cadastrarPessoa(String nome, String dni, String estado, String interesses, String partido) {
@@ -37,15 +45,15 @@ public class Facade {
     }
 
     public void salvarSistema() {
-
+        this.dados.salvar(this.ECOController,this.save);
     }
 
     public void carregarSistema() {
-
+        this.ECOController = this.dados.carregar(this.save);
     }
 
     public void limparSistema() {
-
+        this.ECOController = this.dados.carregar(this.reset);
     }
 
     public static void main(String[] args) {

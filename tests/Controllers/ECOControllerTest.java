@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ECOControllerTest {
 
-    ECOController controller;
+    private ECOController controller;
 
     @BeforeEach
     void setUp() throws ParseException {
@@ -61,6 +61,13 @@ class ECOControllerTest {
         } catch (IllegalArgumentException iae) {}
     }
 
+    @Test
+    void cadastraPessoaDniInvalido() {
+        try {
+            controller.cadastrarPessoa("Thanos","2345678901", "SP","Interesses: economia, minerais","MCU");
+        } catch (IllegalArgumentException iae) {}
+    }
+
 
     // Testes para Cadastrar Deputado
     @Test
@@ -102,6 +109,28 @@ class ECOControllerTest {
         } catch (NullPointerException npe) {}
     }
 
+    @Test
+    void cadastraDeputadoDniInvalidoTest() throws ParseException {
+        try {
+            controller.cadastrarDeputado("1234567890", "01011019");
+        } catch (IllegalArgumentException iae) {}
+    }
+
+    @Test
+    void cadastraDeputadoDataInvalidaTest() throws ParseException {
+        controller.cadastrarPessoa("Thanos","234567890-1", "SP","Interesses: economia, minerais","MCU");
+        try {
+            controller.cadastrarDeputado("234567890-1", "A01011019");
+        } catch (IllegalArgumentException iae) {}
+    }
+
+    @Test
+    void cadastraDeputadoDataFuturaTest() throws ParseException {
+        controller.cadastrarPessoa("Thanos","234567890-1", "SP","Interesses: economia, minerais","MCU");
+        try {
+            controller.cadastrarDeputado("234567890-1", "01013020");
+        } catch (IllegalArgumentException iae) {}
+    }
 
     // Testes para Cadastrar Partido
     @Test
@@ -156,6 +185,13 @@ class ECOControllerTest {
         } catch (NullPointerException npe) {}
     }
 
+    @Test
+    void exibirPessoaDniInvalidoTest() throws ParseException {
+        try {
+            controller.exibirPessoa("1234567890");
+        } catch (IllegalArgumentException iae) {}
+    }
+
 
     // Testes para Exibir Base
     @Test
@@ -163,17 +199,5 @@ class ECOControllerTest {
         controller.cadastrarPartido("CBA");
         controller.cadastrarPartido("ABC");
         assertEquals("ABC,CBA", controller.exibirBase());
-    }
-
-    @Test
-    void salvarSistema() {
-    }
-
-    @Test
-    void carregarSistema() {
-    }
-
-    @Test
-    void limparSistema() {
     }
 }
