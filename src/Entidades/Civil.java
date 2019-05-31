@@ -11,6 +11,7 @@ public class Civil implements Funcao {
      *
      * @param nome o nome da pessoa.
      * @param estado o estado da pessoa.
+     * @param dni a identificação da pessoa.
      * @param partido o partido a qual a pessoa está afiliada.
      * @param interesses os interesses políticos dessa pessoa.
      * @return uma String referente a representação textual dessa pessoa.
