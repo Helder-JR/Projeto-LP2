@@ -10,11 +10,34 @@ import java.util.Objects;
  */
 public class Pessoa implements Serializable {
 
+    /**
+     * O nome da pessoa.
+     */
     private String nome;
+
+    /**
+     * O Documento Nacional De Identificação da Pessoa.
+     */
     private String dni;
+
+    /**
+     * O estado em que a pessoa reside.
+     */
     private String estado;
+
+    /**
+     * Os interesses políticos da pessoa.
+     */
     private String interesses;
+
+    /**
+     * O partido a qual a pessoa possivelmente está afiliada.
+     */
     private String partido;
+
+    /**
+     * A função pública que essa pessoa exerce.
+     */
     private Funcao funcao;
 
     /**

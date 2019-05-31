@@ -1,8 +1,7 @@
 package Entidades;
 
 /**
- * Representação de um civil, uma função que uma pessoa pode ter. Além de implementar os métodos da interface Função um
- * civil possui um DNI, que será o mesmo que a pessoa que possui essa função tem.
+ * Representação de um civil, uma função que uma pessoa pode ter.
  */
 public class Civil implements Funcao {
 
