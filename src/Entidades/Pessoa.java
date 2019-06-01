@@ -89,7 +89,7 @@ public class Pessoa implements Serializable {
     }
 
     /**
-     * Compara um objeto com outro e verifica se são iguais.
+     * Compara um objeto Pessoa a outro objeto e verifica se são iguais.
      *
      * @param o o objeto que séra comparado a pessoa.
      * @return um booleano true caso a comparação resulte em igualdade ou um false, caso negativo.

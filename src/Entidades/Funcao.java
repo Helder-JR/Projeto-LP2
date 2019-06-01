@@ -28,8 +28,8 @@ public interface Funcao extends Serializable {
      * Exibe uma representação textual referente a uma função pública de uma pessoa.
      *
      * @param nome o nome da pessoa.
-     * @param dni a identificação da pessoa.
-     * @param estado o estado da pessoa.
+     * @param dni o Documento Nacional de Identificação da pessoa.
+     * @param estado o estado em que a pessoa reside.
      * @param partido o partido a qual a pessoa está afiliada.
      * @param interesses os interesses políticos dessa pessoa.
      * @return uma String referente a representação textual dessa pessoa.
