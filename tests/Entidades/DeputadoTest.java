@@ -13,54 +13,54 @@ class DeputadoTest {
 
     @BeforeEach
     void initEach() throws ParseException {
-        this.d1 = new Deputado("111111111-9", "01012018");
+        this.d1 = new Deputado("01012018");
     }
 
     @Test
     void testEquals1() throws ParseException {
-        Deputado d2 = new Deputado("222222222-8", "02012018");
+        Deputado d2 = new Deputado("02012018");
         assertNotEquals(d1, d2);
     }
 
     @Test
     void testEquals2() throws ParseException {
-        Deputado d2 = new Deputado("111111111-9", "01012018");
+        Deputado d2 = new Deputado("01012018");
         assertEquals(d1, d2);
     }
 
     @Test
     void testEquals3() throws ParseException {
-        Deputado d2 = new Deputado("222222222-8", "01012018");
+        Deputado d2 = new Deputado("01012018");
         assertNotEquals(d1, d2);
     }
 
     @Test
     void testEquals4() throws ParseException {
-        Deputado d2 = new Deputado("111111111-9", "02012018");
+        Deputado d2 = new Deputado("02012018");
         assertNotEquals(d1, d2);
     }
 
     @Test
     void testHashCode1() throws ParseException {
-        Deputado d2 = new Deputado("222222222-8", "02012018");
+        Deputado d2 = new Deputado("02012018");
         assertNotEquals(Objects.hashCode(d1), Objects.hashCode(d2));
     }
 
     @Test
     void testHashCode2() throws ParseException {
-        Deputado d2 = new Deputado("111111111-9", "01012018");
+        Deputado d2 = new Deputado("01012018");
         assertEquals(Objects.hashCode(d1), Objects.hashCode(d2));
     }
 
     @Test
     void testHashCode3() throws ParseException {
-        Deputado d2 = new Deputado("222222222-8", "01012018");
+        Deputado d2 = new Deputado("01012018");
         assertNotEquals(Objects.hashCode(d1), Objects.hashCode(d2));
     }
 
     @Test
     void testHashCode4() throws ParseException {
-        Deputado d2 = new Deputado("111111111-9", "02012018");
+        Deputado d2 = new Deputado("02012018");
         assertNotEquals(Objects.hashCode(d1), Objects.hashCode(d2));
     }
 

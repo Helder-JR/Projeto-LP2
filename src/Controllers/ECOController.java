@@ -46,7 +46,7 @@ public class ECOController implements Serializable {
         if (this.cadastroPessoas.containsKey(dni)) {
             this.validador.validaCadastrarDeputado(dataDeInicio);
             if (!"".equals(this.cadastroPessoas.get(dni).getPartido())) {
-                Deputado funcao = new Deputado(dni,dataDeInicio);
+                Deputado funcao = new Deputado(dataDeInicio);
                 this.cadastroPessoas.get(dni).setFuncao(funcao);
                 return true;
             } else {
