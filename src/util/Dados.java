@@ -36,11 +36,11 @@ public class Dados {
      * classe do objeto lido a partir do arquivo não seja uma classe presente no sistema, ou caso o arquivo não seja
      * encontrado.
      *
-     * @param fileName o caminho para o arquivo que contém os dados a serem carregados.
+     * @param filePath o caminho para o arquivo que contém os dados a serem carregados.
      */
-    public ECOController carregar(File fileName) {
+    public ECOController carregar(File filePath) {
         ECOController controller = null;
-        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(fileName))) {
+        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(filePath))) {
             controller = (ECOController) in.readObject();
         } catch (IOException | ClassNotFoundException e) {
             System.out.println(e.getMessage());

@@ -2,58 +2,57 @@ package Controllers;
 
 import easyaccept.EasyAccept;
 import util.Dados;
-
 import java.io.File;
 import java.text.ParseException;
 
 public class Facade {
     private Dados dados;
-    private ECOController ECOController;
+    private ECOController ecoController;
     private File save;
     private File reset;
 
     public Facade() {
         this.dados = new Dados();
-        this.ECOController = new ECOController();
+        this.ecoController = new ECOController();
         this.save = new File("save.data");
         this.reset = new File("reset.data");
-        this.dados.salvar(ECOController,this.reset);
+        this.dados.salvar(this.ecoController,this.reset);
     }
 
     public void cadastrarPessoa(String nome, String dni, String estado, String interesses, String partido) {
-        this.ECOController.cadastrarPessoa(nome, dni, estado, interesses, partido);
+        this.ecoController.cadastrarPessoa(nome, dni, estado, interesses, partido);
     }
 
     public void cadastrarPessoa(String nome, String dni, String estado, String interesses) {
-        this.ECOController.cadastrarPessoa(nome, dni, estado, interesses);
+        this.ecoController.cadastrarPessoa(nome, dni, estado, interesses);
     }
 
     public void cadastrarDeputado(String dni, String dataDeInicio) throws ParseException {
-        this.ECOController.cadastrarDeputado(dni, dataDeInicio);
+        this.ecoController.cadastrarDeputado(dni, dataDeInicio);
     }
 
     public void cadastrarPartido(String partido) {
-        this.ECOController.cadastrarPartido(partido);
+        this.ecoController.cadastrarPartido(partido);
     }
 
     public String exibirPessoa(String dni) {
-       return this.ECOController.exibirPessoa(dni);
+       return this.ecoController.exibirPessoa(dni);
     }
 
     public String exibirBase() {
-        return this.ECOController.exibirBase();
+        return this.ecoController.exibirBase();
     }
 
     public void salvarSistema() {
-        this.dados.salvar(this.ECOController,this.save);
+        this.dados.salvar(this.ecoController,this.save);
     }
 
     public void carregarSistema() {
-        this.ECOController = this.dados.carregar(this.save);
+        this.ecoController = this.dados.carregar(this.save);
     }
 
     public void limparSistema() {
-        this.ECOController = this.dados.carregar(this.reset);
+        this.ecoController = this.dados.carregar(this.reset);
     }
 
     public static void main(String[] args) {
