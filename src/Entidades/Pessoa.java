@@ -103,8 +103,7 @@ public class Pessoa implements Serializable {
                 Objects.equals(dni, pessoa.dni) &&
                 Objects.equals(estado, pessoa.estado) &&
                 Objects.equals(interesses, pessoa.interesses) &&
-                Objects.equals(partido, pessoa.partido) &&
-                funcao.equals(pessoa.funcao);
+                Objects.equals(partido, pessoa.partido);
     }
 
     /**
@@ -114,7 +113,7 @@ public class Pessoa implements Serializable {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(nome, dni, estado, interesses, partido, funcao);
+        return Objects.hash(nome, dni, estado, interesses, partido);
     }
 
     /**

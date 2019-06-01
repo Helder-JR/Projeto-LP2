@@ -30,12 +30,6 @@ class DeputadoTest {
 
     @Test
     void testEquals3() throws ParseException {
-        Deputado d2 = new Deputado("01012018");
-        assertNotEquals(d1, d2);
-    }
-
-    @Test
-    void testEquals4() throws ParseException {
         Deputado d2 = new Deputado("02012018");
         assertNotEquals(d1, d2);
     }
@@ -54,12 +48,6 @@ class DeputadoTest {
 
     @Test
     void testHashCode3() throws ParseException {
-        Deputado d2 = new Deputado("01012018");
-        assertNotEquals(Objects.hashCode(d1), Objects.hashCode(d2));
-    }
-
-    @Test
-    void testHashCode4() throws ParseException {
         Deputado d2 = new Deputado("02012018");
         assertNotEquals(Objects.hashCode(d1), Objects.hashCode(d2));
     }

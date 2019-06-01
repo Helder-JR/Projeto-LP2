@@ -18,19 +18,19 @@ class PessoaTest {
     @Test
     void testEquals1() {
         Pessoa p2 = new Pessoa("João Silva", "111111111-9", "PB", "saude,educacao", "PCC");
-        assertTrue(p1.equals(p2));
+        assertEquals(p1, p2);
     }
 
     @Test
     void testEquals2() {
         Pessoa p2 = new Pessoa("José Santos", "222222222-8", "BA", "seguranca,trabalho", "PFC");
-        assertFalse(p1.equals(p2));
+        assertNotEquals(p1, p2);
     }
 
     @Test
     void testEquals3() {
         Pessoa p3 = new Pessoa("Maria Araujo", "333333333-7", "PE", "educacao,transporte");
-        assertFalse(p1.equals(p3));
+        assertNotEquals(p1, p3);
     }
 
     @Test

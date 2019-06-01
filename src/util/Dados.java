@@ -21,12 +21,14 @@ public class Dados {
      * @param controller o controller que irá ser salvo.
      * @param filePath o camimnho para o arquivo que irá conter os dados a serem salvos.
      */
-    public void salvar(ECOController controller, File filePath) {
+    public boolean salvar(ECOController controller, File filePath) {
         try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(filePath))) {
             out.writeObject(controller);
+            return true;
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
+        return false;
     }
 
     /**
