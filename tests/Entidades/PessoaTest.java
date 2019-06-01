@@ -70,7 +70,7 @@ class PessoaTest {
 
     @Test
     void testGetPartido1() {
-        assertEquals("PCC", p1.getPartido());
+        assertEquals("PCC", this.p1.getPartido());
     }
 
     @Test

@@ -16,18 +16,18 @@ class DadosTest {
 
     @BeforeEach
     void setUp() {
-        dados = new Dados();
-        controller = new ECOController();
-        saveTest = new File("saveTest.data");
+        this.dados = new Dados();
+        this.controller = new ECOController();
+        this.saveTest = new File("saveTest.data");
     }
 
     @Test
     void salvar() {
-        assertTrue(dados.salvar(controller, saveTest));
+        assertTrue(this.dados.salvar(this.controller, this.saveTest));
     }
 
     @Test
     void carregar() {
-        assertNotNull(dados.carregar(saveTest));
+        assertNotNull(this.dados.carregar(this.saveTest));
     }
 }

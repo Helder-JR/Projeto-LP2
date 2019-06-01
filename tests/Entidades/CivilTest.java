@@ -11,26 +11,26 @@ class CivilTest {
 
     @BeforeEach
     void setUp() {
-        civil = new Civil();
+        this.civil = new Civil();
     }
 
     @Test
     void toStringCompletoTest() {
-        assertEquals("José Santos - 222222222-8 (BA) - PFC - Interesses: seguranca,trabalho" , civil.toString("José Santos", "222222222-8", "BA","PFC","seguranca,trabalho"));
+        assertEquals("José Santos - 222222222-8 (BA) - PFC - Interesses: seguranca,trabalho" , this.civil.toString("José Santos", "222222222-8", "BA","PFC","seguranca,trabalho"));
     }
 
     @Test
     void toStringSemPartidoTest() {
-        assertEquals("José Santos - 222222222-8 (BA) - Interesses: seguranca,trabalho" , civil.toString("José Santos", "222222222-8", "BA","","seguranca,trabalho"));
+        assertEquals("José Santos - 222222222-8 (BA) - Interesses: seguranca,trabalho" , this.civil.toString("José Santos", "222222222-8", "BA","","seguranca,trabalho"));
     }
 
     @Test
     void toStringSemInteresseTest() {
-        assertEquals("José Santos - 222222222-8 (BA) - PFC" , civil.toString("José Santos", "222222222-8", "BA","PFC",""));
+        assertEquals("José Santos - 222222222-8 (BA) - PFC" , this.civil.toString("José Santos", "222222222-8", "BA","PFC",""));
     }
 
     @Test
     void toStringSemPartidoSemInteresseTest() {
-        assertEquals("José Santos - 222222222-8 (BA)" , civil.toString("José Santos", "222222222-8", "BA","",""));
+        assertEquals("José Santos - 222222222-8 (BA)" , this.civil.toString("José Santos", "222222222-8", "BA","",""));
     }
 }
