@@ -23,13 +23,12 @@ public class Deputado implements Funcao {
     private int leisAprovadas;
 
     /**
-     * Cria um(a) deputado(a) com base no DNI da pessoa que irá exercer o cargo e a data de início do mandato.
+     * Cria um(a) deputado(a) com base na data de início do mandato.
      *
-     * @param dni o DNI pertencente a pessoa que irá exercer o cargo de deputado(a).
      * @param dataDeInicio a data de início do cargo de deputado(a).
      * @throws ParseException caso a data esteja em um formato inválido.
      */
-    public Deputado(String dni, String dataDeInicio) throws ParseException {
+    public Deputado(String dataDeInicio) throws ParseException {
         SimpleDateFormat dateFormat = new SimpleDateFormat("ddMMyyyy");
         this.dataDeInicio = dateFormat.parse(dataDeInicio);
         this.leisAprovadas = 0;
