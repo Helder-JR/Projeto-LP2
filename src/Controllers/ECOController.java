@@ -42,7 +42,7 @@ public class ECOController implements Serializable {
     }
 
     public boolean cadastrarDeputado(String dni, String dataDeInicio) throws ParseException {
-        validador.validaCadastraDeputadoDni(dni);
+        this.validador.validaCadastraDeputadoDni(dni);
         if (this.cadastroPessoas.containsKey(dni)) {
             this.validador.validaCadastrarDeputado(dataDeInicio);
             if (!"".equals(this.cadastroPessoas.get(dni).getPartido())) {
