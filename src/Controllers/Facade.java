@@ -13,17 +13,17 @@ import java.text.ParseException;
 public class Facade {
 
     /**
-     * Responsável pela entrada e saída de dados do sistema.
+     * Objeto esponsável pela persistência em arquivos das informçaões referentes ao sistema.
      */
     private Dados dados;
 
     /**
-     * Controller que gerencia os dados do sistema (e que terá seus persistidos).
+     * Controlador que irá gerenciar os dados do sistema (e que terá seus dados armazenados em arquivos).
      */
     private ECOController ecoController;
 
     /**
-     * Objeto que irá receber o caminho para o arquivo que armazenará o estado atual do controller do sistema.
+     * Objeto que irá receber o caminho para o arquivo que armazenará o estado atual do controlador do sistema.
      */
     private File save;
 
