@@ -1,18 +1,43 @@
 package Entidades;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
  * Representação de uma pessoa no E-CO, com informações referentes a nome, DNI, estado, interesses em relação a política,
- * partido a qual está afiliada e sua função, caso exerça cargo político. É possível exibir uma representação textual da mesma e compará-la a outros objetos.
+ * partido a qual está afiliada e sua função, caso exerça cargo político. É possível exibir uma representação textual da
+ * mesma, compará-la a outros objetos, definir sua função pública e recuperar a informação sobre seu partido.
  */
-public class Pessoa {
+public class Pessoa implements Serializable {
 
+    /**
+     * O nome da pessoa.
+     */
     private String nome;
+
+    /**
+     * O Documento Nacional De Identificação da Pessoa.
+     */
     private String dni;
+
+    /**
+     * O estado em que a pessoa reside.
+     */
     private String estado;
+
+    /**
+     * Os interesses políticos da pessoa.
+     */
     private String interesses;
+
+    /**
+     * O partido a qual a pessoa possivelmente está afiliada.
+     */
     private String partido;
+
+    /**
+     * A função pública que essa pessoa exerce.
+     */
     private Funcao funcao;
 
     /**
@@ -30,7 +55,7 @@ public class Pessoa {
         this.interesses = interesses;
         this.estado = estado;
         this.partido = partido;
-        this.funcao = new Civil(dni);
+        this.funcao = new Civil();
     }
 
     /**
@@ -54,14 +79,19 @@ public class Pessoa {
         this.funcao = funcao;
     }
 
+    /**
+     * Recupera a informação referente ao partido dessa pessoa.
+     *
+     * @return o partido a qual a pessoa está afiliada.
+     */
     public String getPartido() {
         return partido;
     }
 
     /**
-     * Compara um objeto do tipo Pessoa com outro objeto e verifica se são iguais.
+     * Compara um objeto Pessoa a outro objeto e verifica se são iguais.
      *
-     * @param o o objeto que séra comparado à pessoa.
+     * @param o o objeto que séra comparado a pessoa.
      * @return um booleano true caso a comparação resulte em igualdade ou um false, caso negativo.
      */
     @Override
@@ -73,8 +103,7 @@ public class Pessoa {
                 Objects.equals(dni, pessoa.dni) &&
                 Objects.equals(estado, pessoa.estado) &&
                 Objects.equals(interesses, pessoa.interesses) &&
-                Objects.equals(partido, pessoa.partido) &&
-                funcao.equals(pessoa.funcao);
+                Objects.equals(partido, pessoa.partido);
     }
 
     /**
@@ -84,7 +113,7 @@ public class Pessoa {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(nome, dni, estado, interesses, partido, funcao);
+        return Objects.hash(nome, dni, estado, interesses, partido);
     }
 
     /**
@@ -93,6 +122,6 @@ public class Pessoa {
      * @return a String que representa textualmente essa pessoa.
      */
     public String toString() {
-        return this.funcao.toString(this.nome, this.estado, this.partido, this.interesses);
+        return this.funcao.toString(this.nome, this.dni, this.estado, this.partido, this.interesses);
     }
 }
