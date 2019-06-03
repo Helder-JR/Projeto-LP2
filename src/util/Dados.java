@@ -20,6 +20,7 @@ public class Dados {
      *
      * @param controller o controller que irá ser salvo.
      * @param filePath o camimnho para o arquivo que irá conter os dados a serem salvos.
+     * @return um booleano indicando o sucesso no salvamento do objeto.
      */
     public boolean salvar(ECOController controller, File filePath) {
         try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(filePath))) {
@@ -37,6 +38,7 @@ public class Dados {
      * encontrado.
      *
      * @param filePath o caminho para o arquivo que contém os dados a serem carregados.
+     * @return o objeto controller que contém os dados salvos do sistema.
      */
     public ECOController carregar(File filePath) {
         ECOController controller = null;

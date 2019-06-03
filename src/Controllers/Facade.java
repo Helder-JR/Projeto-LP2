@@ -109,6 +109,7 @@ public class Facade {
      * esteja cadastrada no mapa. Caso essas condições não sejam satisfeitas exceções serão lançadas.
      *
      * @param dni o DNI da pessoa a ser exibida.
+     * @return a String referente a representação dessa pessoa presente no mapa.
      * @throws NullPointerException caso o DNI seja uma String nula ou a pessoa não esteja presente no mapa.
      * @throws IllegalArgumentException caso o DNI seja uma String vazia ou composta apenas de espaços.
      */
