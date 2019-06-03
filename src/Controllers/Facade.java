@@ -44,63 +44,82 @@ public class Facade {
     }
 
     /**
-     * Cadastra uma pessoa que está afiliada a um partido político no sistema.
+     * Cadastra uma pessoa com afiliação política no mapa de pessoas, inicialmente verificando se as entradas referentes
+     * a seu nome, DNI e estado são válidas e então verificando se ela já está cadastrada no sistema.
      *
-     * @param nome o nome da pessoa.
-     * @param dni o documento nacional de identificação da pessoa.
-     * @param estado o estado em que a pessoa reside.
-     * @param interesses os interesses políticos dessa pessoa.
-     * @param partido o partido político a que essa pessoa está afiliada.
+     * @param nome o nome da pessoa que será cadastrada.
+     * @param dni o Documento Nacional de Identificação da pessoa que será cadastrada.
+     * @param estado o estado ao qual a pessoa que será cadastrada reside.
+     * @param interesses os interesses políticos da pessoa que será cadastrada.
+     * @param partido o partido político ao qual essa pessoa está afiliada.
+     * @throws NullPointerException caso o nome, DNI ou estado sejam Strings nulas.
+     * @throws IllegalArgumentException caso o nome, DNI ou estado sejam Strings vazias ou compostas apenas de espaços,
+     * e caso a pessoa já esteja cadastrada.
      */
     public void cadastrarPessoa(String nome, String dni, String estado, String interesses, String partido) {
         this.ecoController.cadastrarPessoa(nome, dni, estado, interesses, partido);
     }
 
     /**
-     * Cadastra uma pessoa sem afiliação política no sistema.
+     * Cadastra uma pessoa sem afiliação política no mapa de pessoas, inicialmente verificando se as entradas referentes
+     * a seu nome, DNI e estado são válidas e então verificando se ela já está cadastrada no sistema.
      *
-     * @param nome o nome da pessoa.
-     * @param dni o documento nacional de identificação da pessoa.
-     * @param estado o estado em que a pessoa reside.
-     * @param interesses os interesses políticos dessa pessoa.
+     * @param nome o nome da pessoa que será cadastrada.
+     * @param dni o Documento Nacional de Identificação da pessoa que será cadastrada.
+     * @param estado o estado ao qual a pessoa que será cadastrada reside.
+     * @param interesses os interesses políticos da pessoa que será cadastrada.
+     * @throws NullPointerException caso o nome, DNI ou estado sejam Strings nulas.
+     * @throws IllegalArgumentException caso o nome, DNI ou estado sejam Strings vazias ou compostas apenas de espaços,
+     * e caso a pessoa já esteja cadastrada.
      */
     public void cadastrarPessoa(String nome, String dni, String estado, String interesses) {
         this.ecoController.cadastrarPessoa(nome, dni, estado, interesses);
     }
 
     /**
-     * Cadastra um(a) deputado(a) no sistema.
+     * Cadastra um(a) deputado(a) no mapa de pessoas, verificando inicialmente se o DNI passado como parâmetro é valido,
+     * e depois se há uma pessoa cadastrada com esse DNI no mapa. Após isso será verificada se a data de início do
+     * mandato é valida e se esse(a) deputado(a) está afiliado a algum partido.
      *
      * @param dni o DNI da pessoa que será cadastrada como deputado(a).
-     * @param dataDeInicio a data de início do mandato dessa pessoa como deputado(a).
-     * @throws ParseException caso a data não esteja em um formato válido (dd/MM/yyyy).
+     * @param dataDeInicio a data de início do mandato dessa pessoa.
+     * pertença a um partido.
+     * @throws NullPointerException caso o DNI seja uma String nula ou a pessoa não esteja cadastrada no mapa.
+     * @throws IllegalArgumentException caso o DNI seja uma String vazia ou composta apenas por espaços e caso a pessoa
+     * não esteja afiliada a um partido.
+     * @throws ParseException caso a data de início do mandato esteja em um formato inválido.
      */
     public void cadastrarDeputado(String dni, String dataDeInicio) throws ParseException {
         this.ecoController.cadastrarDeputado(dni, dataDeInicio);
     }
 
     /**
-     * Cadastra um partido no sistema.
-     * 
-     * @param partido o partido que será cadastrado.
+     * Cadastra um partido, antes verificando se o nome do partido é uma entrada válida para então o alocar no conjunto.
+     *
+     * @param partido o partido a ser cadastrado.
+     * @throws NullPointerException caso o partido seja uma String nula.
+     * @throws IllegalArgumentException caso o partido seja uma String vazia ou composta apenas por espaços.
      */
     public void cadastrarPartido(String partido) {
         this.ecoController.cadastrarPartido(partido);
     }
 
     /**
-     * Exibe uma pessoa cadastrada no sistema.
-     * 
-     * @param dni o DNI da pessoa que será exibida.
+     * Exibe uma pessoa presente no cadastro, validando inicialmente se o DNI dessa pessoa é uma String válida e ela
+     * esteja cadastrada no mapa. Caso essas condições não sejam satisfeitas exceções serão lançadas.
+     *
+     * @param dni o DNI da pessoa a ser exibida.
+     * @throws NullPointerException caso o DNI seja uma String nula ou a pessoa não esteja presente no mapa.
+     * @throws IllegalArgumentException caso o DNI seja uma String vazia ou composta apenas de espaços.
      */
     public String exibirPessoa(String dni) {
        return this.ecoController.exibirPessoa(dni);
     }
 
     /**
-     * Exibe uma lista em ordem lexicográfica da base partidária cadastrada no sistema.
-     * 
-     * @return a String referente a lista de partidos cadastrados no sistema.
+     * Exibe uma lista com os partidos cadastrados no sistema, exibidos em ordem lexicográfica.
+     *
+     * @return a String referente a listagem dos partidos, separados um a um por vírgula.
      */
     public String exibirBase() {
         return this.ecoController.exibirBase();

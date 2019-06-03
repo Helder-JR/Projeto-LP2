@@ -126,9 +126,7 @@ public class ECOController implements Serializable {
      */
     public boolean cadastrarPartido(String partido) {
         this.validador.validaCadastrarPartido(partido);
-        if(this.partidosGovernistas.add(partido))
-            return true;
-        return false;
+        return this.partidosGovernistas.add(partido);
     }
 
     /**
