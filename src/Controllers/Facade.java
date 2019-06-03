@@ -114,7 +114,7 @@ public class Facade {
      * @throws IllegalArgumentException caso o DNI seja uma String vazia ou composta apenas de espaços.
      */
     public String exibirPessoa(String dni) {
-       return this.ecoController.exibirPessoa(dni);
+        return this.ecoController.exibirPessoa(dni);
     }
 
     /**
@@ -149,14 +149,14 @@ public class Facade {
 
     /**
      * Método por onde todo o programa se inicia, carregando e executando os testes de aceitação.
-     * 
+     *
      * @param args a classe responsável pelo início do sistema e os caminhos para os testes de aceitação.
      */
     public static void main(String[] args) {
         args = new String[] {"Controllers.Facade", "acceptance_test/use_case_1.txt",
-                                                   "acceptance_test/use_case_2.txt",
-                                                   "acceptance_test/use_case_3.txt",
-                                                   "acceptance_test/use_case_4.txt"};
+                "acceptance_test/use_case_2.txt",
+                "acceptance_test/use_case_3.txt",
+                "acceptance_test/use_case_4.txt"};
         EasyAccept.main(args);
     }
 }
