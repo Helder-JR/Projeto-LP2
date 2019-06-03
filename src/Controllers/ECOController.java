@@ -8,7 +8,7 @@ import java.util.*;
 
 /**
  * Controlador que gerencia as entidades presentes no sistema. É possível cadastrar e exibir pessoas (seja um civil ou
- * um(a) deputado(a)) e partidos.
+ * um(a) deputado(a)), além de partidos.
  */
 public class ECOController implements Serializable {
 
@@ -47,7 +47,9 @@ public class ECOController implements Serializable {
      * @param interesses os interesses políticos da pessoa que será cadastrada.
      * @param partido o partido político ao qual essa pessoa está afiliada.
      * @return um booleano true caso a pessoa não esteja cadastrada no mapa de pessoas e seu cadastro seja bem sucedido.
-     * @throw IllegalArgumentException caso a pessoa já esteja cadastrada.
+     * @throws NullPointerException caso o nome, DNI ou estado sejam Strings nulas.
+     * @throws IllegalArgumentException caso o nome, DNI ou estado sejam Strings vazias ou compostas apenas de espaços,
+     * e caso a pessoa já esteja cadastrada.
      */
     public boolean cadastrarPessoa(String nome, String dni, String estado, String interesses, String partido) {
         this.validador.validaCadastrarPessoa(nome, dni, estado);
@@ -69,7 +71,9 @@ public class ECOController implements Serializable {
      * @param estado o estado ao qual a pessoa que será cadastrada reside.
      * @param interesses os interesses políticos da pessoa que será cadastrada.
      * @return um booleano true caso a pessoa não esteja cadastrada no mapa de pessoas e seu cadastro seja bem sucedido.
-     * @throw IllegalArgumentException caso a pessoa já esteja cadastrada.
+     * @throws NullPointerException caso o nome, DNI ou estado sejam Strings nulas.
+     * @throws IllegalArgumentException caso o nome, DNI ou estado sejam Strings vazias ou compostas apenas de espaços,
+     * e caso a pessoa já esteja cadastrada.
      */
     public boolean cadastrarPessoa(String nome, String dni, String estado, String interesses) {
         this.validador.validaCadastrarPessoa(nome, dni, estado);
@@ -91,8 +95,9 @@ public class ECOController implements Serializable {
      * @param dataDeInicio a data de início do mandato dessa pessoa.
      * @return um booleano true caso as entradas sejam válidas, o DNI esteja vinculado a uma pessoa e essa pessoa
      * pertença a um partido.
-     * @throws IllegalArgumentException caso a pessoa não esteja afiliada a um partido.
-     * @throws NullPointerException caso a pessoa não esteja cadastrada no mapa.
+     * @throws NullPointerException caso o DNI seja uma String nula ou a pessoa não esteja cadastrada no mapa.
+     * @throws IllegalArgumentException caso o DNI seja uma String vazia ou composta apenas por espaços e caso a pessoa
+     * não esteja afiliada a um partido.
      * @throws ParseException caso a data de início do mandato esteja em um formato inválido.
      */
     public boolean cadastrarDeputado(String dni, String dataDeInicio) throws ParseException {
@@ -115,14 +120,26 @@ public class ECOController implements Serializable {
      * Cadastra um partido, antes verificando se o nome do partido é uma entrada válida para então o alocar no conjunto.
      *
      * @param partido o partido a ser cadastrado.
-     * @return
+     * @return um booleano true caso o partido seja alocado com sucesso, ou false caso não seja.
+     * @throws NullPointerException caso o partido seja uma String nula.
+     * @throws IllegalArgumentException caso o partido seja uma String vazia ou composta apenas por espaços.
      */
     public boolean cadastrarPartido(String partido) {
         this.validador.validaCadastrarPartido(partido);
-        this.partidosGovernistas.add(partido);
-        return true;
+        if(this.partidosGovernistas.add(partido))
+            return true;
+        return false;
     }
 
+    /**
+     * Exibe uma pessoa presente no cadastro, validando inicialmente se o DNI dessa pessoa é uma String válida e ela
+     * esteja cadastrada no mapa. Caso essas condições não sejam satisfeitas exceções serão lançadas.
+     *
+     * @param dni o DNI da pessoa a ser exibida.
+     * @return a String referente a representação dessa pessoa presente no mapa.
+     * @throws NullPointerException caso o DNI seja uma String nula ou a pessoa não esteja presente no mapa.
+     * @throws IllegalArgumentException caso o DNI seja uma String vazia ou composta apenas de espaços.
+     */
     public String exibirPessoa(String dni) {
         this.validador.validaExibirPessoa(dni);
         if (this.cadastroPessoas.containsKey(dni)) {
@@ -132,6 +149,11 @@ public class ECOController implements Serializable {
         }
     }
 
+    /**
+     * Exibe uma lista com os partidos cadastrados no sistema, exibidos em ordem lexicográfica.
+     *
+     * @return a String referente a listagem dos partidos, separados um a um por vírgula.
+     */
     public String exibirBase() {
         ArrayList<String> listaPartidos = new ArrayList<>(this.partidosGovernistas);
         listaPartidos.sort(String::compareTo);
