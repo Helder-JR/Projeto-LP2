@@ -17,6 +17,38 @@ class DeputadoTest {
     }
 
     @Test
+    void dataInicioNullConstructor() throws ParseException {
+        try {
+            Deputado deputado = new Deputado(null);
+            fail("Deveria lançar exceção");
+        } catch (NullPointerException npe) {}
+    }
+
+    @Test
+    void dataInicioVazioConstructor() throws ParseException {
+        try {
+            Deputado deputado = new Deputado("    ");
+            fail("Deveria lançar exceção");
+        } catch (IllegalArgumentException iae) {}
+    }
+
+    @Test
+    void dataInicioInvalidaConstructor() throws ParseException {
+        try {
+            Deputado deputado = new Deputado("abcdfg");
+            fail("Deveria lançar exceção");
+        } catch (IllegalArgumentException iae) {}
+    }
+
+    @Test
+    void dataInicioInvalida2Constructor() throws ParseException {
+        try {
+            Deputado deputado = new Deputado("30021994");
+            fail("Deveria lançar exceção");
+        } catch (IllegalArgumentException iae) {}
+    }
+
+    @Test
     void testEquals1() throws ParseException {
         Deputado d2 = new Deputado("02012018");
         assertNotEquals(d1, d2);

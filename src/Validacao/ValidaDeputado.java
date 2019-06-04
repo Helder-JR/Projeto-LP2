@@ -1,4 +1,4 @@
-package Controllers;
+package Validacao;
 
 import java.io.Serializable;
 import java.text.DateFormat;
@@ -6,10 +6,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-/**
- * Classe responsável pela validação das entradas de dados, lançando excessões apropriadas quando necessário.
- */
-public class ValidaSystemController implements Serializable {
+public class ValidaDeputado implements Serializable {
 
     /**
      * Verifica se a String inserida como parâmetro é nula, vazia ou composta apenas de espaços.
@@ -25,27 +22,6 @@ public class ValidaSystemController implements Serializable {
         }
         if ("".equals(entrada.trim())) {
             throw new IllegalArgumentException(mensagem);
-        }
-    }
-
-    /**
-     * Valida os dados de entrada necessários para o cadastramento de uma pessoa. Primeiro cada um dos parâmetros será
-     * verificado (através do método validaEntradaNulaVazia) e então caso o DNI não esteja no formato "XXXXXXXXX-X" uma
-     * exceção será lançada.
-     *
-     * @param nome o nome da pessoa que será cadastrada.
-     * @param dni o DNI da pessoa que será cadastrada.
-     * @param estado o estado em que essa pessoa reside.
-     * @throws NullPointerException caso o nome, DNI ou estados sejam nulos.
-     * @throws IllegalArgumentException caso o nome, DNI ou estados sejam uma String vazia ou composta apenas de espaços
-     * ou o DNI esteja em um formato inválido.
-     */
-    public void validaCadastrarPessoa(String nome, String dni, String estado) {
-        validaEntradaNulaVazia(nome, "Erro ao cadastrar pessoa: nome nao pode ser vazio ou nulo");
-        validaEntradaNulaVazia(dni, "Erro ao cadastrar pessoa: dni nao pode ser vazio ou nulo");
-        validaEntradaNulaVazia(estado, "Erro ao cadastrar pessoa: estado nao pode ser vazio ou nulo");
-        if (!dni.matches("\\d{9}[-]\\d")) {
-            throw new IllegalArgumentException("Erro ao cadastrar pessoa: dni invalido");
         }
     }
 
@@ -98,31 +74,4 @@ public class ValidaSystemController implements Serializable {
         }
     }
 
-    /**
-     * Valida se a String referente ao partido que será cadastrdo é valida (através do método validaEntradaNulaVazia).
-     *
-     * @param partido o partido que será cadastrado.
-     * @throws NullPointerException caso a String referente ao partido esteja nula.
-     * @throws IllegalArgumentException caso a String referente ao partido esteja vazia ou seja formada apenas por
-     * espaços.
-     */
-    public void validaCadastrarPartido(String partido) {
-        validaEntradaNulaVazia(partido, "Erro ao cadastrar partido: partido nao pode ser vazio ou nulo");
-    }
-
-    /**
-     * Verifica se o DNI da pessoa que será exibida é válido, através do método validaEntradaNulaVazia. Após isso, caso
-     * o DNI não seja da forma "XXXXXXXXX-X" uma exceção será lançada.
-     *
-     * @param dni o DNI da pessoa que será exibida.
-     * @throws NullPointerException caso a String referente ao DNI da pessoa esteja nula.
-     * @throws IllegalArgumentException caso o DNI da pessoa esteja vazio, seja composto apenas por espaços ou não
-     * esteja em um formato válido.
-     */
-    public void validaExibirPessoa(String dni) {
-        validaEntradaNulaVazia(dni, "Erro ao exibir pessoa: dni nao pode ser vazio ou nulo");
-        if (!dni.matches("\\d{9}[-]\\d")) {
-            throw new IllegalArgumentException("Erro ao exibir pessoa: dni invalido");
-        }
-    }
 }

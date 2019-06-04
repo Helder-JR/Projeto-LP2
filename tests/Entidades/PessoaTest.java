@@ -8,11 +8,66 @@ import java.util.Objects;
 import static org.junit.jupiter.api.Assertions.*;
 
 class PessoaTest {
+
     private Pessoa p1;
 
     @BeforeEach
     void initEach() {
         this.p1 = new Pessoa("João Silva", "111111111-9", "PB", "saude,educacao", "PCC");
+    }
+
+    @Test
+    void nomeNuloConstructor() {
+        try {
+            Pessoa pessoa = new Pessoa(null, "111111111-9", "teste", "teste");
+            fail("Deveria lançar exceção");
+        } catch (NullPointerException npe) {}
+    }
+
+    @Test
+    void dniNuloConstructor() {
+        try {
+            Pessoa pessoa = new Pessoa("teste", null, "teste", "teste");
+            fail("Deveria lançar exceção");
+        } catch (NullPointerException npe) {
+        }
+    }
+
+    @Test
+    void estadoNuloConstructor() {
+        try {
+            Pessoa pessoa = new Pessoa("teste", "111111111-9",null,"teste");
+            fail("Deveria lançar exceção");
+        } catch (NullPointerException npe) {}
+    }
+
+    @Test
+    void nomeVazioConstructor() {
+        try {
+            Pessoa pessoa = new Pessoa("       ", "111111111-9", "teste", "teste");
+            fail("Deveria lançar exceção");
+        } catch (IllegalArgumentException iae) {}
+    }
+    @Test
+    void dniVazioConstructor() {
+        try {
+            Pessoa pessoa = new Pessoa("teste", "       ", "teste", "teste");
+            fail("Deveria lançar exceção");
+        } catch (IllegalArgumentException iae) {}
+    }
+    @Test
+    void dniInvalidoConstructor() {
+        try {
+            Pessoa pessoa = new Pessoa("teste", "1111111119", "teste", "teste");
+            fail("Deveria lançar exceção");
+        } catch (IllegalArgumentException iae) {}
+    }
+    @Test
+    void estadoVazioConstructor() {
+        try {
+            Pessoa pessoa = new Pessoa("teste", "111111111-9","    ","teste");
+            fail("Deveria lançar exceção");
+        } catch (IllegalArgumentException iae) {}
     }
 
     @Test

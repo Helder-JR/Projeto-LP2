@@ -1,5 +1,7 @@
 package Entidades;
 
+import Validacao.ValidaPessoa;
+
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -31,7 +33,7 @@ public class Pessoa implements Serializable {
     /**
      * Os interesses políticos da pessoa.
      */
-    private Set<String> interesses;
+    private String interesses;
 
     /**
      * O partido a qual a pessoa possivelmente está afiliada.
@@ -43,6 +45,8 @@ public class Pessoa implements Serializable {
      */
     private Funcao funcao;
 
+    private ValidaPessoa validaPessoa;
+
     /**
      * Cria uma pessoa com base em seu nome, DNI, estado, interesses e partido.
      *
@@ -53,9 +57,11 @@ public class Pessoa implements Serializable {
      * @param partido o partido político a que essa pessoa está afiliada.
      */
     public Pessoa(String nome, String dni, String estado, String interesses, String partido) {
+        this.validaPessoa = new ValidaPessoa();
+        this.validaPessoa.validaCadastrarPessoa(nome, dni, estado);
         this.nome = nome;
         this.dni = dni;
-        this.interesses = new HashSet<>(Arrays.asList(interesses.split(",")));
+        this.interesses = interesses;
         this.estado = estado;
         this.partido = partido;
         this.funcao = new Civil();
@@ -83,7 +89,7 @@ public class Pessoa implements Serializable {
     }
 
     public Set<String> getInteresses() {
-        return interesses;
+        return new HashSet<>(Arrays.asList(this.interesses.split(",")));
     }
 
     /**
@@ -129,6 +135,6 @@ public class Pessoa implements Serializable {
      * @return a String que representa textualmente essa pessoa.
      */
     public String toString() {
-        return this.funcao.toString(this.nome, this.dni, this.estado, this.partido, String.join(",", this.interesses));
+        return this.funcao.toString(this.nome, this.dni, this.estado, this.partido, this.interesses);
     }
 }
