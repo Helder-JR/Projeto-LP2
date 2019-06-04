@@ -129,6 +129,6 @@ public class Pessoa implements Serializable {
      * @return a String que representa textualmente essa pessoa.
      */
     public String toString() {
-        return this.funcao.toString(this.nome, this.dni, this.estado, this.partido, this.interesses);
+        return this.funcao.toString(this.nome, this.dni, this.estado, this.partido, String.join(",", this.interesses));
     }
 }
