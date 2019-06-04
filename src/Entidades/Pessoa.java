@@ -1,7 +1,10 @@
 package Entidades;
 
 import java.io.Serializable;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * Representação de uma pessoa no E-CO, com informações referentes a nome, DNI, estado, interesses em relação a política,
@@ -28,7 +31,7 @@ public class Pessoa implements Serializable {
     /**
      * Os interesses políticos da pessoa.
      */
-    private String interesses;
+    private Set<String> interesses;
 
     /**
      * O partido a qual a pessoa possivelmente está afiliada.
@@ -52,7 +55,7 @@ public class Pessoa implements Serializable {
     public Pessoa(String nome, String dni, String estado, String interesses, String partido) {
         this.nome = nome;
         this.dni = dni;
-        this.interesses = interesses;
+        this.interesses = new HashSet<>(Arrays.asList(interesses.split(",")));
         this.estado = estado;
         this.partido = partido;
         this.funcao = new Civil();
@@ -77,6 +80,10 @@ public class Pessoa implements Serializable {
      */
     public void setFuncao(Funcao funcao) {
         this.funcao = funcao;
+    }
+
+    public Set<String> getInteresses() {
+        return interesses;
     }
 
     /**
