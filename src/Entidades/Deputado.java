@@ -1,5 +1,7 @@
 package Entidades;
 
+import Validacao.ValidaDeputado;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -22,6 +24,8 @@ public class Deputado implements Funcao {
      */
     private int leisAprovadas;
 
+    private ValidaDeputado validaDeputado;
+
     /**
      * Cria um(a) deputado(a) com base na data de início do mandato.
      *
@@ -29,6 +33,8 @@ public class Deputado implements Funcao {
      * @throws ParseException caso a data esteja em um formato inválido.
      */
     public Deputado(String dataDeInicio) throws ParseException {
+        this.validaDeputado = new ValidaDeputado();
+        this.validaDeputado.validaCadastrarDeputado(dataDeInicio);
         SimpleDateFormat dateFormat = new SimpleDateFormat("ddMMyyyy");
         this.dataDeInicio = dateFormat.parse(dataDeInicio);
         this.leisAprovadas = 0;

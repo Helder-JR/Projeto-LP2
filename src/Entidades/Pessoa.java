@@ -1,7 +1,12 @@
 package Entidades;
 
+import Validacao.ValidaPessoa;
+
 import java.io.Serializable;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * Representação de uma pessoa no E-CO, com informações referentes a nome, DNI, estado, interesses em relação a política,
@@ -40,6 +45,8 @@ public class Pessoa implements Serializable {
      */
     private Funcao funcao;
 
+    private ValidaPessoa validaPessoa;
+
     /**
      * Cria uma pessoa com base em seu nome, DNI, estado, interesses e partido.
      *
@@ -50,6 +57,8 @@ public class Pessoa implements Serializable {
      * @param partido o partido político a que essa pessoa está afiliada.
      */
     public Pessoa(String nome, String dni, String estado, String interesses, String partido) {
+        this.validaPessoa = new ValidaPessoa();
+        this.validaPessoa.validaCadastrarPessoa(nome, dni, estado);
         this.nome = nome;
         this.dni = dni;
         this.interesses = interesses;
@@ -77,6 +86,10 @@ public class Pessoa implements Serializable {
      */
     public void setFuncao(Funcao funcao) {
         this.funcao = funcao;
+    }
+
+    public Set<String> getInteresses() {
+        return new HashSet<>(Arrays.asList(this.interesses.split(",")));
     }
 
     /**

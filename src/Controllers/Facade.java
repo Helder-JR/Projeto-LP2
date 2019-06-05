@@ -147,6 +147,41 @@ public class Facade {
         this.ecoController = this.dados.carregar(this.reset);
     }
 
+    ////---------------------------------////----------------------------------////---------------------------------////
+    //Parte 2
+
+    public void cadastrarComissao(String tema, String politicos) {
+        this.ecoController.cadastrarComissao(tema, politicos);
+    }
+
+    public String cadastrarPL(String dni, int ano, String ementa, String interesses, String url, boolean conclusivo) {
+        return this.ecoController.cadastrarPL(dni, ano, ementa, interesses, url, conclusivo);
+    }
+
+    public String cadastrarPLP(String dni, int ano, String ementa, String interesses, String url, String artigos) {
+        return this.ecoController.cadastrarPLP(dni, ano, ementa, interesses, url, artigos);
+    }
+
+    public String cadastrarPEC(String dni, int ano, String ementa, String interesses, String url, String artigos) {
+        return this.ecoController.cadastrarPEC(dni, ano, ementa, interesses, url, artigos);
+    }
+
+    public String exibirProjeto(String codigo) {
+        return this.ecoController.exibirProjeto(codigo);
+    }
+
+    public boolean votarComissao(String codigo, boolean governista, String comissao, String proximoLocal) {
+        return this.ecoController.votarComissao(codigo, governista, comissao, proximoLocal);
+    }
+
+    public boolean votarPlenario(String codigo, boolean governista, String presentes) {
+        return true;
+    }
+
+    public String exibirTramitacao(String codigo) {
+        return this.ecoController.exibirTramitacao(codigo);
+    }
+
     /**
      * Método por onde todo o programa se inicia, carregando e executando os testes de aceitação.
      *

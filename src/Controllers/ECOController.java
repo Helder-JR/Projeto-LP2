@@ -1,10 +1,13 @@
 package Controllers;
 
-import Entidades.Deputado;
-import Entidades.Pessoa;
+import Entidades.*;
+import Validacao.ValidaSystemController;
+
 import java.io.Serializable;
 import java.text.ParseException;
 import java.util.*;
+
+import static java.lang.Math.floor;
 
 /**
  * Controlador que gerencia as entidades presentes no sistema. É possível cadastrar e exibir pessoas (seja um civil ou
@@ -15,7 +18,13 @@ public class ECOController implements Serializable {
     /**
      * Mapa que irá conter informações a respeito das pessoas cadastradas no sistema.
      */
-    private Map<String, Pessoa> cadastroPessoas;
+    private Map<String, Pessoa> pessoas;
+
+    private Map<String, String[]> comissoes;
+
+    private Map<String, Projeto> projetos;
+
+    private Map<String, Integer> codigoProjetos;
 
     /**
      * Conjunto que irá conter informações a respeito dos partidos cadastrados no sistema.
@@ -27,12 +36,17 @@ public class ECOController implements Serializable {
      */
     private ValidaSystemController validador;
 
+
+
     /**
      * Cria um controlador do sistema que será responsável por alocar os cadastros de pessoas e partidos, além do objeto
      * que irá validar as entradas de dados.
      */
     public ECOController() {
-        this.cadastroPessoas = new HashMap<>();
+        this.pessoas = new HashMap<>();
+        this.comissoes = new HashMap<>();
+        this.projetos = new HashMap<>();
+        this.codigoProjetos = new HashMap<>();
         this.partidosGovernistas = new HashSet<>();
         this.validador = new ValidaSystemController();
     }
@@ -53,9 +67,9 @@ public class ECOController implements Serializable {
      */
     public boolean cadastrarPessoa(String nome, String dni, String estado, String interesses, String partido) {
         this.validador.validaCadastrarPessoa(nome, dni, estado);
-        if (!this.cadastroPessoas.containsKey(dni)) {
+        if (!this.pessoas.containsKey(dni)) {
             Pessoa pessoa = new Pessoa(nome, dni, estado, interesses, partido);
-            this.cadastroPessoas.put(dni, pessoa);
+            this.pessoas.put(dni, pessoa);
             return true;
         } else {
             throw new IllegalArgumentException("Erro ao cadastrar pessoa: dni ja cadastrado");
@@ -77,9 +91,9 @@ public class ECOController implements Serializable {
      */
     public boolean cadastrarPessoa(String nome, String dni, String estado, String interesses) {
         this.validador.validaCadastrarPessoa(nome, dni, estado);
-        if (!this.cadastroPessoas.containsKey(dni)) {
+        if (!this.pessoas.containsKey(dni)) {
             Pessoa pessoa = new Pessoa(nome, dni, estado, interesses);
-            this.cadastroPessoas.put(dni, pessoa);
+            this.pessoas.put(dni, pessoa);
             return true;
         } else {
             throw new IllegalArgumentException("Erro ao cadastrar pessoa: dni ja cadastrado");
@@ -102,11 +116,11 @@ public class ECOController implements Serializable {
      */
     public boolean cadastrarDeputado(String dni, String dataDeInicio) throws ParseException {
         this.validador.validaCadastraDeputadoDni(dni);
-        if (this.cadastroPessoas.containsKey(dni)) {
+        if (this.pessoas.containsKey(dni)) {
             this.validador.validaCadastrarDeputado(dataDeInicio);
-            if (!"".equals(this.cadastroPessoas.get(dni).getPartido())) {
+            if (!"".equals(this.pessoas.get(dni).getPartido())) {
                 Deputado funcao = new Deputado(dataDeInicio);
-                this.cadastroPessoas.get(dni).setFuncao(funcao);
+                this.pessoas.get(dni).setFuncao(funcao);
                 return true;
             } else {
                 throw new IllegalArgumentException("Erro ao cadastrar deputado: pessoa sem partido");
@@ -140,8 +154,8 @@ public class ECOController implements Serializable {
      */
     public String exibirPessoa(String dni) {
         this.validador.validaExibirPessoa(dni);
-        if (this.cadastroPessoas.containsKey(dni)) {
-            return this.cadastroPessoas.get(dni).toString();
+        if (this.pessoas.containsKey(dni)) {
+            return this.pessoas.get(dni).toString();
         } else {
             throw new NullPointerException("Erro ao exibir pessoa: pessoa nao encontrada");
         }
@@ -156,5 +170,69 @@ public class ECOController implements Serializable {
         ArrayList<String> listaPartidos = new ArrayList<>(this.partidosGovernistas);
         listaPartidos.sort(String::compareTo);
         return String.join(",",listaPartidos);
+    }
+
+    ////---------------------------------////----------------------------------////---------------------------------////
+    //Parte 2
+
+    public void cadastrarComissao(String tema, String politicos) {
+        this.comissoes.put(tema, politicos.split(","));
+    }
+
+    public String cadastrarPL(String dni, int ano, String ementa, String interesses, String url, boolean conclusivo) {
+        int ordemCodigo = this.codigoProjetos.get("PL");
+        String codigo = ordemCodigo + "/" + ano;
+        ProjetoLei projeto = new ProjetoLei(dni, ano, ementa, interesses, url, conclusivo, codigo);
+        this.projetos.put(codigo, projeto);
+        this.codigoProjetos.replace("PL", ordemCodigo+1);
+        return "";
+    }
+
+    public String cadastrarPLP(String dni, int ano, String ementa, String interesses, String url, String artigos) {
+        int ordemCodigo = this.codigoProjetos.get("PLP");
+        String codigo = ordemCodigo + "/" + ano;
+        ProjetoLeiComplementar projeto = new ProjetoLeiComplementar(dni, ano, ementa, interesses, url, artigos, codigo);
+        this.projetos.put(codigo, projeto);
+        this.codigoProjetos.replace("PLP", ordemCodigo+1);
+        return "";
+    }
+
+    public String cadastrarPEC(String dni, int ano, String ementa, String interesses, String url, String artigos) {
+        int ordemCodigo = this.codigoProjetos.get("PEC");
+        String codigo = ordemCodigo + "/" + ano;
+        ProjetoEmendaConstitucional projeto = new ProjetoEmendaConstitucional(dni, ano, ementa, interesses, url, artigos, codigo);
+        this.projetos.put(codigo, projeto);
+        this.codigoProjetos.replace("PEC", ordemCodigo+1);
+        return "";
+    }
+
+    public String exibirProjeto(String codigo) {
+        return this.projetos.get(codigo).toString();
+    }
+
+    private boolean votaProjeto(Pessoa pessoa, Projeto projeto, boolean governista) {
+        HashSet<String> copiaInteresseProjeto = new HashSet<String>(projeto.getInteresses());
+        copiaInteresseProjeto.retainAll(pessoa.getInteresses());
+        boolean voto = false;
+        if (governista)
+            voto = this.partidosGovernistas.contains(pessoa.getPartido());
+        else if (!this.partidosGovernistas.contains(pessoa.getPartido()))
+            voto = !copiaInteresseProjeto.isEmpty();
+        return voto;
+    }
+
+    public boolean votarComissao(String codigo, boolean governista, String comissao, String proximoLocal) {
+        Projeto projeto = this.projetos.get(codigo);
+        int voto = 0;
+        for (String dni : this.comissoes.get(comissao)) {
+            Pessoa pessoa = this.pessoas.get(dni);
+            if (votaProjeto(pessoa, projeto, governista))
+                voto += 1;
+            }
+        return (voto >= floor(comissao.length()/2)+1);
+    }
+
+    public String exibirTramitacao(String codigo) {
+        return this.projetos.get(codigo).getSituacaoAtual();
     }
 }
