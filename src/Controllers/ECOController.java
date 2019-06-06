@@ -15,18 +15,13 @@ import static java.lang.Math.floor;
  */
 public class ECOController implements Serializable {
 
-    /**
-     * Mapa que irá conter informações a respeito das pessoas cadastradas no sistema.
-     */
-    private Map<String, Pessoa> pessoas;
+    private PessoaController pessoaController;
 
     private Map<String, ArrayList<String>> comissoes;
 
     private Map<String, Projeto> projetos;
 
     private Map<String, Integer> codigoProjetos;
-
-    private int totalDeputados;
 
     /**
      * Conjunto que irá conter informações a respeito dos partidos cadastrados no sistema.
@@ -45,13 +40,12 @@ public class ECOController implements Serializable {
      * que irá validar as entradas de dados.
      */
     public ECOController() {
-        this.pessoas = new HashMap<>();
+        this.pessoaController = new PessoaController();
         this.comissoes = new HashMap<>();
         this.projetos = new HashMap<>();
         this.codigoProjetos = new HashMap<>();
         this.partidosGovernistas = new HashSet<>();
         this.validador = new ValidaSystemController();
-        this.totalDeputados = 0;
     }
 
     /**
@@ -70,13 +64,7 @@ public class ECOController implements Serializable {
      */
     public boolean cadastrarPessoa(String nome, String dni, String estado, String interesses, String partido) {
         this.validador.validaCadastrarPessoa(nome, dni, estado);
-        if (!this.pessoas.containsKey(dni)) {
-            Pessoa pessoa = new Pessoa(nome, dni, estado, interesses, partido);
-            this.pessoas.put(dni, pessoa);
-            return true;
-        } else {
-            throw new IllegalArgumentException("Erro ao cadastrar pessoa: dni ja cadastrado");
-        }
+        return pessoaController.cadastrarPessoa(nome, dni, estado, interesses, partido);
     }
 
     /**
@@ -94,13 +82,7 @@ public class ECOController implements Serializable {
      */
     public boolean cadastrarPessoa(String nome, String dni, String estado, String interesses) {
         this.validador.validaCadastrarPessoa(nome, dni, estado);
-        if (!this.pessoas.containsKey(dni)) {
-            Pessoa pessoa = new Pessoa(nome, dni, estado, interesses);
-            this.pessoas.put(dni, pessoa);
-            return true;
-        } else {
-            throw new IllegalArgumentException("Erro ao cadastrar pessoa: dni ja cadastrado");
-        }
+        return pessoaController.cadastrarPessoa(nome, dni, estado, interesses);
     }
 
     /**
@@ -119,19 +101,7 @@ public class ECOController implements Serializable {
      */
     public boolean cadastrarDeputado(String dni, String dataDeInicio) throws ParseException {
         this.validador.validaCadastraDeputadoDni(dni);
-        if (this.pessoas.containsKey(dni)) {
-            this.validador.validaCadastrarDeputado(dataDeInicio);
-            if (!"".equals(this.pessoas.get(dni).getPartido())) {
-                Deputado funcao = new Deputado(dataDeInicio);
-                this.pessoas.get(dni).setFuncao(funcao);
-                this.totalDeputados += 1;
-                return true;
-            } else {
-                throw new IllegalArgumentException("Erro ao cadastrar deputado: pessoa sem partido");
-            }
-        } else {
-            throw new NullPointerException("Erro ao cadastrar deputado: pessoa nao encontrada");
-        }
+        return pessoaController.cadastrarDeputado(dni, dataDeInicio);
     }
 
     /**
@@ -158,11 +128,7 @@ public class ECOController implements Serializable {
      */
     public String exibirPessoa(String dni) {
         this.validador.validaExibirPessoa(dni);
-        if (this.pessoas.containsKey(dni)) {
-            return this.pessoas.get(dni).toString();
-        } else {
-            throw new NullPointerException("Erro ao exibir pessoa: pessoa nao encontrada");
-        }
+        return pessoaController.exibirPessoa(dni);
     }
 
     /**
@@ -244,7 +210,7 @@ public class ECOController implements Serializable {
     private int votarProjetoGovernista(ArrayList<String> deputadosComissao) {
         int votos = 0;
         for (String dni : deputadosComissao) {
-            Pessoa pessoa = this.pessoas.get(dni);
+            Pessoa pessoa = this.pessoaController.getPessoas().get(dni);
             if (this.partidosGovernistas.contains(pessoa.getPartido())) votos++;
         }
         return votos;
@@ -254,7 +220,7 @@ public class ECOController implements Serializable {
     private int votarProjetoOposicao(ArrayList<String> deputadosComissao) {
         int votos = 0;
         for (String dni : deputadosComissao) {
-            Pessoa pessoa = this.pessoas.get(dni);
+            Pessoa pessoa = this.pessoaController.getPessoas().get(dni);
             if (!this.partidosGovernistas.contains(pessoa.getPartido())) votos++;
         }
         return votos;
@@ -264,7 +230,7 @@ public class ECOController implements Serializable {
     private int votarProjetoLivre(Projeto projeto, ArrayList<String> deputadosComissao) {
         int votos = 0;
         for (String dni : deputadosComissao) {
-            Pessoa pessoa = this.pessoas.get(dni);
+            Pessoa pessoa = this.pessoaController.getPessoas().get(dni);
             if (votoLivre(pessoa,projeto)) votos++;
         }
         return votos;
@@ -281,11 +247,10 @@ public class ECOController implements Serializable {
         Projeto projeto = this.projetos.get(codigo);
         ArrayList<String> deputadosPresentes = new ArrayList<>(Arrays.asList(presentes.split(",")));
         int votos = controlaVoto(statusGovernista, deputadosPresentes, projeto);;
-        return projeto.calculaVotoMinimo(this.totalDeputados, votos);
+        return projeto.calculaVotoMinimo(this.pessoaController.getTotalDeputados(), votos);
     }
 
     public String exibirTramitacao(String codigo) {
         return this.projetos.get(codigo).getSituacaoAtual();
     }
-
 }
