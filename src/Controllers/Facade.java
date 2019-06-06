@@ -170,12 +170,12 @@ public class Facade {
         return this.ecoController.exibirProjeto(codigo);
     }
 
-    public boolean votarComissao(String codigo, boolean governista, String comissao, String proximoLocal) {
-        return this.ecoController.votarComissao(codigo, governista, comissao, proximoLocal);
+    public boolean votarComissao(String codigo, String statusGovernista, String comissao, String proximoLocal) {
+        return this.ecoController.votarComissao(codigo, statusGovernista, comissao, proximoLocal);
     }
 
-    public boolean votarPlenario(String codigo, boolean governista, String presentes) {
-        return true;
+    public boolean votarPlenario(String codigo, String statusGovernista, String presentes) {
+        return this.ecoController.votarPlenario(codigo, statusGovernista, presentes);
     }
 
     public String exibirTramitacao(String codigo) {
