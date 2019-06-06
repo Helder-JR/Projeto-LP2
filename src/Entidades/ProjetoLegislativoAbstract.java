@@ -1,9 +1,7 @@
 package Entidades;
 
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Set;
 
 public abstract class ProjetoLegislativoAbstract implements Projeto {
 
@@ -24,6 +22,8 @@ public abstract class ProjetoLegislativoAbstract implements Projeto {
         this.situacaoAtual = "EM VOTACAO (CCJC)";
         this.enderecoDocumento = url;
     }
+
+
 
     @Override
     public HashSet<String> getInteresses() {

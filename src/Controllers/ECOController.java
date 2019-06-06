@@ -20,11 +20,13 @@ public class ECOController implements Serializable {
      */
     private Map<String, Pessoa> pessoas;
 
-    private Map<String, String[]> comissoes;
+    private Map<String, ArrayList<String>> comissoes;
 
     private Map<String, Projeto> projetos;
 
     private Map<String, Integer> codigoProjetos;
+
+    private int totalDeputados;
 
     /**
      * Conjunto que irá conter informações a respeito dos partidos cadastrados no sistema.
@@ -49,6 +51,7 @@ public class ECOController implements Serializable {
         this.codigoProjetos = new HashMap<>();
         this.partidosGovernistas = new HashSet<>();
         this.validador = new ValidaSystemController();
+        this.totalDeputados = 0;
     }
 
     /**
@@ -121,6 +124,7 @@ public class ECOController implements Serializable {
             if (!"".equals(this.pessoas.get(dni).getPartido())) {
                 Deputado funcao = new Deputado(dataDeInicio);
                 this.pessoas.get(dni).setFuncao(funcao);
+                this.totalDeputados += 1;
                 return true;
             } else {
                 throw new IllegalArgumentException("Erro ao cadastrar deputado: pessoa sem partido");
@@ -176,7 +180,8 @@ public class ECOController implements Serializable {
     //Parte 2
 
     public void cadastrarComissao(String tema, String politicos) {
-        this.comissoes.put(tema, politicos.split(","));
+        ArrayList<String> lista = new ArrayList<>(Arrays.asList(politicos.split(",")));
+        this.comissoes.put(tema, lista);
     }
 
     public String cadastrarPL(String dni, int ano, String ementa, String interesses, String url, boolean conclusivo) {
@@ -210,29 +215,77 @@ public class ECOController implements Serializable {
         return this.projetos.get(codigo).toString();
     }
 
-    private boolean votaProjeto(Pessoa pessoa, Projeto projeto, boolean governista) {
-        HashSet<String> copiaInteresseProjeto = new HashSet<String>(projeto.getInteresses());
-        copiaInteresseProjeto.retainAll(pessoa.getInteresses());
-        boolean voto = false;
-        if (governista)
-            voto = this.partidosGovernistas.contains(pessoa.getPartido());
-        else if (!this.partidosGovernistas.contains(pessoa.getPartido()))
-            voto = !copiaInteresseProjeto.isEmpty();
-        return voto;
+
+    public boolean votarComissao(String codigo, String statusGovernista, String comissao, String proximoLocal) {
+        Projeto projeto = this.projetos.get(codigo);
+        ArrayList<String> deputadosComissao = this.comissoes.get(comissao);
+        int votos = controlaVoto(statusGovernista,deputadosComissao, projeto);
+        return (votos >= floor(deputadosComissao.size()/2)+1);
     }
 
-    public boolean votarComissao(String codigo, boolean governista, String comissao, String proximoLocal) {
-        Projeto projeto = this.projetos.get(codigo);
-        int voto = 0;
-        for (String dni : this.comissoes.get(comissao)) {
+    private int controlaVoto(String statusGovernista, ArrayList<String> listaDeputado, Projeto projeto) {
+        int votos = 0;
+        switch (statusGovernista) {
+            case "GOVERNISTA":
+                votos = votarProjetoGovernista(listaDeputado);
+                break;
+            case "OPOSICAO":
+                votos = votarProjetoOposicao(listaDeputado);
+                break;
+            case "LIVRE":
+                votos = votarProjetoLivre(projeto, listaDeputado);
+                break;
+            default:
+        }
+        return votos;
+    }
+
+    //auxiliar de menuVoto
+    private int votarProjetoGovernista(ArrayList<String> deputadosComissao) {
+        int votos = 0;
+        for (String dni : deputadosComissao) {
             Pessoa pessoa = this.pessoas.get(dni);
-            if (votaProjeto(pessoa, projeto, governista))
-                voto += 1;
-            }
-        return (voto >= floor(comissao.length()/2)+1);
+            if (this.partidosGovernistas.contains(pessoa.getPartido())) votos++;
+        }
+        return votos;
+    }
+
+    //auxiliar de menuVoto
+    private int votarProjetoOposicao(ArrayList<String> deputadosComissao) {
+        int votos = 0;
+        for (String dni : deputadosComissao) {
+            Pessoa pessoa = this.pessoas.get(dni);
+            if (!this.partidosGovernistas.contains(pessoa.getPartido())) votos++;
+        }
+        return votos;
+    }
+
+    //auxiliar de menuVoto
+    private int votarProjetoLivre(Projeto projeto, ArrayList<String> deputadosComissao) {
+        int votos = 0;
+        for (String dni : deputadosComissao) {
+            Pessoa pessoa = this.pessoas.get(dni);
+            if (votoLivre(pessoa,projeto)) votos++;
+        }
+        return votos;
+    }
+
+    //auxiliar de votarProjetoLivre
+    private boolean votoLivre(Pessoa pessoa, Projeto projeto) {
+        HashSet<String> copiaInteresseProjeto = new HashSet<>(projeto.getInteresses());
+        copiaInteresseProjeto.retainAll(pessoa.getInteresses());
+        return !copiaInteresseProjeto.isEmpty();
+    }
+
+    public boolean votarPlenario(String codigo, String statusGovernista, String presentes) {
+        Projeto projeto = this.projetos.get(codigo);
+        ArrayList<String> deputadosPresentes = new ArrayList<>(Arrays.asList(presentes.split(",")));
+        int votos = controlaVoto(statusGovernista, deputadosPresentes, projeto);;
+        return projeto.calculaVotoMinimo(this.totalDeputados, votos);
     }
 
     public String exibirTramitacao(String codigo) {
         return this.projetos.get(codigo).getSituacaoAtual();
     }
+
 }
