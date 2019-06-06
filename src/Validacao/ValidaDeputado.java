@@ -36,7 +36,7 @@ public class ValidaDeputado implements Serializable {
      * formato esperado.
      */
     public void validaCadastraDeputadoDni(String dni) {
-        validaEntradaNulaVazia(dni, "Erro ao cadastrar pessoa: dni nao pode ser vazio ou nulo");
+        validaEntradaNulaVazia(dni, "Erro ao cadastrar deputado: dni nao pode ser vazio ou nulo");
         if (!dni.matches("\\d{9}[-]\\d")) {
             throw new IllegalArgumentException("Erro ao cadastrar deputado: dni invalido");
         }
