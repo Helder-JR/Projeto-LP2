@@ -14,7 +14,7 @@ public class PessoaController implements Serializable {
     /**
      * Mapa que irá conter informações a respeito das pessoas cadastradas no sistema.
      */
-    private Map<String, Pessoa> pessoas;
+    private HashMap<String, Pessoa> pessoas;
 
     private ValidaPessoa validaPessoa;
 
@@ -29,10 +29,9 @@ public class PessoaController implements Serializable {
         this.validaDeputado = new ValidaDeputado();
     }
 
-    public Map<String, Pessoa> getPessoas() {
+    public HashMap<String, Pessoa> getPessoas() {
         return pessoas;
     }
-
 
     public int getTotalDeputados() {
         return totalDeputados;
