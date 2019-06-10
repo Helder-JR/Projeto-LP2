@@ -149,8 +149,8 @@ public class ECOController implements Serializable {
         return legislativoController.exibirProjeto(codigo);
     }
 
-    public boolean votarComissao(String codigo, String statusGovernista, String comissao, String proximoLocal) {
-        return legislativoController.votarComissao(codigo, statusGovernista, comissao, proximoLocal, this.pessoaController.getPessoas());
+    public boolean votarComissao(String codigo, String statusGovernista, String proximoLocal) {
+        return legislativoController.votarComissao(codigo, statusGovernista, proximoLocal, this.pessoaController.getPessoas());
     }
 
     public boolean votarPlenario(String codigo, String statusGovernista, String presentes) {

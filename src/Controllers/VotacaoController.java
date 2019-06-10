@@ -13,7 +13,9 @@ public class VotacaoController implements Serializable {
 
     public boolean votarComissao(Projeto projeto, String statusGovernista, ArrayList<String> deputadosComissao, String proximoLocal, HashMap<String, Pessoa> pessoasMap, int totalDeputados, HashSet<String> partidosGovernistas) {
         int votos = controlaVoto(statusGovernista, deputadosComissao, projeto, pessoasMap, partidosGovernistas);
-        return (votos >= Math.floor(deputadosComissao.size() / 2) + 1);
+        boolean resultado = (votos >= Math.floor(deputadosComissao.size() / 2) + 1);
+        projeto.setSituacaoAtual(resultado, proximoLocal);
+        return resultado;
     }
 
     public boolean votarPlenario(Projeto projeto, String statusGovernista, String presentes, HashMap<String, Pessoa> pessoas, int totalDeputados, HashSet<String> partidosGovernistas) {

@@ -89,9 +89,10 @@ public class LegislativoController implements Serializable {
         return this.projetos.get(codigo).toString();
     }
 
-    public boolean votarComissao(String codigo, String statusGovernista, String comissao, String proximoLocal, HashMap<String, Pessoa> pessoasMap) {
+    public boolean votarComissao(String codigo, String statusGovernista, String proximoLocal, HashMap<String, Pessoa> pessoasMap) {
         Projeto projeto = this.projetos.get(codigo);
-        return votacaoController.votarComissao(projeto, statusGovernista, this.comissoes.get(comissao), proximoLocal, pessoasMap, this.totalDeputados, partidosGovernistas);
+        ArrayList<String> comissao = this.comissoes.get(projeto.getSituacaoAtual().split("[()]")[1]);
+        return votacaoController.votarComissao(projeto, statusGovernista, comissao, proximoLocal, pessoasMap, this.totalDeputados, partidosGovernistas);
     }
 
     public boolean votarPlenario(String codigo, String statusGovernista, String presentes, HashMap<String, Pessoa> pessoas) {

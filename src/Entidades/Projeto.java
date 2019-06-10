@@ -8,5 +8,6 @@ public interface Projeto {
     HashSet<String> getInteresses();
     String getSituacaoAtual();
     boolean calculaVotoMinimo(int quantidadeDeputados, int totalVotos);
+    void setSituacaoAtual(boolean resultado, String proximoLocal);
 
 }
