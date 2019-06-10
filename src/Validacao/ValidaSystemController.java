@@ -1,13 +1,9 @@
 package Validacao;
 
-import Controllers.PessoaController;
-
 import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 
 /**
@@ -17,21 +13,21 @@ public class ValidaSystemController implements Serializable {
 
     private ValidaPessoa validaPessoa;
     private ValidaDeputado validaDeputado;
-    private PessoaController pessoaController;
 
 
     public ValidaSystemController() {
         this.validaPessoa = new ValidaPessoa();
         this.validaDeputado = new ValidaDeputado();
-        this.pessoaController = new PessoaController();
     }
+
+
 
     /**
      * Verifica se a String inserida como parâmetro é nula, vazia ou composta apenas de espaços.
      *
-     * @param entrada  a String que será verificada.
+     * @param entrada a String que será verificada.
      * @param mensagem a mensagem de erro que será mostrada caso uma exceção seja lançada.
-     * @throws NullPointerException     caso a entrada seja nula.
+     * @throws NullPointerException caso a entrada seja nula.
      * @throws IllegalArgumentException caso a entrada seja uma String vazia ou composta apenas de espaços.
      */
     private void validaEntradaNulaVazia(String entrada, String mensagem) {
@@ -48,12 +44,12 @@ public class ValidaSystemController implements Serializable {
      * verificado (através do método validaEntradaNulaVazia) e então caso o DNI não esteja no formato "XXXXXXXXX-X" uma
      * exceção será lançada.
      *
-     * @param nome   o nome da pessoa que será cadastrada.
-     * @param dni    o DNI da pessoa que será cadastrada.
+     * @param nome o nome da pessoa que será cadastrada.
+     * @param dni o DNI da pessoa que será cadastrada.
      * @param estado o estado em que essa pessoa reside.
-     * @throws NullPointerException     caso o nome, DNI ou estados sejam nulos.
+     * @throws NullPointerException caso o nome, DNI ou estados sejam nulos.
      * @throws IllegalArgumentException caso o nome, DNI ou estados sejam uma String vazia ou composta apenas de espaços
-     *                                  ou o DNI esteja em um formato inválido.
+     * ou o DNI esteja em um formato inválido.
      */
     public void validaCadastrarPessoa(String nome, String dni, String estado) {
         validaPessoa.validaCadastrarPessoa(nome, dni, estado);
@@ -65,9 +61,9 @@ public class ValidaSystemController implements Serializable {
      * "XXXXXXXXX-X", lançando uma exceção caso não esteja.
      *
      * @param dni o DNI da pessoa que será cadastrada como deputado(a).
-     * @throws NullPointerException     caso o DNI esteja nulo.
+     * @throws NullPointerException caso o DNI esteja nulo.
      * @throws IllegalArgumentException caso o DNI esteja vazio, seja composto apenas por espaços ou não esteja no
-     *                                  formato esperado.
+     * formato esperado.
      */
     public void validaCadastraDeputadoDni(String dni) {
         this.validaDeputado.validaCadastraDeputadoDni(dni);
@@ -80,10 +76,10 @@ public class ValidaSystemController implements Serializable {
      * afrente no tempo em relação ao momento do cadastro.
      *
      * @param dataDeInicio a data de início do mandato do(a) deputado(a).
-     * @throws ParseException           caso a data informada não esteja em um formato válido.
-     * @throws NullPointerException     caso a data de início esteja nula.
+     * @throws ParseException caso a data informada não esteja em um formato válido.
+     * @throws NullPointerException caso a data de início esteja nula.
      * @throws IllegalArgumentException caso a data de início esteja vazia, esteja composta apenas de espaços ou afrente
-     *                                  no tempo em relação ao momento do cadastro.
+     * no tempo em relação ao momento do cadastro.
      */
     public void validaCadastrarDeputado(String dataDeInicio) throws ParseException {
         this.validaDeputado.validaCadastrarDeputado(dataDeInicio);
@@ -93,9 +89,9 @@ public class ValidaSystemController implements Serializable {
      * Valida se a String referente ao partido que será cadastrdo é valida (através do método validaEntradaNulaVazia).
      *
      * @param partido o partido que será cadastrado.
-     * @throws NullPointerException     caso a String referente ao partido esteja nula.
+     * @throws NullPointerException caso a String referente ao partido esteja nula.
      * @throws IllegalArgumentException caso a String referente ao partido esteja vazia ou seja formada apenas por
-     *                                  espaços.
+     * espaços.
      */
     public void validaCadastrarPartido(String partido) {
         validaEntradaNulaVazia(partido, "Erro ao cadastrar partido: partido nao pode ser vazio ou nulo");
@@ -106,9 +102,9 @@ public class ValidaSystemController implements Serializable {
      * o DNI não seja da forma "XXXXXXXXX-X" uma exceção será lançada.
      *
      * @param dni o DNI da pessoa que será exibida.
-     * @throws NullPointerException     caso a String referente ao DNI da pessoa esteja nula.
+     * @throws NullPointerException caso a String referente ao DNI da pessoa esteja nula.
      * @throws IllegalArgumentException caso o DNI da pessoa esteja vazio, seja composto apenas por espaços ou não
-     *                                  esteja em um formato válido.
+     * esteja em um formato válido.
      */
     public void validaExibirPessoa(String dni) {
         validaEntradaNulaVazia(dni, "Erro ao exibir pessoa: dni nao pode ser vazio ou nulo");
@@ -116,18 +112,4 @@ public class ValidaSystemController implements Serializable {
             throw new IllegalArgumentException("Erro ao exibir pessoa: dni invalido");
         }
     }
-
-    public void validaCadastrarComissao(String tema, String politicos) {
-        validaEntradaNulaVazia(tema, "Erro ao cadastrar comissao: tema nao pode ser vazio ou nulo");
-        validaEntradaNulaVazia(politicos, "Erro ao cadastrar comissao: lista de politicos nao pode ser vazio ou nulo");
-
-        ArrayList<String> listaPoliticos = new ArrayList<>(Arrays.asList(politicos.split(",")));
-        for (int i = 0; i < listaPoliticos.size(); i++) {
-            if (!listaPoliticos.get(i).matches("\\d{9}[-]\\d")) {
-                throw new IllegalArgumentException("Erro ao cadastrar comissao: dni invalido");
-            }
-        }
-
-    }
-
 }

@@ -52,9 +52,6 @@ public class LegislativoController implements Serializable {
 
     public void cadastrarComissao(String tema, String politicos) {
         ArrayList<String> lista = new ArrayList<String>(Arrays.asList(politicos.split(",")));
-        if (this.comissoes.containsKey(tema)) {
-            throw new IllegalArgumentException("Erro ao cadastrar comissao: tema existente");
-        }
         this.comissoes.put(tema, lista);
     }
 

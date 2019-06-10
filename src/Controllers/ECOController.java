@@ -129,7 +129,6 @@ public class ECOController implements Serializable {
     //Parte 2
 
     public void cadastrarComissao(String tema, String politicos) {
-        this.validador.validaCadastrarComissao(tema, politicos);
         legislativoController.cadastrarComissao(tema, politicos);
     }
 
