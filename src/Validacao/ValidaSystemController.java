@@ -17,13 +17,11 @@ public class ValidaSystemController implements Serializable {
 
     private ValidaPessoa validaPessoa;
     private ValidaDeputado validaDeputado;
-    private PessoaController pessoaController;
 
 
     public ValidaSystemController() {
         this.validaPessoa = new ValidaPessoa();
         this.validaDeputado = new ValidaDeputado();
-        this.pessoaController = new PessoaController();
     }
 
     /**
