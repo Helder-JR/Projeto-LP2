@@ -23,7 +23,9 @@ public abstract class ProjetoLegislativoAbstract implements Projeto {
         this.enderecoDocumento = url;
     }
 
-
+    public void setSituacaoAtual(boolean resultado, String proximoLocal) {
+        this.situacaoAtual = situacaoAtual;
+    }
 
     @Override
     public HashSet<String> getInteresses() {

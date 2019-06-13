@@ -1,13 +1,11 @@
 package Controllers;
 
-import Entidades.*;
+
 import Validacao.ValidaSystemController;
 
 import java.io.Serializable;
 import java.text.ParseException;
-import java.util.*;
 
-import static java.lang.Math.floor;
 
 /**
  * Controlador que gerencia as entidades presentes no sistema. É possível cadastrar e exibir pessoas (seja um civil ou
@@ -15,23 +13,8 @@ import static java.lang.Math.floor;
  */
 public class ECOController implements Serializable {
 
-    /**
-     * Mapa que irá conter informações a respeito das pessoas cadastradas no sistema.
-     */
-    private Map<String, Pessoa> pessoas;
-
-    private Map<String, ArrayList<String>> comissoes;
-
-    private Map<String, Projeto> projetos;
-
-    private Map<String, Integer> codigoProjetos;
-
-    private int totalDeputados;
-
-    /**
-     * Conjunto que irá conter informações a respeito dos partidos cadastrados no sistema.
-     */
-    private Set<String> partidosGovernistas;
+    private LegislativoController legislativoController;
+    private PessoaController pessoaController;
 
     /**
      * Objeto responsável por verificar se os dados a serem passados no cadastro de pessoas e/ou partidos são válidos.
@@ -45,13 +28,9 @@ public class ECOController implements Serializable {
      * que irá validar as entradas de dados.
      */
     public ECOController() {
-        this.pessoas = new HashMap<>();
-        this.comissoes = new HashMap<>();
-        this.projetos = new HashMap<>();
-        this.codigoProjetos = new HashMap<>();
-        this.partidosGovernistas = new HashSet<>();
+        this.pessoaController = new PessoaController();
+        this.legislativoController = new LegislativoController(this.pessoaController.getTotalDeputados());
         this.validador = new ValidaSystemController();
-        this.totalDeputados = 0;
     }
 
     /**
@@ -70,13 +49,7 @@ public class ECOController implements Serializable {
      */
     public boolean cadastrarPessoa(String nome, String dni, String estado, String interesses, String partido) {
         this.validador.validaCadastrarPessoa(nome, dni, estado);
-        if (!this.pessoas.containsKey(dni)) {
-            Pessoa pessoa = new Pessoa(nome, dni, estado, interesses, partido);
-            this.pessoas.put(dni, pessoa);
-            return true;
-        } else {
-            throw new IllegalArgumentException("Erro ao cadastrar pessoa: dni ja cadastrado");
-        }
+        return pessoaController.cadastrarPessoa(nome, dni, estado, interesses, partido);
     }
 
     /**
@@ -94,13 +67,7 @@ public class ECOController implements Serializable {
      */
     public boolean cadastrarPessoa(String nome, String dni, String estado, String interesses) {
         this.validador.validaCadastrarPessoa(nome, dni, estado);
-        if (!this.pessoas.containsKey(dni)) {
-            Pessoa pessoa = new Pessoa(nome, dni, estado, interesses);
-            this.pessoas.put(dni, pessoa);
-            return true;
-        } else {
-            throw new IllegalArgumentException("Erro ao cadastrar pessoa: dni ja cadastrado");
-        }
+        return pessoaController.cadastrarPessoa(nome, dni, estado, interesses);
     }
 
     /**
@@ -119,19 +86,7 @@ public class ECOController implements Serializable {
      */
     public boolean cadastrarDeputado(String dni, String dataDeInicio) throws ParseException {
         this.validador.validaCadastraDeputadoDni(dni);
-        if (this.pessoas.containsKey(dni)) {
-            this.validador.validaCadastrarDeputado(dataDeInicio);
-            if (!"".equals(this.pessoas.get(dni).getPartido())) {
-                Deputado funcao = new Deputado(dataDeInicio);
-                this.pessoas.get(dni).setFuncao(funcao);
-                this.totalDeputados += 1;
-                return true;
-            } else {
-                throw new IllegalArgumentException("Erro ao cadastrar deputado: pessoa sem partido");
-            }
-        } else {
-            throw new NullPointerException("Erro ao cadastrar deputado: pessoa nao encontrada");
-        }
+        return pessoaController.cadastrarDeputado(dni, dataDeInicio);
     }
 
     /**
@@ -144,7 +99,7 @@ public class ECOController implements Serializable {
      */
     public boolean cadastrarPartido(String partido) {
         this.validador.validaCadastrarPartido(partido);
-        return this.partidosGovernistas.add(partido);
+        return legislativoController.cadastrarPartido(partido);
     }
 
     /**
@@ -158,11 +113,7 @@ public class ECOController implements Serializable {
      */
     public String exibirPessoa(String dni) {
         this.validador.validaExibirPessoa(dni);
-        if (this.pessoas.containsKey(dni)) {
-            return this.pessoas.get(dni).toString();
-        } else {
-            throw new NullPointerException("Erro ao exibir pessoa: pessoa nao encontrada");
-        }
+        return pessoaController.exibirPessoa(dni);
     }
 
     /**
@@ -171,121 +122,42 @@ public class ECOController implements Serializable {
      * @return a String referente a listagem dos partidos, separados um a um por vírgula.
      */
     public String exibirBase() {
-        ArrayList<String> listaPartidos = new ArrayList<>(this.partidosGovernistas);
-        listaPartidos.sort(String::compareTo);
-        return String.join(",",listaPartidos);
+        return legislativoController.exibirBase();
     }
 
     ////---------------------------------////----------------------------------////---------------------------------////
     //Parte 2
 
     public void cadastrarComissao(String tema, String politicos) {
-        ArrayList<String> lista = new ArrayList<>(Arrays.asList(politicos.split(",")));
-        this.comissoes.put(tema, lista);
+        this.validador.validaCadastrarComissao(tema, politicos);
+        legislativoController.cadastrarComissao(tema, politicos);
     }
 
     public String cadastrarPL(String dni, int ano, String ementa, String interesses, String url, boolean conclusivo) {
-        int ordemCodigo = this.codigoProjetos.get("PL");
-        String codigo = ordemCodigo + "/" + ano;
-        ProjetoLei projeto = new ProjetoLei(dni, ano, ementa, interesses, url, conclusivo, codigo);
-        this.projetos.put(codigo, projeto);
-        this.codigoProjetos.replace("PL", ordemCodigo+1);
-        return "";
+        return legislativoController.cadastrarPL(dni, ano, ementa, interesses, url, conclusivo);
     }
 
     public String cadastrarPLP(String dni, int ano, String ementa, String interesses, String url, String artigos) {
-        int ordemCodigo = this.codigoProjetos.get("PLP");
-        String codigo = ordemCodigo + "/" + ano;
-        ProjetoLeiComplementar projeto = new ProjetoLeiComplementar(dni, ano, ementa, interesses, url, artigos, codigo);
-        this.projetos.put(codigo, projeto);
-        this.codigoProjetos.replace("PLP", ordemCodigo+1);
-        return "";
+        return legislativoController.cadastrarPLP(dni, ano, ementa, interesses, url, artigos);
     }
 
     public String cadastrarPEC(String dni, int ano, String ementa, String interesses, String url, String artigos) {
-        int ordemCodigo = this.codigoProjetos.get("PEC");
-        String codigo = ordemCodigo + "/" + ano;
-        ProjetoEmendaConstitucional projeto = new ProjetoEmendaConstitucional(dni, ano, ementa, interesses, url, artigos, codigo);
-        this.projetos.put(codigo, projeto);
-        this.codigoProjetos.replace("PEC", ordemCodigo+1);
-        return "";
+        return legislativoController.cadastrarPEC(dni, ano, ementa, interesses, url, artigos);
     }
 
     public String exibirProjeto(String codigo) {
-        return this.projetos.get(codigo).toString();
+        return legislativoController.exibirProjeto(codigo);
     }
 
-
-    public boolean votarComissao(String codigo, String statusGovernista, String comissao, String proximoLocal) {
-        Projeto projeto = this.projetos.get(codigo);
-        ArrayList<String> deputadosComissao = this.comissoes.get(comissao);
-        int votos = controlaVoto(statusGovernista,deputadosComissao, projeto);
-        return (votos >= floor(deputadosComissao.size()/2)+1);
-    }
-
-    private int controlaVoto(String statusGovernista, ArrayList<String> listaDeputado, Projeto projeto) {
-        int votos = 0;
-        switch (statusGovernista) {
-            case "GOVERNISTA":
-                votos = votarProjetoGovernista(listaDeputado);
-                break;
-            case "OPOSICAO":
-                votos = votarProjetoOposicao(listaDeputado);
-                break;
-            case "LIVRE":
-                votos = votarProjetoLivre(projeto, listaDeputado);
-                break;
-            default:
-        }
-        return votos;
-    }
-
-    //auxiliar de menuVoto
-    private int votarProjetoGovernista(ArrayList<String> deputadosComissao) {
-        int votos = 0;
-        for (String dni : deputadosComissao) {
-            Pessoa pessoa = this.pessoas.get(dni);
-            if (this.partidosGovernistas.contains(pessoa.getPartido())) votos++;
-        }
-        return votos;
-    }
-
-    //auxiliar de menuVoto
-    private int votarProjetoOposicao(ArrayList<String> deputadosComissao) {
-        int votos = 0;
-        for (String dni : deputadosComissao) {
-            Pessoa pessoa = this.pessoas.get(dni);
-            if (!this.partidosGovernistas.contains(pessoa.getPartido())) votos++;
-        }
-        return votos;
-    }
-
-    //auxiliar de menuVoto
-    private int votarProjetoLivre(Projeto projeto, ArrayList<String> deputadosComissao) {
-        int votos = 0;
-        for (String dni : deputadosComissao) {
-            Pessoa pessoa = this.pessoas.get(dni);
-            if (votoLivre(pessoa,projeto)) votos++;
-        }
-        return votos;
-    }
-
-    //auxiliar de votarProjetoLivre
-    private boolean votoLivre(Pessoa pessoa, Projeto projeto) {
-        HashSet<String> copiaInteresseProjeto = new HashSet<>(projeto.getInteresses());
-        copiaInteresseProjeto.retainAll(pessoa.getInteresses());
-        return !copiaInteresseProjeto.isEmpty();
+    public boolean votarComissao(String codigo, String statusGovernista, String proximoLocal) {
+        return legislativoController.votarComissao(codigo, statusGovernista, proximoLocal, this.pessoaController.getPessoas());
     }
 
     public boolean votarPlenario(String codigo, String statusGovernista, String presentes) {
-        Projeto projeto = this.projetos.get(codigo);
-        ArrayList<String> deputadosPresentes = new ArrayList<>(Arrays.asList(presentes.split(",")));
-        int votos = controlaVoto(statusGovernista, deputadosPresentes, projeto);;
-        return projeto.calculaVotoMinimo(this.totalDeputados, votos);
+        return legislativoController.votarPlenario(codigo, statusGovernista, presentes, this.pessoaController.getPessoas());
     }
 
     public String exibirTramitacao(String codigo) {
-        return this.projetos.get(codigo).getSituacaoAtual();
+        return legislativoController.exibirTramitacao(codigo);
     }
-
 }

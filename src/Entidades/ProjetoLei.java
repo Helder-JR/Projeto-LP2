@@ -16,6 +16,23 @@ public class ProjetoLei extends ProjetoLegislativoAbstract {
     }
 
     @Override
+    public void setSituacaoAtual(boolean resultado, String proximoLocal) {
+        if (this.conclusivo) {
+            if (resultado) {
+                this.situacaoAtual = "APROVADO " + proximoLocal;
+            } else {
+                this.situacaoAtual = "REJEITADO " + "(Arquivado)";
+            }
+        } else {
+            if (resultado) {
+                this.situacaoAtual = "APROVADO " + proximoLocal;
+            } else {
+                this.situacaoAtual = "REJEITADO " + proximoLocal;
+            }
+        }
+    }
+
+    @Override
     public boolean calculaVotoMinimo(int deputadosPresentes, int totalVotos) {
         return (totalVotos >= floor(deputadosPresentes/2)+1);
     }
