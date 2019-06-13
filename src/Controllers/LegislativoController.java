@@ -23,6 +23,9 @@ public class LegislativoController implements Serializable {
         this.comissoes = new HashMap<>();
         this.projetos = new HashMap<>();
         this.codigoProjetos = new HashMap<>();
+        this.codigoProjetos.put("PL", 1);
+        this.codigoProjetos.put("PLP", 1);
+        this.codigoProjetos.put("PEC", 1);
         this.partidosGovernistas = new HashSet<>();
         this.totalDeputados = totalDeputados;
     }
@@ -50,17 +53,37 @@ public class LegislativoController implements Serializable {
         return String.join(",", listaPartidos);
     }
 
-    public void cadastrarComissao(String tema, String politicos) {
+
+    private void validaExistenciaCadastrarComissao(String politicos, HashMap<String, Pessoa> pessoas) {
+        for (String politico : politicos.split(",")) {
+            if (!pessoas.containsKey(politico)) {
+                throw new NullPointerException("Erro ao cadastrar comissao: pessoa inexistente");
+            }
+            if (!pessoas.get(politico).exibeFuncao().equals("Deputado")) {
+                throw new IllegalArgumentException("Erro ao cadastrar comissao: pessoa nao eh deputado");
+            }
+        }
+    }
+
+    public void cadastrarComissao(String tema, String politicos, HashMap<String, Pessoa> pessoas) {
         ArrayList<String> lista = new ArrayList<String>(Arrays.asList(politicos.split(",")));
         if (this.comissoes.containsKey(tema)) {
             throw new IllegalArgumentException("Erro ao cadastrar comissao: tema existente");
+        } else {
+            ArrayList<String> listaPoliticos = new ArrayList<>(Arrays.asList(politicos.split(",")));
+            for (String listaPolitico : listaPoliticos) {
+                if (!listaPolitico.matches("\\d{9}[-]\\d")) {
+                    throw new IllegalArgumentException("Erro ao cadastrar comissao: dni invalido");
+                }
+            }
+            validaExistenciaCadastrarComissao(politicos, pessoas);
         }
         this.comissoes.put(tema, lista);
     }
 
     public String cadastrarPL(String dni, int ano, String ementa, String interesses, String url, boolean conclusivo) {
         int ordemCodigo = this.codigoProjetos.get("PL");
-        String codigo = ordemCodigo + "/" + ano;
+        String codigo = "PL " + ordemCodigo + "/" + ano;
         ProjetoLei projeto = new ProjetoLei(dni, ano, ementa, interesses, url, conclusivo, codigo);
         this.projetos.put(codigo, projeto);
         this.codigoProjetos.replace("PL", ordemCodigo + 1);
@@ -69,7 +92,7 @@ public class LegislativoController implements Serializable {
 
     public String cadastrarPLP(String dni, int ano, String ementa, String interesses, String url, String artigos) {
         int ordemCodigo = this.codigoProjetos.get("PLP");
-        String codigo = ordemCodigo + "/" + ano;
+        String codigo = "PLP " + ordemCodigo + "/" + ano;
         ProjetoLeiComplementar projeto = new ProjetoLeiComplementar(dni, ano, ementa, interesses, url, artigos, codigo);
         this.projetos.put(codigo, projeto);
         this.codigoProjetos.replace("PLP", ordemCodigo + 1);
@@ -78,7 +101,7 @@ public class LegislativoController implements Serializable {
 
     public String cadastrarPEC(String dni, int ano, String ementa, String interesses, String url, String artigos) {
         int ordemCodigo = this.codigoProjetos.get("PEC");
-        String codigo = ordemCodigo + "/" + ano;
+        String codigo = "PEC " + ordemCodigo + "/" + ano;
         ProjetoEmendaConstitucional projeto = new ProjetoEmendaConstitucional(dni, ano, ementa, interesses, url, artigos, codigo);
         this.projetos.put(codigo, projeto);
         this.codigoProjetos.replace("PEC", ordemCodigo + 1);

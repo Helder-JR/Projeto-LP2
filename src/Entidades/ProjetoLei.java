@@ -12,7 +12,13 @@ public class ProjetoLei extends ProjetoLegislativoAbstract {
     }
 
     public String toString() {
-        return String.format("Projeto de Lei Complementar - %s - %s - %s - %s - %s", this.codigo, this.autor, this.ementa, this.conclusivo, this.situacaoAtual);
+        String toString;
+        if (this.conclusivo) {
+           toString = String.format("Projeto de Lei - %s - %s - %s - Conclusiva - %s", this.codigo, this.autor, this.ementa, this.situacaoAtual);
+        } else {
+            toString = String.format("Projeto de Lei - %s - %s - %s - %s", this.codigo, this.autor, this.ementa, this.situacaoAtual);
+        }
+        return toString;
     }
 
     @Override

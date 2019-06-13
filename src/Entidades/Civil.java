@@ -29,4 +29,9 @@ public class Civil implements Funcao {
 
         return toString;
     }
+
+    @Override
+    public String getFuncao() {
+        return "Civil";
+    }
 }

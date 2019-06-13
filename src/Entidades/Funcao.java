@@ -36,4 +36,5 @@ public interface Funcao extends Serializable {
      */
     String toString(String nome, String dni, String estado, String partido, String interesses);
 
+    String getFuncao();
 }

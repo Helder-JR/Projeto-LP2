@@ -1,10 +1,12 @@
 package Controllers;
 
 
+import Entidades.Pessoa;
 import Validacao.ValidaSystemController;
 
 import java.io.Serializable;
 import java.text.ParseException;
+import java.util.HashMap;
 
 
 /**
@@ -128,9 +130,20 @@ public class ECOController implements Serializable {
     ////---------------------------------////----------------------------------////---------------------------------////
     //Parte 2
 
+    private void validaExistenciaCadastrarComissao(String politicos, HashMap<String, Pessoa> pessoas) {
+        for (String politico : politicos.split(",")) {
+            if (!pessoas.containsKey(politico)) {
+                throw new NullPointerException("Erro ao cadastrar comissao: pessoa inexistente");
+            }
+            if (!pessoas.get(politico).exibeFuncao().equals("Deputado")) {
+                throw new IllegalArgumentException("Erro ao cadastrar comissao: pessoa nao eh deputado");
+            }
+        }
+    }
+
     public void cadastrarComissao(String tema, String politicos) {
         this.validador.validaCadastrarComissao(tema, politicos);
-        legislativoController.cadastrarComissao(tema, politicos);
+        legislativoController.cadastrarComissao(tema, politicos, this.pessoaController.getPessoas());
     }
 
     public String cadastrarPL(String dni, int ano, String ementa, String interesses, String url, boolean conclusivo) {

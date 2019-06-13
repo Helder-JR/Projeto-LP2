@@ -92,4 +92,9 @@ public class Deputado implements Funcao {
 
         return toString;
     }
+
+    @Override
+    public String getFuncao() {
+        return "Deputado";
+    }
 }

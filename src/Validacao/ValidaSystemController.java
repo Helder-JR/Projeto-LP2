@@ -118,14 +118,6 @@ public class ValidaSystemController implements Serializable {
     public void validaCadastrarComissao(String tema, String politicos) {
         validaEntradaNulaVazia(tema, "Erro ao cadastrar comissao: tema nao pode ser vazio ou nulo");
         validaEntradaNulaVazia(politicos, "Erro ao cadastrar comissao: lista de politicos nao pode ser vazio ou nulo");
-
-        ArrayList<String> listaPoliticos = new ArrayList<>(Arrays.asList(politicos.split(",")));
-        for (int i = 0; i < listaPoliticos.size(); i++) {
-            if (!listaPoliticos.get(i).matches("\\d{9}[-]\\d")) {
-                throw new IllegalArgumentException("Erro ao cadastrar comissao: dni invalido");
-            }
-        }
-
     }
 
 }
