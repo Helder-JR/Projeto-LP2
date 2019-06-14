@@ -137,4 +137,8 @@ public class Pessoa implements Serializable {
     public String toString() {
         return this.funcao.toString(this.nome, this.dni, this.estado, this.partido, this.interesses);
     }
+
+    public String exibeFuncao() {
+        return this.funcao.getFuncao();
+    }
 }
