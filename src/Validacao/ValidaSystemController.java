@@ -120,4 +120,49 @@ public class ValidaSystemController implements Serializable {
         validaEntradaNulaVazia(politicos, "Erro ao cadastrar comissao: lista de politicos nao pode ser vazio ou nulo");
     }
 
+    public void validaCadastrarPL(String dni, int ano, String ementa, String interesses, String url, boolean conclusivo) throws ParseException {
+        validaEntradaNulaVazia(dni, "Erro ao cadastrar projeto: autor nao pode ser vazio ou nulo");
+        validaEntradaNulaVazia(ementa, "Erro ao cadastrar projeto: ementa nao pode ser vazia ou nula");
+        validaEntradaNulaVazia(interesses, "Erro ao cadastrar projeto: interesse nao pode ser vazio ou nulo");
+        validaEntradaNulaVazia(url, "Erro ao cadastrar projeto: url nao pode ser vazio ou nulo");
+
+        if (!dni.matches("\\d{9}[-]\\d")) {
+            throw new IllegalArgumentException("Erro ao cadastrar projeto: dni invalido");
+        }
+
+        Date atualDate = new Date();
+        Date Ano = new SimpleDateFormat("yyyy").parse(String.valueOf(ano));
+        Date Constituicao = new SimpleDateFormat("yyyy").parse("1988");
+
+        if (Ano.after(atualDate)) {
+            throw new IllegalArgumentException("Erro ao cadastrar projeto: ano posterior ao ano atual");
+        }
+        if (Ano.before(Constituicao)){
+            throw new IllegalArgumentException("Erro ao cadastrar projeto: ano anterior a 1988");
+        }
+    }
+
+    public void validaCadastrarPLPouPEC(String dni, int ano, String ementa, String interesses, String url, String artigos) throws ParseException {
+        validaEntradaNulaVazia(dni, "Erro ao cadastrar projeto: autor nao pode ser vazio ou nulo");
+        validaEntradaNulaVazia(ementa, "Erro ao cadastrar projeto: ementa nao pode ser vazia ou nula");
+        validaEntradaNulaVazia(interesses, "Erro ao cadastrar projeto: interesse nao pode ser vazio ou nulo");
+        validaEntradaNulaVazia(url, "Erro ao cadastrar projeto: url nao pode ser vazio ou nulo");
+        validaEntradaNulaVazia(artigos, "Erro ao cadastrar projeto: artigo nao pode ser vazio ou nulo");
+
+        if (!dni.matches("\\d{9}[-]\\d")) {
+            throw new IllegalArgumentException("Erro ao cadastrar projeto: dni invalido");
+        }
+
+        Date atualDate = new Date();
+        Date Ano = new SimpleDateFormat("yyyy").parse(String.valueOf(ano));
+        Date Constituicao = new SimpleDateFormat("yyyy").parse("1988");
+
+        if (Ano.after(atualDate)) {
+            throw new IllegalArgumentException("Erro ao cadastrar projeto: ano posterior ao ano atual");
+        }
+        if (Ano.before(Constituicao)){
+            throw new IllegalArgumentException("Erro ao cadastrar projeto: ano anterior a 1988");
+        }
+    }
+
 }

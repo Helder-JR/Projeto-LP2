@@ -146,16 +146,19 @@ public class ECOController implements Serializable {
         legislativoController.cadastrarComissao(tema, politicos, this.pessoaController.getPessoas());
     }
 
-    public String cadastrarPL(String dni, int ano, String ementa, String interesses, String url, boolean conclusivo) {
-        return legislativoController.cadastrarPL(dni, ano, ementa, interesses, url, conclusivo);
+    public String cadastrarPL(String dni, int ano, String ementa, String interesses, String url, boolean conclusivo) throws ParseException {
+        this.validador.validaCadastrarPL(dni, ano, ementa, interesses, url, conclusivo);
+        return legislativoController.cadastrarPL(dni, ano, ementa, interesses, url, conclusivo, this.pessoaController.getPessoas());
     }
 
-    public String cadastrarPLP(String dni, int ano, String ementa, String interesses, String url, String artigos) {
-        return legislativoController.cadastrarPLP(dni, ano, ementa, interesses, url, artigos);
+    public String cadastrarPLP(String dni, int ano, String ementa, String interesses, String url, String artigos) throws ParseException {
+        this.validador.validaCadastrarPLPouPEC(dni, ano, ementa, interesses, url, artigos);
+        return legislativoController.cadastrarPLP(dni, ano, ementa, interesses, url, artigos, this.pessoaController.getPessoas());
     }
 
-    public String cadastrarPEC(String dni, int ano, String ementa, String interesses, String url, String artigos) {
-        return legislativoController.cadastrarPEC(dni, ano, ementa, interesses, url, artigos);
+    public String cadastrarPEC(String dni, int ano, String ementa, String interesses, String url, String artigos) throws ParseException {
+        this.validador.validaCadastrarPLPouPEC(dni, ano, ementa, interesses, url, artigos);
+        return legislativoController.cadastrarPEC(dni, ano, ementa, interesses, url, artigos, this.pessoaController.getPessoas());
     }
 
     public String exibirProjeto(String codigo) {
