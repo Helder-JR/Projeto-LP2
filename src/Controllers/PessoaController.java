@@ -105,7 +105,8 @@ public class PessoaController implements Serializable {
         if (this.pessoas.containsKey(dni)) {
             validaDeputado.validaCadastrarDeputado(dataDeInicio);
             if (!"".equals(this.pessoas.get(dni).getPartido())) {
-                Deputado funcao = new Deputado(dataDeInicio);
+                Integer leiAprovadas = this.pessoas.get(dni).getLeisAprovadas();
+                Deputado funcao = new Deputado(dataDeInicio, leiAprovadas);
                 this.pessoas.get(dni).setFuncao(funcao);
                 this.totalDeputados += 1;
                 return true;

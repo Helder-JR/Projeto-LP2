@@ -11,8 +11,8 @@ import java.util.HashSet;
 
 public class VotacaoController implements Serializable {
 
-    public boolean votarComissao(Projeto projeto, String statusGovernista, ArrayList<String> deputadosComissao, String proximoLocal, HashMap<String, Pessoa> pessoasMap, int totalDeputados, HashSet<String> partidosGovernistas) {
-        int votos = controlaVoto(statusGovernista, deputadosComissao, projeto, pessoasMap, partidosGovernistas);
+    public boolean votarComissao(Projeto projeto, String statusGovernista, ArrayList<String> deputadosComissao, String proximoLocal, HashMap<String, Pessoa> pessoas, int totalDeputados, HashSet<String> partidosGovernistas) {
+        int votos = controlaVoto(statusGovernista, deputadosComissao, projeto, pessoas, partidosGovernistas);
         boolean resultado = (votos >= Math.floor(deputadosComissao.size() / 2) + 1);
         projeto.setSituacaoAtual(resultado, proximoLocal);
         return resultado;
@@ -21,7 +21,10 @@ public class VotacaoController implements Serializable {
     public boolean votarPlenario(Projeto projeto, String statusGovernista, String presentes, HashMap<String, Pessoa> pessoas, int totalDeputados, HashSet<String> partidosGovernistas) {
         ArrayList<String> deputadosPresentes = new ArrayList<String>(Arrays.asList(presentes.split(",")));
         int votos = controlaVoto(statusGovernista, deputadosPresentes, projeto, pessoas, partidosGovernistas);
-        return projeto.calculaVotoMinimo(totalDeputados, votos);
+        boolean resultado = projeto.calculaVotoMinimo(totalDeputados, votos);
+        if (resultado)
+            pessoas.get(projeto.getAutor()).aprovaLei();
+        return resultado;
     }
 
     private int controlaVoto(String statusGovernista, ArrayList<String> listaDeputado, Projeto projeto, HashMap<String, Pessoa> pessoas, HashSet<String> partidosGovernistas) {

@@ -10,5 +10,7 @@ public interface Projeto extends Serializable {
     String getSituacaoAtual();
     boolean calculaVotoMinimo(int quantidadeDeputados, int totalVotos);
     void setSituacaoAtual(boolean resultado, String proximoLocal);
-
+    String getAutor();
+    String getLocal();
+    void setLocal(String proximoLocal);
 }

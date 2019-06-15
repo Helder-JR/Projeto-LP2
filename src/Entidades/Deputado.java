@@ -22,7 +22,7 @@ public class Deputado implements Funcao {
     /**
      * Quantidade de leis que conseguiu fazer serem aprovadas.
      */
-    private int leisAprovadas;
+    private Integer leisAprovadas;
 
     private ValidaDeputado validaDeputado;
 
@@ -32,12 +32,12 @@ public class Deputado implements Funcao {
      * @param dataDeInicio a data de início do cargo de deputado(a).
      * @throws ParseException caso a data esteja em um formato inválido.
      */
-    public Deputado(String dataDeInicio) throws ParseException {
+    public Deputado(String dataDeInicio, Integer leisAprovadas) throws ParseException {
         this.validaDeputado = new ValidaDeputado();
         this.validaDeputado.validaCadastrarDeputado(dataDeInicio);
         SimpleDateFormat dateFormat = new SimpleDateFormat("ddMMyyyy");
         this.dataDeInicio = dateFormat.parse(dataDeInicio);
-        this.leisAprovadas = 0;
+        this.leisAprovadas = leisAprovadas;
     }
 
     /**

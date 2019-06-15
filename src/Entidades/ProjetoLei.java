@@ -25,15 +25,17 @@ public class ProjetoLei extends ProjetoLegislativoAbstract {
     public void setSituacaoAtual(boolean resultado, String proximoLocal) {
         if (this.conclusivo) {
             if (resultado) {
-                this.situacaoAtual = "APROVADO " + proximoLocal;
+                this.situacaoAtual = "APROVADO";
             } else {
-                this.situacaoAtual = "REJEITADO " + "(Arquivado)";
+                this.situacaoAtual = "ARQUIVADO";
             }
         } else {
             if (resultado) {
-                this.situacaoAtual = "APROVADO " + proximoLocal;
+                this.situacaoAtual = "APROVADO " + this.local;
+                this.local = proximoLocal;
             } else {
-                this.situacaoAtual = "REJEITADO " + proximoLocal;
+                this.situacaoAtual = "REJEITADO " + this.local;
+                this.local = proximoLocal;
             }
         }
     }

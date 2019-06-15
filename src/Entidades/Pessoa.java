@@ -45,6 +45,11 @@ public class Pessoa implements Serializable {
      */
     private Funcao funcao;
 
+    /**
+     * Quantidade de leis que conseguiu fazer serem aprovadas.
+     */
+    private Integer leisAprovadas;
+
     private ValidaPessoa validaPessoa;
 
     /**
@@ -65,6 +70,7 @@ public class Pessoa implements Serializable {
         this.estado = estado;
         this.partido = partido;
         this.funcao = new Civil();
+        this.leisAprovadas = 0;
     }
 
     /**
@@ -136,6 +142,14 @@ public class Pessoa implements Serializable {
      */
     public String toString() {
         return this.funcao.toString(this.nome, this.dni, this.estado, this.partido, this.interesses);
+    }
+
+    public int getLeisAprovadas() {
+        return leisAprovadas;
+    }
+
+    public void aprovaLei() {
+        this.leisAprovadas += 1;
     }
 
     public String exibeFuncao() {
