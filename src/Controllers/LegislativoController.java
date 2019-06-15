@@ -87,7 +87,7 @@ public class LegislativoController implements Serializable {
         ProjetoLei projeto = new ProjetoLei(dni, ano, ementa, interesses, url, conclusivo, codigo);
         this.projetos.put(codigo, projeto);
         this.codigoProjetos.replace("PL", ordemCodigo + 1);
-        return "";
+        return codigo;
     }
 
     public String cadastrarPLP(String dni, int ano, String ementa, String interesses, String url, String artigos) {
@@ -96,7 +96,7 @@ public class LegislativoController implements Serializable {
         ProjetoLeiComplementar projeto = new ProjetoLeiComplementar(dni, ano, ementa, interesses, url, artigos, codigo);
         this.projetos.put(codigo, projeto);
         this.codigoProjetos.replace("PLP", ordemCodigo + 1);
-        return "";
+        return codigo;
     }
 
     public String cadastrarPEC(String dni, int ano, String ementa, String interesses, String url, String artigos) {
@@ -105,17 +105,32 @@ public class LegislativoController implements Serializable {
         ProjetoEmendaConstitucional projeto = new ProjetoEmendaConstitucional(dni, ano, ementa, interesses, url, artigos, codigo);
         this.projetos.put(codigo, projeto);
         this.codigoProjetos.replace("PEC", ordemCodigo + 1);
-        return "";
+        return codigo;
     }
 
     public String exibirProjeto(String codigo) {
         return this.projetos.get(codigo).toString();
     }
 
+    private String splitSituacao(Projeto projeto) {
+        if ("ARQUIVADO".equals(projeto.getSituacaoAtual())) {
+            return "ARQUIVADO";
+        } else if ("APROVADO".equals(projeto.getSituacaoAtual().split(" ")[0])) {
+            return "APROVADO";
+        } else {
+            return projeto.getSituacaoAtual().split("[()]")[1];
+        }
+    }
+
     public boolean votarComissao(String codigo, String statusGovernista, String proximoLocal, HashMap<String, Pessoa> pessoasMap) {
         Projeto projeto = this.projetos.get(codigo);
-        ArrayList<String> comissao = this.comissoes.get(projeto.getSituacaoAtual().split("[()]")[1]);
-        return votacaoController.votarComissao(projeto, statusGovernista, comissao, proximoLocal, pessoasMap, this.totalDeputados, partidosGovernistas);
+        String comissao = splitSituacao(projeto);
+        if (this.comissoes.containsKey(comissao)) {
+            ArrayList<String> listaDeputado = this.comissoes.get(comissao);
+            return votacaoController.votarComissao(projeto, statusGovernista, listaDeputado, proximoLocal, pessoasMap, this.totalDeputados, this.partidosGovernistas);
+        } else {
+            throw new NullPointerException("Erro ao votar proposta: CCJC nao cadastrada");
+        }
     }
 
     public boolean votarPlenario(String codigo, String statusGovernista, String presentes, HashMap<String, Pessoa> pessoas) {

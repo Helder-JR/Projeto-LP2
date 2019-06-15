@@ -1,8 +1,9 @@
 package Entidades;
 
+import java.io.Serializable;
 import java.util.HashSet;
 
-public interface Projeto {
+public interface Projeto extends Serializable {
 
     String toString();
     HashSet<String> getInteresses();
