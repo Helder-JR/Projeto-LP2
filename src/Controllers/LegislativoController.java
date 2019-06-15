@@ -65,6 +65,15 @@ public class LegislativoController implements Serializable {
         }
     }
 
+    private void validaExistenciaCadastrarProjeto(String politicos, HashMap<String, Pessoa> pessoas) {
+        if (!pessoas.containsKey(politicos)) {
+            throw new NullPointerException("Erro ao cadastrar projeto: pessoa inexistente");
+        }
+        if (!pessoas.get(politicos).exibeFuncao().equals("Deputado")) {
+            throw new IllegalArgumentException("Erro ao cadastrar projeto: pessoa nao eh deputado");
+        }
+    }
+
     public void cadastrarComissao(String tema, String politicos, HashMap<String, Pessoa> pessoas) {
         ArrayList<String> lista = new ArrayList<String>(Arrays.asList(politicos.split(",")));
         if (this.comissoes.containsKey(tema)) {
@@ -81,7 +90,7 @@ public class LegislativoController implements Serializable {
         this.comissoes.put(tema, lista);
     }
 
-    public String cadastrarPL(String dni, int ano, String ementa, String interesses, String url, boolean conclusivo) {
+    public String cadastrarPL(String dni, int ano, String ementa, String interesses, String url, boolean conclusivo, HashMap<String, Pessoa> pessoas) {
         int ordemCodigo = this.codigoProjetos.get("PL");
         String codigo = "PL " + ordemCodigo + "/" + ano;
         ProjetoLei projeto = new ProjetoLei(dni, ano, ementa, interesses, url, conclusivo, codigo);
@@ -90,7 +99,7 @@ public class LegislativoController implements Serializable {
         return codigo;
     }
 
-    public String cadastrarPLP(String dni, int ano, String ementa, String interesses, String url, String artigos) {
+    public String cadastrarPLP(String dni, int ano, String ementa, String interesses, String url, String artigos, HashMap<String, Pessoa> pessoas) {
         int ordemCodigo = this.codigoProjetos.get("PLP");
         String codigo = "PLP " + ordemCodigo + "/" + ano;
         ProjetoLeiComplementar projeto = new ProjetoLeiComplementar(dni, ano, ementa, interesses, url, artigos, codigo);
@@ -99,7 +108,7 @@ public class LegislativoController implements Serializable {
         return codigo;
     }
 
-    public String cadastrarPEC(String dni, int ano, String ementa, String interesses, String url, String artigos) {
+    public String cadastrarPEC(String dni, int ano, String ementa, String interesses, String url, String artigos, HashMap<String, Pessoa> pessoas) {
         int ordemCodigo = this.codigoProjetos.get("PEC");
         String codigo = "PEC " + ordemCodigo + "/" + ano;
         ProjetoEmendaConstitucional projeto = new ProjetoEmendaConstitucional(dni, ano, ementa, interesses, url, artigos, codigo);

@@ -154,15 +154,15 @@ public class Facade {
         this.ecoController.cadastrarComissao(tema, politicos);
     }
 
-    public String cadastrarPL(String dni, int ano, String ementa, String interesses, String url, boolean conclusivo) {
+    public String cadastrarPL(String dni, int ano, String ementa, String interesses, String url, boolean conclusivo) throws ParseException {
         return this.ecoController.cadastrarPL(dni, ano, ementa, interesses, url, conclusivo);
     }
 
-    public String cadastrarPLP(String dni, int ano, String ementa, String interesses, String url, String artigos) {
+    public String cadastrarPLP(String dni, int ano, String ementa, String interesses, String url, String artigos) throws ParseException {
         return this.ecoController.cadastrarPLP(dni, ano, ementa, interesses, url, artigos);
     }
 
-    public String cadastrarPEC(String dni, int ano, String ementa, String interesses, String url, String artigos) {
+    public String cadastrarPEC(String dni, int ano, String ementa, String interesses, String url, String artigos) throws ParseException {
         return this.ecoController.cadastrarPEC(dni, ano, ementa, interesses, url, artigos);
     }
 
