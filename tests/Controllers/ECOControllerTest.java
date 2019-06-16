@@ -16,6 +16,7 @@ class ECOControllerTest {
         controller = new ECOController();
     }
 
+    // Parte 1
     // Testes para Cadastrar Pessoa
     @Test
     void cadastrarPessoaComPartido() {
@@ -200,4 +201,80 @@ class ECOControllerTest {
         controller.cadastrarPartido("ABC");
         assertEquals("ABC,CBA", controller.exibirBase());
     }
+
+    //Parte 2
+    @Test
+    void cadastrarComissaoTemaVazio() throws ParseException {
+        controller.cadastrarPessoa("Plipox Poplx", "051444444-0", "RO", "trabalho","DEF");
+        controller.cadastrarDeputado("051444444-0","30012019");
+        try {
+            controller.cadastrarComissao("","051444444-0");
+        } catch (IllegalArgumentException iae) {}
+    }
+
+    @Test
+    void cadastrarComissaoTemaNulo() throws ParseException {
+        controller.cadastrarPessoa("Plipox Poplx", "051444444-0", "RO", "trabalho","DEF");
+        controller.cadastrarDeputado("051444444-0","30012019");
+        try {
+            controller.cadastrarComissao(null,"051444444-0");
+        } catch (NullPointerException npe) {}
+    }
+
+    @Test
+    void cadastrarComissaoPoliticoVazio() throws ParseException {
+        controller.cadastrarPessoa("Plipox Poplx", "051444444-0", "RO", "trabalho","DEF");
+        controller.cadastrarDeputado("051444444-0","30012019");
+        try {
+            controller.cadastrarComissao("Trabalho","");
+        } catch (IllegalArgumentException iae) {}
+    }
+
+    @Test
+    void cadastrarComissaoPoliticoNulo() throws ParseException {
+        controller.cadastrarPessoa("Plipox Poplx", "051444444-0", "RO", "trabalho","DEF");
+        controller.cadastrarDeputado("051444444-0","30012019");
+        try {
+            controller.cadastrarComissao("Trabalho",null);
+        } catch (NullPointerException npe) {}
+    }
+
+    @Test
+    void cadastrarComissaoDniInvalido() throws ParseException {
+        try {
+            controller.cadastrarComissao("Trabalho","051222222-A");
+        } catch (IllegalArgumentException iae) {}
+    }
+
+    @Test
+    void cadastrarComissaoTemaJaCadastrado() throws ParseException {
+        controller.cadastrarPessoa("Plipox Poplx", "051444444-0", "RO", "trabalho","DEF");
+        controller.cadastrarDeputado("051444444-0","30012019");
+        controller.cadastrarComissao("Trabalho","051444444-0");
+
+        controller.cadastrarPessoa("Teste Teste", "051222222-0", "Teste", "Teste","Teste");
+        controller.cadastrarDeputado("051222222-0","30012019");
+
+        try {
+            controller.cadastrarComissao("Trabalho","051222222-0");
+        } catch (IllegalArgumentException iae) {}
+    }
+
+    @Test
+    void cadastrarComissaoPessoaInexistente() throws ParseException {
+        try {
+            controller.cadastrarComissao("Trabalho","051111111-0");
+        } catch (NullPointerException npe) {}
+
+    }
+
+    @Test
+    void cadastrarComissaoPessoaNaoEhDeputado() throws ParseException {
+        controller.cadastrarPessoa("Plipox Poplx", "051444444-0", "RO", "trabalho","DEF");
+        try {
+            controller.cadastrarComissao("Trabalho","051444444-0");
+        } catch (IllegalArgumentException iae) {}
+
+    }
+
 }
