@@ -165,4 +165,17 @@ public class ValidaSystemController implements Serializable {
         }
     }
 
+    public void validaVotaComissao(String codigo, String status, String proximoLocal) {
+        if (status == null || "".equals(status.trim()))
+            throw new IllegalArgumentException("Erro ao votar proposta: status invalido");
+
+        if (proximoLocal == null)
+            throw new NullPointerException("Erro ao votar proposta: proximo local vazio");
+
+        if ("".equals(proximoLocal.trim()))
+            throw new IllegalArgumentException("Erro ao votar proposta: proximo local vazio");
+
+        if (!"GOVERNISTA".equals(status) && !"OPOSICAO".equals(status) && !"LIVRE".equals(status))
+            throw new IllegalArgumentException("Erro ao votar proposta: status invalido");
+    }
 }

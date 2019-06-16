@@ -130,17 +130,6 @@ public class ECOController implements Serializable {
     ////---------------------------------////----------------------------------////---------------------------------////
     //Parte 2
 
-    private void validaExistenciaCadastrarComissao(String politicos, HashMap<String, Pessoa> pessoas) {
-        for (String politico : politicos.split(",")) {
-            if (!pessoas.containsKey(politico)) {
-                throw new NullPointerException("Erro ao cadastrar comissao: pessoa inexistente");
-            }
-            if (!pessoas.get(politico).exibeFuncao().equals("Deputado")) {
-                throw new IllegalArgumentException("Erro ao cadastrar comissao: pessoa nao eh deputado");
-            }
-        }
-    }
-
     public void cadastrarComissao(String tema, String politicos) {
         this.validador.validaCadastrarComissao(tema, politicos);
         legislativoController.cadastrarComissao(tema, politicos, this.pessoaController.getPessoas());
@@ -166,6 +155,7 @@ public class ECOController implements Serializable {
     }
 
     public boolean votarComissao(String codigo, String statusGovernista, String proximoLocal) {
+        this.validador.validaVotaComissao(codigo, statusGovernista, proximoLocal);
         return legislativoController.votarComissao(codigo, statusGovernista, proximoLocal, this.pessoaController.getPessoas());
     }
 
