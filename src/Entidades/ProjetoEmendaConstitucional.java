@@ -12,7 +12,12 @@ public class ProjetoEmendaConstitucional extends ProjetoLegislativoAbstract {
     }
 
     public String toString() {
-        return String.format("Projeto de Lei Complementar - %s - %s - %s - %s - %s", this.codigo, this.autor, this.ementa, this.artigos, this.situacaoAtual);
+        return String.format("Projeto de Emenda Constitucional - %s - %s - %s - %s - %s", this.codigo, this.autor, this.ementa, this.artigos, this.situacaoAtual);
+    }
+
+    @Override
+    public boolean quorumMinimo(int deputadosPresentes, int totalDeputados) {
+        return (deputadosPresentes >= floor(3*totalDeputados/5)+1);
     }
 
     @Override

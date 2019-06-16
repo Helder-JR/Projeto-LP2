@@ -13,4 +13,5 @@ public interface Projeto extends Serializable {
     String getAutor();
     String getLocal();
     void setLocal(String proximoLocal);
+    boolean quorumMinimo(int deputadosPresentes, int totalDeputados);
 }

@@ -16,6 +16,11 @@ public class ProjetoLeiComplementar extends ProjetoLegislativoAbstract {
     }
 
     @Override
+    public boolean quorumMinimo(int deputadosPresentes, int totalDeputados) {
+        return (deputadosPresentes >= floor(totalDeputados/2)+1);
+    }
+
+    @Override
     public boolean calculaVotoMinimo(int totalDeputados, int totalVotos) {
         return (totalVotos >= floor(totalDeputados/2)+1);
     }

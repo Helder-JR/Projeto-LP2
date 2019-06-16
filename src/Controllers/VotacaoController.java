@@ -13,16 +13,21 @@ public class VotacaoController implements Serializable {
 
     public boolean votarComissao(Projeto projeto, String statusGovernista, ArrayList<String> deputadosComissao, String proximoLocal, HashMap<String, Pessoa> pessoas, int totalDeputados, HashSet<String> partidosGovernistas) {
         int votos = controlaVoto(statusGovernista, deputadosComissao, projeto, pessoas, partidosGovernistas);
-        boolean resultado = (votos >= Math.floor(deputadosComissao.size() / 2) + 1);
+        double votosMinimo = Math.floor(deputadosComissao.size() / 2.0)+1;
+        boolean resultado = (votos >= votosMinimo);
         projeto.setSituacaoAtual(resultado, proximoLocal);
+        if (resultado && "-".equals(proximoLocal)) {
+            pessoas.get(projeto.getAutor()).aprovaLei();
+        }
         return resultado;
     }
 
     public boolean votarPlenario(Projeto projeto, String statusGovernista, String presentes, HashMap<String, Pessoa> pessoas, int totalDeputados, HashSet<String> partidosGovernistas) {
         ArrayList<String> deputadosPresentes = new ArrayList<String>(Arrays.asList(presentes.split(",")));
         int votos = controlaVoto(statusGovernista, deputadosPresentes, projeto, pessoas, partidosGovernistas);
-        boolean resultado = projeto.calculaVotoMinimo(totalDeputados, votos);
-        if (resultado)
+        boolean resultado = projeto.calculaVotoMinimo(deputadosPresentes.size(), votos);
+        projeto.setSituacaoAtual(resultado,"-");
+        if (resultado && projeto.getSituacaoAtual().equals("APROVADO"))
             pessoas.get(projeto.getAutor()).aprovaLei();
         return resultado;
     }

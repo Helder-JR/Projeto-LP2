@@ -7,6 +7,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Representação de um(a) deputado(a), uma função que uma pessoa pode exercer. Possui uma data de início do mandato,
@@ -22,7 +23,7 @@ public class Deputado implements Funcao {
     /**
      * Quantidade de leis que conseguiu fazer serem aprovadas.
      */
-    private Integer leisAprovadas;
+    private AtomicInteger leisAprovadas;
 
     private ValidaDeputado validaDeputado;
 
@@ -32,7 +33,7 @@ public class Deputado implements Funcao {
      * @param dataDeInicio a data de início do cargo de deputado(a).
      * @throws ParseException caso a data esteja em um formato inválido.
      */
-    public Deputado(String dataDeInicio, Integer leisAprovadas) throws ParseException {
+    public Deputado(String dataDeInicio, AtomicInteger leisAprovadas) throws ParseException {
         this.validaDeputado = new ValidaDeputado();
         this.validaDeputado.validaCadastrarDeputado(dataDeInicio);
         SimpleDateFormat dateFormat = new SimpleDateFormat("ddMMyyyy");

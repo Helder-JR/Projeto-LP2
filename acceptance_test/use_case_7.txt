@@ -5,7 +5,7 @@
 limparSistema
 
 # carrega o sistema
-carregarSistema
+#carregarSistema
 
 cadastrarPessoa nome="M1" dni="071111111-0" estado="PB" interesses="educacao,seguranca publica,saude" partido="PartidoGov"
 cadastrarPessoa nome="M2" dni="071222222-0" estado="PE" interesses="educacao,seguranca publica,saude" partido="PartidoGov"

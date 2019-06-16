@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class PessoaController implements Serializable {
     /**
@@ -20,11 +21,11 @@ public class PessoaController implements Serializable {
 
     private ValidaDeputado validaDeputado;
 
-    private int totalDeputados;
+    private AtomicInteger totalDeputados;
 
     public PessoaController() {
         this.pessoas = new HashMap<>();
-        this.totalDeputados = 0;
+        this.totalDeputados = new AtomicInteger(0);
         this.validaPessoa = new ValidaPessoa();
         this.validaDeputado = new ValidaDeputado();
     }
@@ -33,7 +34,7 @@ public class PessoaController implements Serializable {
         return pessoas;
     }
 
-    public int getTotalDeputados() {
+    public AtomicInteger getTotalDeputados() {
         return totalDeputados;
     }
 
@@ -105,10 +106,10 @@ public class PessoaController implements Serializable {
         if (this.pessoas.containsKey(dni)) {
             validaDeputado.validaCadastrarDeputado(dataDeInicio);
             if (!"".equals(this.pessoas.get(dni).getPartido())) {
-                Integer leiAprovadas = this.pessoas.get(dni).getLeisAprovadas();
+                AtomicInteger leiAprovadas = this.pessoas.get(dni).getLeisAprovadas();
                 Deputado funcao = new Deputado(dataDeInicio, leiAprovadas);
                 this.pessoas.get(dni).setFuncao(funcao);
-                this.totalDeputados += 1;
+                this.totalDeputados.set(this.totalDeputados.incrementAndGet());
                 return true;
             } else {
                 throw new IllegalArgumentException("Erro ao cadastrar deputado: pessoa sem partido");
