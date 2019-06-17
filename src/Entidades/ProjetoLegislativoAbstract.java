@@ -67,7 +67,7 @@ public abstract class ProjetoLegislativoAbstract implements Projeto {
     }
 
     public String getLocal() {
-        return local;
+        return this.local;
     }
 
     public void setLocal(String proximoLocal) {
@@ -75,15 +75,15 @@ public abstract class ProjetoLegislativoAbstract implements Projeto {
     }
 
     public String getAutor() {
-        return autor;
+        return this.autor;
     }
 
     @Override
     public HashSet<String> getInteresses() {
-        return interesses;
+        return this.interesses;
     }
 
     public String getSituacaoAtual() {
-        return situacaoAtual;
+        return this.situacaoAtual;
     }
 }
