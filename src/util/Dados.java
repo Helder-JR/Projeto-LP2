@@ -49,4 +49,9 @@ public class Dados {
         }
         return controller;
     }
+
+    public ECOController limparSistema(File filePathSave, File filePathReset) {
+        filePathSave.delete();
+        return carregar(filePathReset);
+    }
 }
