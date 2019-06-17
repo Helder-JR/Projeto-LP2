@@ -50,6 +50,12 @@ public class ProjetoLei extends ProjetoLegislativoAbstract {
     }
 
 
+    /**
+     * Altera a situação atual do projeto.
+     *
+     * @param resultado o resultado da votação até o momento.
+     * @param proximoLocal o próximo local para qual a votação irá seguir.
+     */
     private void setSituacaoCCJC(boolean resultado, String proximoLocal) {
         if (conclusivo) {
             if (resultado) {
@@ -68,6 +74,12 @@ public class ProjetoLei extends ProjetoLegislativoAbstract {
         }
     }
 
+    /**
+     * Altera a situação atual do projeto de lei.
+     *
+     * @param resultado o resultado da votação até o momento.
+     * @param proximoLocal o próximo local para onde a votação irá seguir.
+     */
     private void setsituacao(boolean resultado, String proximoLocal) {
         if (conclusivo) {
             if (!"-".equals(proximoLocal)) {
