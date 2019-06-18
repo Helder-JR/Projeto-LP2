@@ -32,9 +32,7 @@ public class ProjetoLei extends ProjetoLegislativoAbstract {
     /**
      * A reprensentação textual do projeto de lei. Segue dois formatos diferentes (variando apenas se é conclusivo ou
      * não:
-     * </br>
      * "Projeto de Lei - Código - Autor - Ementa - Conclusiva - Situação Atual"
-     * </br>
      * "Projeto de Lei - Código - Autor - Ementa - Situação Atual"
      *
      * @return a String que representa o projeto de lei.

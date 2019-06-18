@@ -31,7 +31,6 @@ public class ProjetoEmendaConstitucional extends ProjetoLegislativoAbstract {
 
     /**
      * A representação textual do projeto de emenda constitucional, seguindo seguinte formato:
-     * </br>
      * "Projeto de Emenda Constitucional - Código - Autor - Ementa - Artigos - Situação Atual"
      *
      * @return a String que representa a PEC.

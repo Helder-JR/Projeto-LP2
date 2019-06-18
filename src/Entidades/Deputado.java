@@ -31,6 +31,7 @@ public class Deputado implements Funcao {
      * Cria um(a) deputado(a) com base na data de início do mandato.
      *
      * @param dataDeInicio a data de início do cargo de deputado(a).
+     * @param leisAprovadas o número de leis aprovadas pelo deputado.
      * @throws ParseException caso a data esteja em um formato inválido.
      */
     public Deputado(String dataDeInicio, AtomicInteger leisAprovadas) throws ParseException {
@@ -52,8 +53,8 @@ public class Deputado implements Funcao {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Deputado deputado = (Deputado) o;
-        return leisAprovadas == deputado.leisAprovadas &&
-                dataDeInicio.equals(deputado.dataDeInicio);
+        return dataDeInicio.equals(deputado.dataDeInicio) &&
+                leisAprovadas.get() == deputado.leisAprovadas.get();
     }
 
     /**
@@ -63,7 +64,7 @@ public class Deputado implements Funcao {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(dataDeInicio, leisAprovadas);
+        return Objects.hash(dataDeInicio, leisAprovadas.get());
     }
 
     /**
