@@ -144,7 +144,7 @@ public class Facade {
      * Retorna (a partir de um arquivo) o controlador do sistema para o seu estado inicial.
      */
     public void limparSistema() {
-        this.ecoController = this.dados.carregar(this.reset);
+        this.ecoController = this.dados.limparSistema(this.save, this.reset, this.ecoController);
     }
 
     ////---------------------------------////----------------------------------////---------------------------------////
@@ -154,15 +154,15 @@ public class Facade {
         this.ecoController.cadastrarComissao(tema, politicos);
     }
 
-    public String cadastrarPL(String dni, int ano, String ementa, String interesses, String url, boolean conclusivo) {
+    public String cadastrarPL(String dni, int ano, String ementa, String interesses, String url, boolean conclusivo) throws ParseException {
         return this.ecoController.cadastrarPL(dni, ano, ementa, interesses, url, conclusivo);
     }
 
-    public String cadastrarPLP(String dni, int ano, String ementa, String interesses, String url, String artigos) {
+    public String cadastrarPLP(String dni, int ano, String ementa, String interesses, String url, String artigos) throws ParseException {
         return this.ecoController.cadastrarPLP(dni, ano, ementa, interesses, url, artigos);
     }
 
-    public String cadastrarPEC(String dni, int ano, String ementa, String interesses, String url, String artigos) {
+    public String cadastrarPEC(String dni, int ano, String ementa, String interesses, String url, String artigos) throws ParseException {
         return this.ecoController.cadastrarPEC(dni, ano, ementa, interesses, url, artigos);
     }
 
@@ -194,7 +194,8 @@ public class Facade {
                 "acceptance_test/use_case_3.txt",
                 "acceptance_test/use_case_4.txt",
                 "acceptance_test/use_case_5.txt",
-                "acceptance_test/use_case_6.txt"};
+                "acceptance_test/use_case_6.txt",
+                "acceptance_test/use_case_7.txt"};
         EasyAccept.main(args);
     }
 }

@@ -36,5 +36,10 @@ public interface Funcao extends Serializable {
      */
     String toString(String nome, String dni, String estado, String partido, String interesses);
 
+    /**
+     * Recupera o valor referente a função pública que a pessoa possui.
+     *
+     * @return a função pública da pessoa.
+     */
     String getFuncao();
 }

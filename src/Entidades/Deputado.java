@@ -7,6 +7,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Representação de um(a) deputado(a), uma função que uma pessoa pode exercer. Possui uma data de início do mandato,
@@ -22,7 +23,7 @@ public class Deputado implements Funcao {
     /**
      * Quantidade de leis que conseguiu fazer serem aprovadas.
      */
-    private int leisAprovadas;
+    private AtomicInteger leisAprovadas;
 
     private ValidaDeputado validaDeputado;
 
@@ -30,14 +31,15 @@ public class Deputado implements Funcao {
      * Cria um(a) deputado(a) com base na data de início do mandato.
      *
      * @param dataDeInicio a data de início do cargo de deputado(a).
+     * @param leisAprovadas o número de leis aprovadas pelo deputado.
      * @throws ParseException caso a data esteja em um formato inválido.
      */
-    public Deputado(String dataDeInicio) throws ParseException {
+    public Deputado(String dataDeInicio, AtomicInteger leisAprovadas) throws ParseException {
         this.validaDeputado = new ValidaDeputado();
         this.validaDeputado.validaCadastrarDeputado(dataDeInicio);
         SimpleDateFormat dateFormat = new SimpleDateFormat("ddMMyyyy");
         this.dataDeInicio = dateFormat.parse(dataDeInicio);
-        this.leisAprovadas = 0;
+        this.leisAprovadas = leisAprovadas;
     }
 
     /**
@@ -51,8 +53,8 @@ public class Deputado implements Funcao {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Deputado deputado = (Deputado) o;
-        return leisAprovadas == deputado.leisAprovadas &&
-                dataDeInicio.equals(deputado.dataDeInicio);
+        return dataDeInicio.equals(deputado.dataDeInicio) &&
+                leisAprovadas.get() == deputado.leisAprovadas.get();
     }
 
     /**
@@ -62,7 +64,7 @@ public class Deputado implements Funcao {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(dataDeInicio, leisAprovadas);
+        return Objects.hash(dataDeInicio, leisAprovadas.get());
     }
 
     /**

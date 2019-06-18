@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Representação de uma pessoa no E-CO, com informações referentes a nome, DNI, estado, interesses em relação a política,
@@ -45,6 +46,11 @@ public class Pessoa implements Serializable {
      */
     private Funcao funcao;
 
+    /**
+     * Quantidade de leis que conseguiu fazer serem aprovadas.
+     */
+    private AtomicInteger leisAprovadas;
+
     private ValidaPessoa validaPessoa;
 
     /**
@@ -65,6 +71,7 @@ public class Pessoa implements Serializable {
         this.estado = estado;
         this.partido = partido;
         this.funcao = new Civil();
+        this.leisAprovadas = new AtomicInteger(0);
     }
 
     /**
@@ -136,6 +143,14 @@ public class Pessoa implements Serializable {
      */
     public String toString() {
         return this.funcao.toString(this.nome, this.dni, this.estado, this.partido, this.interesses);
+    }
+
+    public AtomicInteger getLeisAprovadas() {
+        return this.leisAprovadas;
+    }
+
+    public void aprovaLei() {
+        this.leisAprovadas.set((this.leisAprovadas.incrementAndGet()));
     }
 
     public String exibeFuncao() {
