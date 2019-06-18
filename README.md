@@ -12,3 +12,4 @@ O projeto adotará o padrão de releases para que cada parte concluída tenha se
 Parte concluída | Link para a release | Commit correspondente | Diagrama de classes
 :--------------: | :--: | :-------------------: | :------:
 Parte 1 (03/06/2019) | [neste link](https://github.com/Helder-JR/Projeto-LP2/releases/tag/v1.0) | [neste link](https://github.com/Helder-JR/Projeto-LP2/tree/6953e702aff15c804991c1f352c0b3016229fb44) | [neste link](diagrama/DiagramaE-Camara.jpg)
+Parte 2 (17/06/2019) | [neste link](https://github.com/Helder-JR/Projeto-LP2/releases/tag/v2.0) | [neste link](https://github.com/Helder-JR/Projeto-LP2/tree/46fd404c219e4ac163c60e25aab96b84b1c42e49) | [neste link](diagrama/DiagramaE-Camara.jpg)
