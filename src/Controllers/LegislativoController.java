@@ -4,28 +4,30 @@ import Entidades.*;
 
 import java.io.Serializable;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class LegislativoController implements Serializable {
 
     private VotacaoController votacaoController;
     private Map<String, ArrayList<String>> comissoes;
     private Map<String, Projeto> projetos;
-    private Map<String, Integer> codigoProjetos;
-    private int totalDeputados;
+    private Map<Integer, Integer> codigoProjetosPL;
+    private Map<Integer, Integer> codigoProjetosPLP;
+    private Map<Integer, Integer> codigoProjetosPEC;
+    private AtomicInteger totalDeputados;
 
     /**
      * Conjunto que irá conter informações a respeito dos partidos cadastrados no sistema.
      */
     private HashSet<String> partidosGovernistas;
 
-    public LegislativoController(int totalDeputados) {
+    public LegislativoController(AtomicInteger totalDeputados) {
         this.votacaoController = new VotacaoController();
         this.comissoes = new HashMap<>();
         this.projetos = new HashMap<>();
-        this.codigoProjetos = new HashMap<>();
-        this.codigoProjetos.put("PL", 1);
-        this.codigoProjetos.put("PLP", 1);
-        this.codigoProjetos.put("PEC", 1);
+        this.codigoProjetosPL = new HashMap<>();
+        this.codigoProjetosPLP = new HashMap<>();
+        this.codigoProjetosPEC = new HashMap<>();
         this.partidosGovernistas = new HashSet<>();
         this.totalDeputados = totalDeputados;
     }
@@ -80,47 +82,117 @@ public class LegislativoController implements Serializable {
         }
         this.comissoes.put(tema, lista);
     }
+    private void validaCadastraProjeto(String dni, HashMap<String, Pessoa> pessoas) {
+        if (!pessoas.containsKey(dni)) {
+            throw new NullPointerException("Erro ao cadastrar projeto: pessoa inexistente");
+        }
+        if (!"Deputado".equals(pessoas.get(dni).exibeFuncao())) {
+            throw new IllegalArgumentException("Erro ao cadastrar projeto: pessoa nao eh deputado");
+        }
+    }
 
-    public String cadastrarPL(String dni, int ano, String ementa, String interesses, String url, boolean conclusivo) {
-        int ordemCodigo = this.codigoProjetos.get("PL");
+    public String cadastrarPL(String dni, int ano, String ementa, String interesses, String url, boolean conclusivo, HashMap<String, Pessoa> pessoas) {
+        validaCadastraProjeto(dni,pessoas);
+        int ordemCodigo;
+        if (this.codigoProjetosPL.containsKey(ano)) {
+            ordemCodigo = this.codigoProjetosPL.get(ano);
+        } else {
+            this.codigoProjetosPL.put(ano,1);
+            ordemCodigo = 1;
+        }
         String codigo = "PL " + ordemCodigo + "/" + ano;
         ProjetoLei projeto = new ProjetoLei(dni, ano, ementa, interesses, url, conclusivo, codigo);
         this.projetos.put(codigo, projeto);
-        this.codigoProjetos.replace("PL", ordemCodigo + 1);
-        return "";
+        this.codigoProjetosPL.replace(ano, ordemCodigo + 1);
+        return codigo;
     }
 
-    public String cadastrarPLP(String dni, int ano, String ementa, String interesses, String url, String artigos) {
-        int ordemCodigo = this.codigoProjetos.get("PLP");
+    public String cadastrarPLP(String dni, int ano, String ementa, String interesses, String url, String artigos, HashMap<String, Pessoa> pessoas) {
+        validaCadastraProjeto(dni,pessoas);
+        int ordemCodigo;
+        if (this.codigoProjetosPLP.containsKey(ano)) {
+            ordemCodigo = this.codigoProjetosPLP.get(ano);
+        } else {
+            this.codigoProjetosPLP.put(ano,1);
+            ordemCodigo = 1;
+        }
         String codigo = "PLP " + ordemCodigo + "/" + ano;
-        ProjetoLeiComplementar projeto = new ProjetoLeiComplementar(dni, ano, ementa, interesses, url, artigos, codigo);
+        ProjetoLeiComplementar projeto = new ProjetoLeiComplementar(dni, ano, ementa, interesses, url, artigos.replace(",", ", "), codigo);
         this.projetos.put(codigo, projeto);
-        this.codigoProjetos.replace("PLP", ordemCodigo + 1);
-        return "";
+        this.codigoProjetosPLP.replace(ano, ordemCodigo + 1);
+        return codigo;
     }
 
-    public String cadastrarPEC(String dni, int ano, String ementa, String interesses, String url, String artigos) {
-        int ordemCodigo = this.codigoProjetos.get("PEC");
+    public String cadastrarPEC(String dni, int ano, String ementa, String interesses, String url, String artigos, HashMap<String, Pessoa> pessoas) {
+        validaCadastraProjeto(dni,pessoas);
+        int ordemCodigo;
+        if (this.codigoProjetosPEC.containsKey(ano)) {
+            ordemCodigo = this.codigoProjetosPEC.get(ano);
+        } else {
+            this.codigoProjetosPEC.put(ano,1);
+            ordemCodigo = 1;
+        }
         String codigo = "PEC " + ordemCodigo + "/" + ano;
-        ProjetoEmendaConstitucional projeto = new ProjetoEmendaConstitucional(dni, ano, ementa, interesses, url, artigos, codigo);
+        ProjetoEmendaConstitucional projeto = new ProjetoEmendaConstitucional(dni, ano, ementa, interesses, url, artigos.replace(",", ", "), codigo);
         this.projetos.put(codigo, projeto);
-        this.codigoProjetos.replace("PEC", ordemCodigo + 1);
-        return "";
+        this.codigoProjetosPEC.replace(ano, ordemCodigo + 1);
+        return codigo;
     }
 
     public String exibirProjeto(String codigo) {
         return this.projetos.get(codigo).toString();
     }
 
-    public boolean votarComissao(String codigo, String statusGovernista, String proximoLocal, HashMap<String, Pessoa> pessoasMap) {
+    public void validaExistenciaProjeto(String codigo){
+        if (!this.projetos.containsKey(codigo))
+            throw new NullPointerException("Erro ao votar proposta: projeto inexistente");
+    }
+
+    private void validaPropostaEmPlenario(String codigo) {
+        if ("plenario".equals(this.projetos.get(codigo).getLocal())) {
+            throw new IllegalArgumentException("Erro ao votar proposta: proposta encaminhada ao plenario");
+        }
+    }
+
+    public boolean votarComissao(String codigo, String statusGovernista, String proximoLocal, HashMap<String, Pessoa> pessoas) {
+        validaExistenciaProjeto(codigo);
+        validaTramitacao(codigo);
+        validaPropostaEmPlenario(codigo);
         Projeto projeto = this.projetos.get(codigo);
-        ArrayList<String> comissao = this.comissoes.get(projeto.getSituacaoAtual().split("[()]")[1]);
-        return votacaoController.votarComissao(projeto, statusGovernista, comissao, proximoLocal, pessoasMap, this.totalDeputados, partidosGovernistas);
+        String local = projeto.getLocal();
+        if (this.comissoes.containsKey(local)) {
+            ArrayList<String> listaDeputado = this.comissoes.get(local);
+            return votacaoController.votarComissao(projeto, statusGovernista, listaDeputado, proximoLocal, pessoas, this.totalDeputados.get(), this.partidosGovernistas);
+        } else {
+            throw new NullPointerException("Erro ao votar proposta: CCJC nao cadastrada");
+        }
+    }
+
+    private void validaTramitacao(String codigo) {
+        String situacao = this.projetos.get(codigo).getSituacaoAtual();
+        if ("ARQUIVADO".equals(situacao) || "APROVADO".equals(situacao)) {
+            throw new IllegalArgumentException("Erro ao votar proposta: tramitacao encerrada");
+        }
+    }
+
+    private void validaVotaPlenario(String codigo) {
+        if (!"plenario".equals(this.projetos.get(codigo).getLocal())) {
+            throw new IllegalArgumentException("Erro ao votar proposta: tramitacao em comissao");
+        }
+    }
+
+    private void validaQuorumMinimo(boolean resultado) {
+        if (!resultado) {
+            throw new IllegalArgumentException("Erro ao votar proposta: quorum invalido");
+        }
     }
 
     public boolean votarPlenario(String codigo, String statusGovernista, String presentes, HashMap<String, Pessoa> pessoas) {
+        validaTramitacao(codigo);
+        validaQuorumMinimo(projetos.get(codigo).quorumMinimo(presentes.split(",").length,this.totalDeputados.get()));
+        validaVotaPlenario(codigo);
         Projeto projeto = this.projetos.get(codigo);
-        return votacaoController.votarPlenario(projeto, statusGovernista, presentes, pessoas, this.totalDeputados, partidosGovernistas);
+        return votacaoController.votarPlenario(projeto, statusGovernista, presentes, pessoas, this.totalDeputados.get(), partidosGovernistas);
     }
 
     public String exibirTramitacao(String codigo) {

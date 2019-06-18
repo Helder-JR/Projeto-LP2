@@ -9,32 +9,56 @@ import java.io.Serializable;
 import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class PessoaController implements Serializable {
+
     /**
      * Mapa que irá conter informações a respeito das pessoas cadastradas no sistema.
      */
     private HashMap<String, Pessoa> pessoas;
 
+    /**
+     * Objeto responsável pela validação de pessoas dentro do controlador.
+     */
     private ValidaPessoa validaPessoa;
 
+    /**
+     * Objeto responsável pela validação de deputados dentro do controlador.
+     */
     private ValidaDeputado validaDeputado;
 
-    private int totalDeputados;
+    /**
+     * Variável responsável por armazenar o total de deputados presentes na câmara.
+     */
+    private AtomicInteger totalDeputados;
 
+    /**
+     * Cria um controlador de pessoas.
+     */
     public PessoaController() {
         this.pessoas = new HashMap<>();
-        this.totalDeputados = 0;
+        this.totalDeputados = new AtomicInteger(0);
         this.validaPessoa = new ValidaPessoa();
         this.validaDeputado = new ValidaDeputado();
     }
 
+    /**
+     * Recupera a informação referente ao mapa de pessoas presentes no controlador.
+     *
+     * @return o mapa que contém as pessoas presentes no controlador.
+     */
     public HashMap<String, Pessoa> getPessoas() {
-        return pessoas;
+        return this.pessoas;
     }
 
-    public int getTotalDeputados() {
-        return totalDeputados;
+    /**
+     * Recupera a informação referente ao total de deputados presentes na câmara.
+     *
+     * @return a quantidade de deputados que a câmara possui.
+     */
+    public AtomicInteger getTotalDeputados() {
+        return this.totalDeputados;
     }
 
     /**
@@ -105,9 +129,10 @@ public class PessoaController implements Serializable {
         if (this.pessoas.containsKey(dni)) {
             validaDeputado.validaCadastrarDeputado(dataDeInicio);
             if (!"".equals(this.pessoas.get(dni).getPartido())) {
-                Deputado funcao = new Deputado(dataDeInicio);
+                AtomicInteger leiAprovadas = this.pessoas.get(dni).getLeisAprovadas();
+                Deputado funcao = new Deputado(dataDeInicio, leiAprovadas);
                 this.pessoas.get(dni).setFuncao(funcao);
-                this.totalDeputados += 1;
+                this.totalDeputados.set(this.totalDeputados.incrementAndGet());
                 return true;
             } else {
                 throw new IllegalArgumentException("Erro ao cadastrar deputado: pessoa sem partido");
