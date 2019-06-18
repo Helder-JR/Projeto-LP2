@@ -154,6 +154,8 @@ public class ECOController implements Serializable {
      * @param url o endereço da internet que possui o documento com a descrição completa do projeto.
      * @param conclusivo o estado de tramitação do projeto.
      * @return o código referente a esse projeto de lei.
+     * @throws NullPointerException caso uma das entradas seja nula.
+     * @throws IllegalArgumentException caso alguma das entradas seja uma String vazia ou composta apenas por espaços.
      * @throws ParseException caso o ano de criação do projeto seja inválido.
      */
     public String cadastrarPL(String dni, int ano, String ementa, String interesses, String url, boolean conclusivo) throws ParseException {
@@ -172,6 +174,8 @@ public class ECOController implements Serializable {
      * @param url o endereço da internet que contém o documento com a descrição completa do projeto.
      * @param artigos os artigos que são complementados por este projeto.
      * @return o código referente ao projeto.
+     * @throws NullPointerException caso alguma das entradas seja nula.
+     * @throws IllegalArgumentException caso alguma das entradas seja uma String vazia ou composta apenas de espaços.
      * @throws ParseException caso o ano em que o projeto tenha sido criado não seja uma data válida.
      */
     public String cadastrarPLP(String dni, int ano, String ementa, String interesses, String url, String artigos) throws ParseException {
@@ -189,6 +193,8 @@ public class ECOController implements Serializable {
      * @param url o endereço da internet que contém o documento com a descrição completa do projeto.
      * @param artigos os artigos que são emendados pelo projeto.
      * @return o código referente ao projeto.
+     * @throws NullPointerException caso alguma das entradas seja nula.
+     * @throws IllegalArgumentException caso alguma das entradas seja uma String vazia ou composta apenas de espaços.
      * @throws ParseException caso o ano de criação do projeto não seja uma data válida.
      */
     public String cadastrarPEC(String dni, int ano, String ementa, String interesses, String url, String artigos) throws ParseException {
@@ -207,22 +213,40 @@ public class ECOController implements Serializable {
     }
 
     /**
-     * Vota uma comissão, considerando inicialmente a validação das entradas para que o voto em si ocorra.
+     * Vota uma proposta por uma comissão, considerando inicialmente a validação das entradas para que a votação em si
+     * ocorra.
      *
-     * @param codigo
-     * @param statusGovernista
-     * @param proximoLocal
-     * @return
+     * @param codigo o código referente a proposta legislativa a ser votada.
+     * @param statusGovernista a situação de apoio que a proposta possui (GOVERNISTA, OPOSIÇÃO ou LIVRE).
+     * @param proximoLocal o próximo local onde a proposta será votada.
+     * @throws NullPointerException caso alguma das entradas seja nula.
+     * @throws IllegalArgumentException caso alguma das entradas seja vazia ou composta apenas por espaços.
+     * @return um booleano true caso a votação seja aprovada ou false caso contrário.
      */
     public boolean votarComissao(String codigo, String statusGovernista, String proximoLocal) {
         this.validador.validaVotaComissao(codigo, statusGovernista, proximoLocal);
         return legislativoController.votarComissao(codigo, statusGovernista, proximoLocal, this.pessoaController.getPessoas());
     }
 
+    /**
+     * Vota uma proposta em plenário, levando em consideração inicialmente a validação das entradas, de modo a serem
+     * lançadas exceções caso se faça necessário.
+     *
+     * @param codigo o código da proposta que será votada.
+     * @param statusGovernista a situação de apoio que a proposta possui (GOVERNISTA, OPOSIÇÃO ou LIVRE).
+     * @param presentes os(as) deputados(as) presentes no momento da votação.
+     * @return um booleano true caso a votação seja aprovada ou false caso contrário.
+     */
     public boolean votarPlenario(String codigo, String statusGovernista, String presentes) {
         return legislativoController.votarPlenario(codigo, statusGovernista, presentes, this.pessoaController.getPessoas());
     }
 
+    /**
+     * Exibe o status de tramitação de uma proposta legislativa através de seu código.
+     *
+     * @param codigo o código referente a proposta.
+     * @return a String referente a situação atual em que se encontra a proposta.
+     */
     public String exibirTramitacao(String codigo) {
         return legislativoController.exibirTramitacao(codigo);
     }
