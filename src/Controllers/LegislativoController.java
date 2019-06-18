@@ -188,8 +188,8 @@ public class LegislativoController implements Serializable {
     }
 
     public boolean votarPlenario(String codigo, String statusGovernista, String presentes, HashMap<String, Pessoa> pessoas) {
-        validaQuorumMinimo(projetos.get(codigo).quorumMinimo(presentes.split(",").length,this.totalDeputados.get()));
         validaTramitacao(codigo);
+        validaQuorumMinimo(projetos.get(codigo).quorumMinimo(presentes.split(",").length,this.totalDeputados.get()));
         validaVotaPlenario(codigo);
         Projeto projeto = this.projetos.get(codigo);
         return votacaoController.votarPlenario(projeto, statusGovernista, presentes, pessoas, this.totalDeputados.get(), partidosGovernistas);

@@ -144,7 +144,7 @@ public class Facade {
      * Retorna (a partir de um arquivo) o controlador do sistema para o seu estado inicial.
      */
     public void limparSistema() {
-        this.ecoController = this.dados.limparSistema(this.save, this.reset);
+        this.ecoController = this.dados.limparSistema(this.save, this.reset, this.ecoController);
     }
 
     ////---------------------------------////----------------------------------////---------------------------------////

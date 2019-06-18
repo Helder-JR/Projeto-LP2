@@ -32,6 +32,16 @@ public class Dados {
         return false;
     }
 
+    public ECOController carregarBackUp() {
+        ECOController controller = null;
+        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream("reset.data"))) {
+            controller = (ECOController) in.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            System.out.println(e.getMessage());
+        }
+        return controller;
+    }
+
     /**
      * Tenta carregar o estado atual do ECOController presente em um arquivo, apresentando uma mensagem de erro caso a
      * classe do objeto lido a partir do arquivo não seja uma classe presente no sistema, ou caso o arquivo não seja
@@ -45,12 +55,13 @@ public class Dados {
         try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(filePath))) {
             controller = (ECOController) in.readObject();
         } catch (IOException | ClassNotFoundException e) {
+            controller = carregarBackUp();
             System.out.println(e.getMessage());
         }
         return controller;
     }
 
-    public ECOController limparSistema(File filePathSave, File filePathReset) {
+    public ECOController limparSistema(File filePathSave, File filePathReset, ECOController controller) {
         filePathSave.delete();
         return carregar(filePathReset);
     }
