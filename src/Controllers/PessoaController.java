@@ -12,17 +12,30 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class PessoaController implements Serializable {
+
     /**
      * Mapa que irá conter informações a respeito das pessoas cadastradas no sistema.
      */
     private HashMap<String, Pessoa> pessoas;
 
+    /**
+     * Objeto responsável pela validação de pessoas dentro do controlador.
+     */
     private ValidaPessoa validaPessoa;
 
+    /**
+     * Objeto responsável pela validação de deputados dentro do controlador.
+     */
     private ValidaDeputado validaDeputado;
 
+    /**
+     * Variável responsável por armazenar o total de deputados presentes na câmara.
+     */
     private AtomicInteger totalDeputados;
 
+    /**
+     * Cria um controlador de pessoas.
+     */
     public PessoaController() {
         this.pessoas = new HashMap<>();
         this.totalDeputados = new AtomicInteger(0);
@@ -30,12 +43,22 @@ public class PessoaController implements Serializable {
         this.validaDeputado = new ValidaDeputado();
     }
 
+    /**
+     * Recupera a informação referente ao mapa de pessoas presentes no controlador.
+     *
+     * @return o mapa que contém as pessoas presentes no controlador.
+     */
     public HashMap<String, Pessoa> getPessoas() {
-        return pessoas;
+        return this.pessoas;
     }
 
+    /**
+     * Recupera a informação referente ao total de deputados presentes na câmara.
+     *
+     * @return a quantidade de deputados que a câmara possui.
+     */
     public AtomicInteger getTotalDeputados() {
-        return totalDeputados;
+        return this.totalDeputados;
     }
 
     /**
