@@ -15,10 +15,20 @@ import java.util.Date;
  */
 public class ValidaSystemController implements Serializable {
 
+    /**
+     * Objeto responsável por fazer a validação de outros objetos da classe Pessoa.
+     */
     private ValidaPessoa validaPessoa;
+
+    /**
+     * Objeto responsável por fazer a validação de outros objetos da classe Deputado.
+     */
     private ValidaDeputado validaDeputado;
 
 
+    /**
+     * Cria um objeto do tipo ValidaSystemController.
+     */
     public ValidaSystemController() {
         this.validaPessoa = new ValidaPessoa();
         this.validaDeputado = new ValidaDeputado();
@@ -115,11 +125,35 @@ public class ValidaSystemController implements Serializable {
         }
     }
 
+    /**
+     * Verifica se o tema e os políticos que irão participar do cadastro de uma comissão são Strings válidas, lançando
+     * exceções caso se faça necessário.
+     *
+     * @param tema o tema que a comissão irá receber.
+     * @param politicos os políticos que irão fazer parte da comissão.
+     * @throws NullPointerException caso o tema ou os políticos que compões a comissão sejam Strings nulas.
+     * @throws IllegalArgumentException caso o tema ou os políticos sejam Strings vazias ou compostas apenas de espaços.
+     */
     public void validaCadastrarComissao(String tema, String politicos) {
         validaEntradaNulaVazia(tema, "Erro ao cadastrar comissao: tema nao pode ser vazio ou nulo");
         validaEntradaNulaVazia(politicos, "Erro ao cadastrar comissao: lista de politicos nao pode ser vazio ou nulo");
     }
 
+    /**
+     * Verifica se as entradas necessárias para cadastrar um projeto de lei são válidas.
+     *
+     * @param dni o DNI da pessoa que propôs o projeto de lei.
+     * @param ano o ano em que esse projeto de lei foi criado/proposto.
+     * @param ementa a ementa com a descrição do projeto.
+     * @param interesses os interesses defendidos no projetos.
+     * @param url o endereço da internet que contém a descriçaõ completa referente ao projeto.
+     * @param conclusivo indica se o projeto pode ser aprecisado em comissões sem necessidade de ir ao plenário.
+     * @throws NullPointerException caso o DNI, a ementa, os interesses ou a url sejam Strings nulas.
+     * @throws IllegalArgumentException caso alguma dessas entradas seja uma String vazia, composta apenas de espaços,
+     *                                  ou não esteja em um formato válido, como por exemplo o DNI não ser na forma
+     *                                  "XXXXXXXXX-X" ou o ano ser superior ou inferior a criação da proposta.
+     * @throws ParseException caso o ano não obedeça um formato válido.
+     */
     public void validaCadastrarPL(String dni, int ano, String ementa, String interesses, String url, boolean conclusivo) throws ParseException {
         validaEntradaNulaVazia(dni, "Erro ao cadastrar projeto: autor nao pode ser vazio ou nulo");
         validaEntradaNulaVazia(ementa, "Erro ao cadastrar projeto: ementa nao pode ser vazia ou nula");
@@ -142,6 +176,21 @@ public class ValidaSystemController implements Serializable {
         }
     }
 
+    /**
+     * Valida as entradas necesárias para que o cadastro de PEC's ou PLP's sejam bem sucedidos.
+     *
+     * @param dni o DNI da pessoa que propôs o projeto de lei.
+     * @param ano o ano em que esse projeto de lei foi criado/proposto.
+     * @param ementa a ementa com a descrição do projeto.
+     * @param interesses os interesses defendidos no projetos.
+     * @param url o endereço da internet que contém a descrição completa referente ao projeto.
+     * @param artigos os artigos que serão emendados/complementados por estas propostas.
+     * @throws NullPointerException caso alguma das entradas seja uma String nula.
+     * @throws IllegalArgumentException caso alguma das Strings seja vazia, composta apenas de espaços, o DNI não siga o
+     *                                  padrão proposto ou a data seja em algum momento do tempo diferente da real
+     *                                  criação da proposta de lei.
+     * @throws ParseException caso o ano de criação do projeto não seja uma data válida.
+     */
     public void validaCadastrarPLPouPEC(String dni, int ano, String ementa, String interesses, String url, String artigos) throws ParseException {
         validaEntradaNulaVazia(dni, "Erro ao cadastrar projeto: autor nao pode ser vazio ou nulo");
         validaEntradaNulaVazia(ementa, "Erro ao cadastrar projeto: ementa nao pode ser vazia ou nula");
@@ -165,6 +214,16 @@ public class ValidaSystemController implements Serializable {
         }
     }
 
+    /**
+     * Verifica se as entradas necessárias para votar uma comissão são válidas, lançando exceções quando necessário.
+     *
+     * @param codigo o código da proposta legislativa que será votada.
+     * @param status o status governista da proposta.
+     * @param proximoLocal o próximo local ao qual a proposta será votada.
+     * @throws NullPointerException caso alguma das entradas seja nula.
+     * @throws IllegalArgumentException caso alguma das entrads seja uma String vazia, composta apenas por espaços ou
+     *                                  não siga um padrão válido.
+     */
     public void validaVotaComissao(String codigo, String status, String proximoLocal) {
         if (status == null || "".equals(status.trim()))
             throw new IllegalArgumentException("Erro ao votar proposta: status invalido");
