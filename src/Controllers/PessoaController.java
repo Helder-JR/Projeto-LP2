@@ -11,6 +11,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
+/**
+ * Controlador que tem como função armazenar as pessoas que estão presentes no sistema, sendo estas apenas civis ou
+ * deputados(as).
+ */
 public class PessoaController implements Serializable {
 
     /**

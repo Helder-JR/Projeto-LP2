@@ -51,6 +51,9 @@ public class Pessoa implements Serializable {
      */
     private AtomicInteger leisAprovadas;
 
+    /**
+     * Objeto responsável por fazer a validação das entradas de dados na hora de cadastrar uma pessoa.
+     */
     private ValidaPessoa validaPessoa;
 
     /**
@@ -145,14 +148,27 @@ public class Pessoa implements Serializable {
         return this.funcao.toString(this.nome, this.dni, this.estado, this.partido, this.interesses);
     }
 
+    /**
+     * Recupera a informação referente a quantidade de leis que essa pessoa conseguiu fazer serem aprovadas.
+     *
+     * @return o inteiro que corresponder a quantidade de leis aprovadas por essa pessoa.
+     */
     public AtomicInteger getLeisAprovadas() {
         return this.leisAprovadas;
     }
 
+    /**
+     * Aprova uma lei proposta por essa pessoa, incrementando o atributo correspondente.
+     */
     public void aprovaLei() {
         this.leisAprovadas.set((this.leisAprovadas.incrementAndGet()));
     }
 
+    /**
+     * Exibe a função pública exercida por essa pessoa.
+     *
+     * @return a String que corresponde a função exercida por essa pessoa.
+     */
     public String exibeFuncao() {
         return this.funcao.getFuncao();
     }

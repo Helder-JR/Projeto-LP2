@@ -6,6 +6,10 @@ import java.io.Serializable;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
+/**
+ * Controlador responsável por armazenar as propostas legislativas e gerenciar as operações a respeito das votações de
+ * tais propostas.
+ */
 public class LegislativoController implements Serializable {
 
     private VotacaoController votacaoController;
