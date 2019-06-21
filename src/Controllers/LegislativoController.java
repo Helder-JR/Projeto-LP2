@@ -87,6 +87,7 @@ public class LegislativoController implements Serializable {
         }
         this.comissoes.put(tema, lista);
     }
+
     private void validaCadastraProjeto(String dni, HashMap<String, Pessoa> pessoas) {
         if (!pessoas.containsKey(dni)) {
             throw new NullPointerException("Erro ao cadastrar projeto: pessoa inexistente");
@@ -98,12 +99,12 @@ public class LegislativoController implements Serializable {
 
     public String cadastrarPL(String dni, int ano, String ementa, String interesses, String url, boolean conclusivo, HashMap<String, Pessoa> pessoas) throws ParseException {
         this.validador.validaCadastrarPL(dni, ano, ementa, interesses, url, conclusivo);
-        validaCadastraProjeto(dni,pessoas);
+        validaCadastraProjeto(dni, pessoas);
         int ordemCodigo;
         if (this.codigoProjetosPL.containsKey(ano)) {
             ordemCodigo = this.codigoProjetosPL.get(ano);
         } else {
-            this.codigoProjetosPL.put(ano,1);
+            this.codigoProjetosPL.put(ano, 1);
             ordemCodigo = 1;
         }
         String codigo = "PL " + ordemCodigo + "/" + ano;
@@ -115,12 +116,12 @@ public class LegislativoController implements Serializable {
 
     public String cadastrarPLP(String dni, int ano, String ementa, String interesses, String url, String artigos, HashMap<String, Pessoa> pessoas) throws ParseException {
         this.validador.validaCadastrarPLPouPEC(dni, ano, ementa, interesses, url, artigos);
-        validaCadastraProjeto(dni,pessoas);
+        validaCadastraProjeto(dni, pessoas);
         int ordemCodigo;
         if (this.codigoProjetosPLP.containsKey(ano)) {
             ordemCodigo = this.codigoProjetosPLP.get(ano);
         } else {
-            this.codigoProjetosPLP.put(ano,1);
+            this.codigoProjetosPLP.put(ano, 1);
             ordemCodigo = 1;
         }
         String codigo = "PLP " + ordemCodigo + "/" + ano;
@@ -132,12 +133,12 @@ public class LegislativoController implements Serializable {
 
     public String cadastrarPEC(String dni, int ano, String ementa, String interesses, String url, String artigos, HashMap<String, Pessoa> pessoas) throws ParseException {
         this.validador.validaCadastrarPLPouPEC(dni, ano, ementa, interesses, url, artigos);
-        validaCadastraProjeto(dni,pessoas);
+        validaCadastraProjeto(dni, pessoas);
         int ordemCodigo;
         if (this.codigoProjetosPEC.containsKey(ano)) {
             ordemCodigo = this.codigoProjetosPEC.get(ano);
         } else {
-            this.codigoProjetosPEC.put(ano,1);
+            this.codigoProjetosPEC.put(ano, 1);
             ordemCodigo = 1;
         }
         String codigo = "PEC " + ordemCodigo + "/" + ano;
@@ -151,7 +152,7 @@ public class LegislativoController implements Serializable {
         return this.projetos.get(codigo).toString();
     }
 
-    public void validaExistenciaProjeto(String codigo){
+    public void validaExistenciaProjeto(String codigo) {
         if (!this.projetos.containsKey(codigo))
             throw new NullPointerException("Erro ao votar proposta: projeto inexistente");
     }
@@ -197,7 +198,7 @@ public class LegislativoController implements Serializable {
 
     public boolean votarPlenario(String codigo, String statusGovernista, String presentes, HashMap<String, Pessoa> pessoas) {
         validaTramitacao(codigo);
-        validaQuorumMinimo(projetos.get(codigo).quorumMinimo(presentes.split(",").length,this.totalDeputados.get()));
+        validaQuorumMinimo(projetos.get(codigo).quorumMinimo(presentes.split(",").length, this.totalDeputados.get()));
         validaVotaPlenario(codigo);
         Projeto projeto = this.projetos.get(codigo);
         return votacaoController.votarPlenario(projeto, statusGovernista, presentes, pessoas, this.totalDeputados.get(), partidosGovernistas);

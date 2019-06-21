@@ -45,12 +45,14 @@ class LegislativoControllerTest {
         }
     }
 
+    // Testes para Exibir Base
     @Test
     void exibirBase() {
         controller.cadastrarPartido("CBA");
         controller.cadastrarPartido("ABC");
         assertEquals("ABC,CBA", controller.exibirBase());
     }
+
 
     // Testes para Cadastrar Comissao
     @Test
