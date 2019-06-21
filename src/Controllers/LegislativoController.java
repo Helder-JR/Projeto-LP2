@@ -1,8 +1,10 @@
 package Controllers;
 
 import Entidades.*;
+import Validacao.ValidaSystemController;
 
 import java.io.Serializable;
+import java.text.ParseException;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -15,6 +17,7 @@ public class LegislativoController implements Serializable {
     private Map<Integer, Integer> codigoProjetosPLP;
     private Map<Integer, Integer> codigoProjetosPEC;
     private AtomicInteger totalDeputados;
+    private ValidaSystemController validador;
 
     /**
      * Conjunto que irá conter informações a respeito dos partidos cadastrados no sistema.
@@ -30,6 +33,7 @@ public class LegislativoController implements Serializable {
         this.codigoProjetosPEC = new HashMap<>();
         this.partidosGovernistas = new HashSet<>();
         this.totalDeputados = totalDeputados;
+        this.validador = new ValidaSystemController();
     }
 
     /**
@@ -41,6 +45,7 @@ public class LegislativoController implements Serializable {
      * @throws IllegalArgumentException caso o partido seja uma String vazia ou composta apenas por espaços.
      */
     public boolean cadastrarPartido(String partido) {
+        this.validador.validaCadastrarPartido(partido);
         return this.partidosGovernistas.add(partido);
     }
 
@@ -91,7 +96,8 @@ public class LegislativoController implements Serializable {
         }
     }
 
-    public String cadastrarPL(String dni, int ano, String ementa, String interesses, String url, boolean conclusivo, HashMap<String, Pessoa> pessoas) {
+    public String cadastrarPL(String dni, int ano, String ementa, String interesses, String url, boolean conclusivo, HashMap<String, Pessoa> pessoas) throws ParseException {
+        this.validador.validaCadastrarPL(dni, ano, ementa, interesses, url, conclusivo);
         validaCadastraProjeto(dni,pessoas);
         int ordemCodigo;
         if (this.codigoProjetosPL.containsKey(ano)) {
@@ -107,7 +113,8 @@ public class LegislativoController implements Serializable {
         return codigo;
     }
 
-    public String cadastrarPLP(String dni, int ano, String ementa, String interesses, String url, String artigos, HashMap<String, Pessoa> pessoas) {
+    public String cadastrarPLP(String dni, int ano, String ementa, String interesses, String url, String artigos, HashMap<String, Pessoa> pessoas) throws ParseException {
+        this.validador.validaCadastrarPLPouPEC(dni, ano, ementa, interesses, url, artigos);
         validaCadastraProjeto(dni,pessoas);
         int ordemCodigo;
         if (this.codigoProjetosPLP.containsKey(ano)) {
@@ -123,7 +130,8 @@ public class LegislativoController implements Serializable {
         return codigo;
     }
 
-    public String cadastrarPEC(String dni, int ano, String ementa, String interesses, String url, String artigos, HashMap<String, Pessoa> pessoas) {
+    public String cadastrarPEC(String dni, int ano, String ementa, String interesses, String url, String artigos, HashMap<String, Pessoa> pessoas) throws ParseException {
+        this.validador.validaCadastrarPLPouPEC(dni, ano, ementa, interesses, url, artigos);
         validaCadastraProjeto(dni,pessoas);
         int ordemCodigo;
         if (this.codigoProjetosPEC.containsKey(ano)) {

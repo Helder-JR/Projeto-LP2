@@ -303,7 +303,7 @@ class ECOControllerTest {
         }
     }
 
-    // Testes para Exibirr Projetos
+    // Testes para Exibir Projetos
     @Test
     void ExibirProjetoPL() throws ParseException {
         controller.cadastrarPessoa("Mateus Matia", "061222222-0", "PE", "", "ABC");
