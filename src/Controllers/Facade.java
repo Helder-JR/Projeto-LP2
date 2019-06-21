@@ -179,6 +179,24 @@ public class Facade {
         return this.ecoController.votarPlenario(codigo, statusGovernista, presentes);
     }
 
+
+    ////---------------------------------////----------------------------------////---------------------------------////
+    //Parte 3
+    public void configurarEstrategiaPropostaRelacionada(String dni, String estrategia){
+        this.ecoController.configurarEstrategia(dni, estrategia);
+    }
+
+    //public String pegarPropostaRelacionada(String dni){
+    //
+    //}
+
+    /**
+     * Exibe o status de tramitação de uma proposta legislativa através de seu código.
+     *
+     * @param codigo o código referente a proposta.
+     * @return a String referente a situação atual em que se encontra a proposta.
+     */
+
     public String exibirTramitacao(String codigo) {
         return this.ecoController.exibirTramitacao(codigo);
     }

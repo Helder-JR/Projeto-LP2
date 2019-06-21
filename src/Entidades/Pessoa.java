@@ -54,6 +54,11 @@ public class Pessoa implements Serializable {
     private ValidaPessoa validaPessoa;
 
     /**
+     *
+     */
+    private Estrategia estrategia;
+
+    /**
      * Cria uma pessoa com base em seu nome, DNI, estado, interesses e partido.
      *
      * @param nome o nome da pessoa.
@@ -72,6 +77,7 @@ public class Pessoa implements Serializable {
         this.partido = partido;
         this.funcao = new Civil();
         this.leisAprovadas = new AtomicInteger(0);
+        this.estrategia = new Constitucional();
     }
 
     /**
