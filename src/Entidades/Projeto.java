@@ -79,4 +79,22 @@ public interface Projeto extends Serializable {
      * @return um booleano true caso o quórum mínimo seja atingido, ou false caso contrário.
      */
     boolean quorumMinimo(int deputadosPresentes, int totalDeputados);
+
+    /**
+     *
+     * @return
+     */
+    String getTipoProjeto();
+
+    /**
+     *
+     * @return
+     */
+    int getAno();
+
+    /**
+     *
+     * @return
+     */
+    String getCodigo();
 }

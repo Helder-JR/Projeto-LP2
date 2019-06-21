@@ -27,6 +27,7 @@ public class ProjetoLei extends ProjetoLegislativoAbstract {
     public ProjetoLei(String dni, int ano, String ementa, String interesses, String url, boolean conclusivo, String codigo) {
         super(dni, ano, ementa, interesses, url, codigo);
         this.conclusivo = conclusivo;
+        this.tipoProjeto = "PL";
     }
 
     /**

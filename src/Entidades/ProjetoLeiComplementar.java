@@ -27,6 +27,7 @@ public class ProjetoLeiComplementar extends ProjetoLegislativoAbstract {
     public ProjetoLeiComplementar(String dni, int ano, String ementa, String interesses, String url, String artigos, String codigo) {
         super(dni, ano, ementa, interesses, url, codigo);
         this.artigos = artigos;
+        this.tipoProjeto = "PLP";
     }
 
     /**

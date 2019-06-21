@@ -56,6 +56,11 @@ public abstract class ProjetoLegislativoAbstract implements Projeto {
     protected List<String> tramitacao;
 
     /**
+     *
+     */
+    protected String tipoProjeto;
+
+    /**
      * Cria uma proposta legislativa.
      *
      * @param dni o DNI da pessoa que criou a proposta.
@@ -164,5 +169,29 @@ public abstract class ProjetoLegislativoAbstract implements Projeto {
      */
     public String getSituacaoAtual() {
         return this.situacaoAtual;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public String getTipoProjeto(){
+        return this.tipoProjeto;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public int getAno() {
+        return this.ano;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public String getCodigo() {
+        return this.codigo;
     }
 }

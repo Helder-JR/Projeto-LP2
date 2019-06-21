@@ -250,4 +250,13 @@ public class ECOController implements Serializable {
     public String exibirTramitacao(String codigo) {
         return legislativoController.exibirTramitacao(codigo);
     }
+
+    /**
+     *
+     * @param dni
+     * @param estrategia
+     */
+    public void configurarEstrategia(String dni, String estrategia){
+
+    }
 }
