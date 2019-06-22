@@ -264,9 +264,9 @@ public class Facade {
         this.ecoController.configurarEstrategia(dni, estrategia);
     }
 
-    //public String pegarPropostaRelacionada(String dni){
-    //
-    //}
+    public String pegarPropostaRelacionada(String dni){
+        return this.ecoController.pegarPropostaRelacionada(dni);
+    }
 
     /**
      * Exibe o status de tramitação de uma proposta legislativa através de seu código.

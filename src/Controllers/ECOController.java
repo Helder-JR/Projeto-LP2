@@ -2,11 +2,13 @@ package Controllers;
 
 
 import Entidades.Pessoa;
+import Entidades.Projeto;
 import Validacao.ValidaSystemController;
 
 import java.io.Serializable;
 import java.text.ParseException;
 import java.util.HashMap;
+import java.util.HashSet;
 
 
 /**
@@ -258,5 +260,19 @@ public class ECOController implements Serializable {
      */
     public void configurarEstrategia(String dni, String estrategia){
 
+    }
+
+    public String pegarPropostaRelacionada(String dni) {
+        Pessoa pessoa = this.pessoaController.getPessoa(dni);
+        HashSet<String> interessesPessoa = pessoa.getInteresses();
+        HashSet<Projeto> projetoInteressesEmComum = this.legislativoController.pegarPropostaRelacionada(interessesPessoa);
+        if (projetoInteressesEmComum.size() == 0)
+            return "Sem interesses em comum";
+        if (projetoInteressesEmComum.size() == 1) {
+            for (Projeto projeto : projetoInteressesEmComum) return projeto.toString();
+        } else {
+            return pessoa.escolheProjeto(projetoInteressesEmComum);
+        }
+        throw new IllegalArgumentException("Algo errado");
     }
 }

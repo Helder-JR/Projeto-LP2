@@ -8,6 +8,7 @@ import Validacao.ValidaPessoa;
 import java.io.Serializable;
 import java.text.ParseException;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -161,5 +162,9 @@ public class PessoaController implements Serializable {
         } else {
             throw new NullPointerException("Erro ao exibir pessoa: pessoa nao encontrada");
         }
+    }
+
+    public Pessoa getPessoa(String dni) {
+        return this.pessoas.get(dni);
     }
 }

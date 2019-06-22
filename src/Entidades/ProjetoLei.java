@@ -79,7 +79,7 @@ public class ProjetoLei extends ProjetoLegislativoAbstract {
      * @param resultado o resultado da votação até o momento.
      * @param proximoLocal o próximo local para onde a votação irá seguir.
      */
-    private void setsituacao(boolean resultado, String proximoLocal) {
+    private void setSituacao(boolean resultado, String proximoLocal) {
         if (conclusivo) {
             if (!"-".equals(proximoLocal)) {
                 if (resultado) {
@@ -120,7 +120,7 @@ public class ProjetoLei extends ProjetoLegislativoAbstract {
         if ("CCJC".equals(this.local)) {
             setSituacaoCCJC(resultado, proximoLocal);
         } else {
-            setsituacao(resultado, proximoLocal);
+            setSituacao(resultado, proximoLocal);
         }
     }
 

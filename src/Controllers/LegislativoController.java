@@ -211,4 +211,25 @@ public class LegislativoController implements Serializable {
     public String exibirTramitacao(String codigo) {
         return this.projetos.get(codigo).getSituacaoAtual();
     }
+
+    public HashSet<Projeto> pegarPropostaRelacionada(HashSet<String> interessesPessoa) {
+        HashSet<String> interessesEmComum = new HashSet<>();
+        HashSet<Projeto> projetoInteressesEmComum = new HashSet<>();
+            for (Projeto projeto : this.projetos.values()) {
+                HashSet<String> copiaInteressesProjeto = new HashSet<>(projeto.getInteresses());
+                copiaInteressesProjeto.retainAll(interessesPessoa);
+                if (copiaInteressesProjeto.size() > interessesEmComum.size()) {
+                    interessesEmComum.clear();
+                    interessesEmComum.addAll(copiaInteressesProjeto);
+                    projetoInteressesEmComum.clear();
+                    projetoInteressesEmComum.add(projeto);
+                } else
+                    if (copiaInteressesProjeto.size() == interessesEmComum.size()) {
+                        interessesEmComum.clear();
+                        interessesEmComum.addAll(copiaInteressesProjeto);
+                        projetoInteressesEmComum.add(projeto);
+                    }
+            }
+            return projetoInteressesEmComum;
+    }
 }

@@ -104,7 +104,7 @@ public class Pessoa implements Serializable {
         this.funcao = funcao;
     }
 
-    public Set<String> getInteresses() {
+    public HashSet<String> getInteresses() {
         return new HashSet<>(Arrays.asList(this.interesses.split(",")));
     }
 
@@ -178,4 +178,9 @@ public class Pessoa implements Serializable {
     public String exibeFuncao() {
         return this.funcao.getFuncao();
     }
+
+    public String escolheProjeto(HashSet<Projeto> projetos) {
+        return this.estrategia.selecionaProjeto(projetos);
+    }
+
 }
