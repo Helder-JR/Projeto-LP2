@@ -150,31 +150,109 @@ public class Facade {
     ////---------------------------------////----------------------------------////---------------------------------////
     //Parte 2
 
+    /**
+     * Cadastra uma comissão no sistema, fazendo primeiramente a validação das entradas para que o cadastro possa de
+     * fato ocorrer.
+     *
+     * @param tema o tema que a comissão irá tratar.
+     * @param politicos os políticos que farão parte dessa comissão.
+     * @throws NullPointerException caso o tema ou os políticos sejam Strings nulas.
+     * @throws IllegalArgumentException caso o tema e os políticos sejam Strings vazias ou compostas apenas de espaços.
+     */
     public void cadastrarComissao(String tema, String politicos) {
         this.ecoController.cadastrarComissao(tema, politicos);
     }
 
+    /**
+     * Cadastra um projeto de lei no sistema. verificando inicialmente se as entradas são válidas.
+     *
+     * @param dni o DNI da pessoa que criou o projeto de lei.
+     * @param ano o ano em que esse projeto de lei foi criado/proposto.
+     * @param ementa a ementa que possui a descrição do projeto.
+     * @param interesses o conjunto de interesses que fazem parte do projeto.
+     * @param url o endereço da internet que possui o documento com a descrição completa do projeto.
+     * @param conclusivo o estado de tramitação do projeto.
+     * @return o código referente a esse projeto de lei.
+     * @throws NullPointerException caso uma das entradas seja nula.
+     * @throws IllegalArgumentException caso alguma das entradas seja uma String vazia ou composta apenas por espaços.
+     * @throws ParseException caso o ano de criação do projeto seja inválido.
+     */
     public String cadastrarPL(String dni, int ano, String ementa, String interesses, String url, boolean conclusivo) throws ParseException {
         return this.ecoController.cadastrarPL(dni, ano, ementa, interesses, url, conclusivo);
     }
 
+    /**
+     * Cadastra um projeto de lei complementar no sistema, inicialmente validando se as entradas são válidas para que o
+     * cadastro ocorra de fato.
+     *
+     * @param dni o DNI da pessoa que propôs o projeto.
+     * @param ano o ano em que o projeto foi criado/proposto.
+     * @param ementa a ementa com a descrição do projeto.
+     * @param interesses os interesses a que aborda o projeto.
+     * @param url o endereço da internet que contém o documento com a descrição completa do projeto.
+     * @param artigos os artigos que são complementados por este projeto.
+     * @return o código referente ao projeto.
+     * @throws NullPointerException caso alguma das entradas seja nula.
+     * @throws IllegalArgumentException caso alguma das entradas seja uma String vazia ou composta apenas de espaços.
+     * @throws ParseException caso o ano em que o projeto tenha sido criado não seja uma data válida.
+     */
     public String cadastrarPLP(String dni, int ano, String ementa, String interesses, String url, String artigos) throws ParseException {
         return this.ecoController.cadastrarPLP(dni, ano, ementa, interesses, url, artigos);
     }
 
+    /**
+     * Cadastra um projeto de emenda constitucional no sistema, validando as entradas antes do cadastro em si.
+     *
+     * @param dni o DNI da pessoa que criou o projeto.
+     * @param ano o ano em que o projeto foi criado/proposto.
+     * @param ementa a ementa com a descrição do projeto.
+     * @param interesses os interesses abordados pelo projeto.
+     * @param url o endereço da internet que contém o documento com a descrição completa do projeto.
+     * @param artigos os artigos que são emendados pelo projeto.
+     * @return o código referente ao projeto.
+     * @throws NullPointerException caso alguma das entradas seja nula.
+     * @throws IllegalArgumentException caso alguma das entradas seja uma String vazia ou composta apenas de espaços.
+     * @throws ParseException caso o ano de criação do projeto não seja uma data válida.
+     */
     public String cadastrarPEC(String dni, int ano, String ementa, String interesses, String url, String artigos) throws ParseException {
         return this.ecoController.cadastrarPEC(dni, ano, ementa, interesses, url, artigos);
     }
 
+    /**
+     * Exibe uma proposta legislativa, levando em consideração seu código como base da consulta.
+     *
+     * @param codigo o código que servirá para a consulta da proposta legislativa no sistema.
+     * @return a representação em String da proposta consultada.
+     */
     public String exibirProjeto(String codigo) {
         return this.ecoController.exibirProjeto(codigo);
     }
 
+    /**
+     * Vota uma proposta por uma comissão, considerando inicialmente a validação das entradas para que a votação em si
+     * ocorra.
+     *
+     * @param codigo o código referente a proposta legislativa a ser votada.
+     * @param statusGovernista a situação de apoio que a proposta possui (GOVERNISTA, OPOSIÇÃO ou LIVRE).
+     * @param proximoLocal o próximo local onde a proposta será votada.
+     * @throws NullPointerException caso alguma das entradas seja nula.
+     * @throws IllegalArgumentException caso alguma das entradas seja vazia ou composta apenas por espaços.
+     * @return um booleano true caso a votação seja aprovada ou false caso contrário.
+     */
     public boolean votarComissao(String codigo, String statusGovernista, String proximoLocal) {
         return this.ecoController.votarComissao(codigo, statusGovernista, proximoLocal);
 
     }
 
+    /**
+     * Vota uma proposta em plenário, levando em consideração inicialmente a validação das entradas, de modo a serem
+     * lançadas exceções caso se faça necessário.
+     *
+     * @param codigo o código da proposta que será votada.
+     * @param statusGovernista a situação de apoio que a proposta possui (GOVERNISTA, OPOSIÇÃO ou LIVRE).
+     * @param presentes os(as) deputados(as) presentes no momento da votação.
+     * @return um booleano true caso a votação seja aprovada ou false caso contrário.
+     */
     public boolean votarPlenario(String codigo, String statusGovernista, String presentes) {
         return this.ecoController.votarPlenario(codigo, statusGovernista, presentes);
     }

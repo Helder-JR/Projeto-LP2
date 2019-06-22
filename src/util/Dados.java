@@ -56,7 +56,6 @@ public class Dados {
             controller = (ECOController) in.readObject();
         } catch (IOException | ClassNotFoundException e) {
             controller = carregarBackUp();
-            System.out.println(e.getMessage());
         }
         return controller;
     }
