@@ -65,7 +65,7 @@ public class ProjetoEmendaConstitucional extends ProjetoLegislativoAbstract {
      * @return um booleano true caso a quantidade mínima de votos seja atingida, ou false caso contrário.
      */
     @Override
-    public boolean calculaVotoMinimo(int totalDeputados, int totalVotos) {
+    public boolean calculaVotoMinimo(int deputadosPresentes , int totalDeputados, int totalVotos) {
         return (totalVotos >= floor(3*totalDeputados/5)+1);
     }
 }

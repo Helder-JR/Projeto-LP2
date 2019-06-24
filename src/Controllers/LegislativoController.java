@@ -209,7 +209,9 @@ public class LegislativoController implements Serializable {
     }
 
     public String exibirTramitacao(String codigo) {
-        return this.projetos.get(codigo).getSituacaoAtual();
+        if (this.projetos.containsKey(codigo)) {
+            return this.projetos.get(codigo).getTramitacao();
+        } throw new NullPointerException("Erro ao exibir tramitacao: projeto inexistente");
     }
 
     public HashSet<Projeto> pegarPropostaRelacionada(HashSet<String> interessesPessoa) {

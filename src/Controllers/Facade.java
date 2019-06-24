@@ -144,7 +144,7 @@ public class Facade {
      * Retorna (a partir de um arquivo) o controlador do sistema para o seu estado inicial.
      */
     public void limparSistema() {
-        this.ecoController = this.dados.limparSistema(this.save, this.reset, this.ecoController);
+        this.ecoController = this.dados.limparSistema(this.save, this.reset);
     }
 
     ////---------------------------------////----------------------------------////---------------------------------////
@@ -291,7 +291,8 @@ public class Facade {
                 "acceptance_test/use_case_4.txt",
                 "acceptance_test/use_case_5.txt",
                 "acceptance_test/use_case_6.txt",
-                "acceptance_test/use_case_7.txt"};
+                "acceptance_test/use_case_7.txt",
+                "acceptance_test/use_case_8.txt"};
         EasyAccept.main(args);
     }
 }
