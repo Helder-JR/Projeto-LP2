@@ -32,6 +32,12 @@ public class Dados {
         return false;
     }
 
+    /**
+     * Tenta carregar o arquivo que contém o estado inicial do sistema, exibindo uma mensagem de erro caso o arquivo não
+     * seja encontrado ou seja de uma classe diferente da esperada.
+     *
+     * @return o controller em seu estado inicial.
+     */
     public ECOController carregarBackUp() {
         ECOController controller = null;
         try (ObjectInputStream in = new ObjectInputStream(new FileInputStream("reset.data"))) {
@@ -60,7 +66,14 @@ public class Dados {
         return controller;
     }
 
-    public ECOController limparSistema(File filePathSave, File filePathReset, ECOController controller) {
+    /**
+     * Limpa o estado atual do sistema, fazendo-o retornar ao seu estado inicial.
+     *
+     * @param filePathSave o caminho que contém os dados salvos do sistema.
+     * @param filePathReset o caminho para o arquivo que contém o sistema em seu estado inicial.
+     * @return o ECOController em seu estado inicial.
+     */
+    public ECOController limparSistema(File filePathSave, File filePathReset) {
         filePathSave.delete();
         return carregar(filePathReset);
     }
