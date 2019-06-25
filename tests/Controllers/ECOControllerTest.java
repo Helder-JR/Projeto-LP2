@@ -2,6 +2,7 @@ package Controllers;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestTemplate;
 
 import java.text.ParseException;
 
@@ -635,5 +636,90 @@ class ECOControllerTest {
         } catch (IllegalArgumentException iae) {
         }
     }
+
+    // sss
+    @Test
+    void exibirProjeto() throws ParseException {
+        controller.cadastrarPessoa("M2", "071222222-0", "PE", "educacao,seguranca publica,saude", "PartidoGov");
+        controller.cadastrarDeputado("071222222-0", "29022016");
+        String plc = controller.cadastrarPL("071222222-0", 2016, "Ementa PL conc", "saude,educacao basica", "http://example.com/semana_saude", true);
+        assertEquals("Projeto de Lei - PL 1/2016 - 071222222-0 - Ementa PL conc - Conclusiva - EM VOTACAO (CCJC)", controller.exibirProjeto(plc));
+    }
+
+    @Test
+    void exibirProjetoAprovadoNaCcjc() throws ParseException {
+        controller.cadastrarPartido("PartidoGov");
+        controller.cadastrarPessoa("M2", "071222222-0", "PE", "educacao,seguranca publica,saude", "PartidoGov");
+        controller.cadastrarDeputado("071222222-0", "29022016");
+        controller.cadastrarComissao("CCJC", "071222222-0");
+        controller.cadastrarComissao("CTF", "071222222-0");
+        String plc = controller.cadastrarPL("071222222-0", 2016, "Ementa PL conc", "saude,educacao basica", "http://example.com/semana_saude", true);
+        controller.votarComissao(plc, "GOVERNISTA", "CTF");
+        assertEquals("Projeto de Lei - PL 1/2016 - 071222222-0 - Ementa PL conc - Conclusiva - EM VOTACAO (CTF)", controller.exibirProjeto(plc));
+    }
+
+    @Test
+    void votarComissaoCcjcNaoCadastrada() throws ParseException {
+        controller.cadastrarPartido("PartidoGov");
+        controller.cadastrarPessoa("M2", "071222222-0", "PE", "educacao,seguranca publica,saude", "PartidoGov");
+        controller.cadastrarDeputado("071222222-0", "29022016");
+        String plc = controller.cadastrarPL("071222222-0", 2016, "Ementa PL conc", "saude,educacao basica", "http://example.com/semana_saude", true);
+        try {
+            controller.votarComissao(plc, "GOVERNISTA", "CTF");
+        } catch (NullPointerException npe) {
+        }
+    }
+
+    @Test
+    void exibirProjetoNegadoNaCcjc() throws ParseException {
+        controller.cadastrarPartido("PartidoGov");
+        controller.cadastrarPessoa("M2", "071222222-0", "PE", "educacao,seguranca publica,saude", "PartidoGov");
+        controller.cadastrarDeputado("071222222-0", "29022016");
+        controller.cadastrarComissao("CCJC", "071222222-0");
+        controller.cadastrarComissao("CTF", "071222222-0");
+        controller.cadastrarComissao("CGGOV", "071222222-0");
+        String plc = controller.cadastrarPL("071222222-0", 2016, "Ementa PL conc", "saude,educacao basica", "http://example.com/semana_saude", true);
+        controller.votarComissao(plc, "OPOSICAO", "CTF");
+        try {
+            controller.votarComissao(plc, "OPOSICAO", "CGGOV");
+        } catch (IllegalArgumentException iae) {
+        }
+    }
+
+    @Test
+    void votarPropostaProjetoInexistente() {
+        try {
+            controller.votarComissao("PP 4/30", "GOVERNISTA", "CTF");
+        } catch (NullPointerException npe) {
+        }
+    }
+
+    @Test
+    void votarPropostaStatusInvalido() {
+        try {
+            controller.votarComissao("PP 4/30", "ILLUMINATI", "CTF");
+        } catch (IllegalArgumentException iae) {
+        }
+    }
+
+    @Test
+    void votarPropostaProxLocalVazio() {
+        try {
+            controller.votarComissao("PP 4/30", "ILLUMINATI", "");
+        } catch (IllegalArgumentException iae) {
+        }
+    }
+
+    @Test
+    void votarPropostaTramitacaoEmComissao() throws ParseException {
+        controller.cadastrarPessoa("M2", "071222222-0", "PE", "educacao,seguranca publica,saude", "PartidoGov");
+        controller.cadastrarDeputado("071222222-0", "29022016");
+        String plc = controller.cadastrarPL("071222222-0", 2016, "Ementa PL conc", "saude,educacao basica", "http://example.com/semana_saude", true);
+        try {
+            controller.votarPlenario(plc, "GOVERNISTA", "071222222-0");
+        } catch (IllegalArgumentException iae) {
+        }
+    }
+
 
 }

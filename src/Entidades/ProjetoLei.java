@@ -48,31 +48,6 @@ public class ProjetoLei extends ProjetoLegislativoAbstract {
         return toString;
     }
 
-
-    /**
-     * Altera a situação atual do projeto.
-     *
-     * @param resultado o resultado da votação até o momento.
-     * @param proximoLocal o próximo local para qual a votação irá seguir.
-     */
-    private void setSituacaoCCJC(boolean resultado, String proximoLocal) {
-        if (conclusivo) {
-            if (resultado) {
-                this.situacaoAtual = String.format("EM VOTACAO (%s)", proximoLocal);
-                this.local = proximoLocal;
-            } else {
-                this.situacaoAtual = "ARQUIVADO";
-            }
-        } else {
-            if (resultado) {
-                this.situacaoAtual = String.format("EM VOTACAO (%s)", proximoLocal);
-                this.local = proximoLocal;
-            } else {
-                this.situacaoAtual = "ARQUIVADO";
-            }
-        }
-    }
-
     /**
      * Altera a situação atual do projeto de lei.
      *
@@ -84,28 +59,44 @@ public class ProjetoLei extends ProjetoLegislativoAbstract {
             if (!"-".equals(proximoLocal)) {
                 if (resultado) {
                     this.situacaoAtual = String.format("EM VOTACAO (%s)", proximoLocal);
+                    this.tramitacao.add(String.format("APROVADO (%s)", this.local));
+                    this.tramitacao.add(situacaoAtual);
                 } else {
                     this.situacaoAtual = "ARQUIVADO";
+                    this.tramitacao.add(String.format("REJEITADO (%s)", this.local));
                 }
             } else {
                 if (resultado) {
                     this.situacaoAtual = "APROVADO";
+                    this.tramitacao.add(String.format("APROVADO (%s)", this.local));
+                    this.local = "-";
                 } else {
                     this.situacaoAtual = "ARQUIVADO";
+                    this.tramitacao.add(String.format("REJEITADO (%s)", this.local));
+                    this.local = "-";
                 }
             }
         } else {
             if (!"plenario".equals(this.local)) {
-                this.situacaoAtual = String.format("EM VOTACAO (%s)", proximoLocal);
+                if (resultado) {
+                    this.tramitacao.add(String.format("APROVADO (%s)", this.local));
+                } else {
+                    this.tramitacao.add(String.format("REJEITADO (%s)", this.local));
+                }
+                this.situacaoAtual = String.format("EM VOTACAO (%s)", capitalize(proximoLocal));
+                this.tramitacao.add(situacaoAtual);
                 this.local = proximoLocal;
             } else {
                 if (resultado) {
                     this.situacaoAtual = "APROVADO";
+                    this.tramitacao.add(String.format("APROVADO (%s)", capitalize(this.local)));
+                    this.local = "-";
                 } else {
                     this.situacaoAtual = "ARQUIVADO";
+                    this.tramitacao.add(String.format("REJEITADO (%s)", capitalize(this.local)));
+                    this.local = "-";
                 }
             }
-
         }
     }
 
@@ -117,6 +108,7 @@ public class ProjetoLei extends ProjetoLegislativoAbstract {
      */
     @Override
     public void setSituacaoAtual(boolean resultado, String proximoLocal) {
+        this.tramitacao.remove(this.tramitacao.size()-1);
         if ("CCJC".equals(this.local)) {
             setSituacaoCCJC(resultado, proximoLocal);
         } else {
@@ -149,7 +141,7 @@ public class ProjetoLei extends ProjetoLegislativoAbstract {
      * @return um booleano true caso a quantidade mínima de votos seja atingida, ou false caso contrário.
      */
     @Override
-    public boolean calculaVotoMinimo(int deputadosPresentes, int totalVotos) {
+    public boolean calculaVotoMinimo(int deputadosPresentes , int totalDeputados, int totalVotos) {
         return (totalVotos >= floor(deputadosPresentes/2.0)+1);
     }
 }

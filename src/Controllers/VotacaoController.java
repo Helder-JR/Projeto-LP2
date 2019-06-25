@@ -25,7 +25,7 @@ public class VotacaoController implements Serializable {
     public boolean votarPlenario(Projeto projeto, String statusGovernista, String presentes, HashMap<String, Pessoa> pessoas, int totalDeputados, HashSet<String> partidosGovernistas) {
         ArrayList<String> deputadosPresentes = new ArrayList<String>(Arrays.asList(presentes.split(",")));
         int votos = controlaVoto(statusGovernista, deputadosPresentes, projeto, pessoas, partidosGovernistas);
-        boolean resultado = projeto.calculaVotoMinimo(deputadosPresentes.size(), votos);
+        boolean resultado = projeto.calculaVotoMinimo(deputadosPresentes.size(), totalDeputados, votos);
         projeto.setSituacaoAtual(resultado,"-");
         if (resultado && projeto.getSituacaoAtual().equals("APROVADO"))
             pessoas.get(projeto.getAutor()).aprovaLei();

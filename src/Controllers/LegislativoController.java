@@ -209,7 +209,9 @@ public class LegislativoController implements Serializable {
     }
 
     public String exibirTramitacao(String codigo) {
-        return this.projetos.get(codigo).getSituacaoAtual();
+        if (this.projetos.containsKey(codigo)) {
+            return this.projetos.get(codigo).getTramitacao();
+        } throw new NullPointerException("Erro ao exibir tramitacao: projeto inexistente");
     }
 
     public HashSet<Projeto> pegarPropostaRelacionada(HashSet<String> interessesPessoa) {
@@ -218,17 +220,16 @@ public class LegislativoController implements Serializable {
             for (Projeto projeto : this.projetos.values()) {
                 HashSet<String> copiaInteressesProjeto = new HashSet<>(projeto.getInteresses());
                 copiaInteressesProjeto.retainAll(interessesPessoa);
-                if (copiaInteressesProjeto.size() > interessesEmComum.size()) {
+                if (copiaInteressesProjeto.size() > 0 && copiaInteressesProjeto.size() > interessesEmComum.size() && !"-".equals(projeto.getLocal())) {
                     interessesEmComum.clear();
                     interessesEmComum.addAll(copiaInteressesProjeto);
                     projetoInteressesEmComum.clear();
                     projetoInteressesEmComum.add(projeto);
-                } else
-                    if (copiaInteressesProjeto.size() == interessesEmComum.size()) {
-                        interessesEmComum.clear();
-                        interessesEmComum.addAll(copiaInteressesProjeto);
-                        projetoInteressesEmComum.add(projeto);
-                    }
+                }
+                if (copiaInteressesProjeto.size() > 0 && copiaInteressesProjeto.size() == interessesEmComum.size() && !"-".equals(projeto.getLocal())) {
+                    interessesEmComum.addAll(copiaInteressesProjeto);
+                    projetoInteressesEmComum.add(projeto);
+                }
             }
             return projetoInteressesEmComum;
     }

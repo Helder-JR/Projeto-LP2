@@ -36,11 +36,12 @@ public interface Projeto extends Serializable {
     /**
      * Calcula se a quantidade de votos da proposta é o mínimo necessário para que ela seja aprovada.
      *
-     * @param quantidadeDeputados a quantidade de deputados(as) que fazem parte da proposta.
+     * @param deputadosPresentes a quantidade de deputados(as) que presentes na votação.
+     * @param totalDeputados quantidade total de deputados.
      * @param totalVotos o total de votos que a proposta legislativa obteve.
      * @return um booleano true caso o mínimo de votos necessários para aprovação seja atingido, do contrário false.
      */
-    boolean calculaVotoMinimo(int quantidadeDeputados, int totalVotos);
+    boolean calculaVotoMinimo(int deputadosPresentes, int totalDeputados, int totalVotos);
 
     /**
      * Altera a situação atual a que a proposta legislativa se encontra, variando de acordo com cada projeto.
@@ -97,4 +98,6 @@ public interface Projeto extends Serializable {
      * @return
      */
     String getCodigo();
+
+    String getTramitacao();
 }
