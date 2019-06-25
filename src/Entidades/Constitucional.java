@@ -12,6 +12,12 @@ public class Constitucional extends EstrategiaAbstract {
                 arrayProjetos.add(projeto);
             }
         }
+        if (arrayProjetos.size() == 1) {
+            return arrayProjetos.get(0).getCodigo();
+        } else if (arrayProjetos.size() > 1) {
+            return desempatePorData(arrayProjetos);
+        } else {
+        }
         if (arrayProjetos.isEmpty()) {
             for (Projeto projeto : projetos) {
                 if (projeto.getTipoProjeto().equals("PLP")) {

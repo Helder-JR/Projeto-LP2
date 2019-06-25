@@ -166,6 +166,7 @@ public abstract class ProjetoLegislativoAbstract implements Projeto {
                 } else {
                     this.situacaoAtual = "ARQUIVADO";
                     this.tramitacao.add("REJEITADO (Plenario - 1o turno)");
+                    this.local = "-";
                 }
             }
         }

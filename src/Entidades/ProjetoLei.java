@@ -69,9 +69,11 @@ public class ProjetoLei extends ProjetoLegislativoAbstract {
                 if (resultado) {
                     this.situacaoAtual = "APROVADO";
                     this.tramitacao.add(String.format("APROVADO (%s)", this.local));
+                    this.local = "-";
                 } else {
                     this.situacaoAtual = "ARQUIVADO";
                     this.tramitacao.add(String.format("REJEITADO (%s)", this.local));
+                    this.local = "-";
                 }
             }
         } else {
@@ -88,9 +90,11 @@ public class ProjetoLei extends ProjetoLegislativoAbstract {
                 if (resultado) {
                     this.situacaoAtual = "APROVADO";
                     this.tramitacao.add(String.format("APROVADO (%s)", capitalize(this.local)));
+                    this.local = "-";
                 } else {
                     this.situacaoAtual = "ARQUIVADO";
                     this.tramitacao.add(String.format("REJEITADO (%s)", capitalize(this.local)));
+                    this.local = "-";
                 }
             }
         }
