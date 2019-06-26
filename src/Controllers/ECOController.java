@@ -255,9 +255,10 @@ public class ECOController implements Serializable {
     }
 
     /**
+     * Configura a estratégia que uma pessoa vai ter para selecionar a proposta legislativa que é mais de seu interesse.
      *
-     * @param dni
-     * @param estrategia
+     * @param dni o DNI da pessoa.
+     * @param estrategia a estratégia de sua preferência.
      */
     public void configurarEstrategia(String dni, String estrategia){
         pessoaController.configurarEstrategia(dni, estrategia);
@@ -275,6 +276,13 @@ public class ECOController implements Serializable {
         }
     }
 
+    /**
+     * Seleciona a proposta legislativa que mais representa o interesse de uma pessoa, seguindo uma estratégia
+     * previamente configurada.
+     *
+     * @param dni o DNI da pessoa.
+     * @return a String que representa o código referente a proposta legislativa selecionada.
+     */
     public String pegarPropostaRelacionada(String dni) {
         validaPegarProposta(dni);
         Pessoa pessoa = this.pessoaController.getPessoa(dni);

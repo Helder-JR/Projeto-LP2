@@ -179,10 +179,21 @@ public class Pessoa implements Serializable {
         return this.funcao.getFuncao();
     }
 
+    /**
+     * Altera a estratégia que essa pessoa possui para escolher a proposta legislativa que mais lhe é adequada.
+     *
+     * @param estrategia a estratégia que essa pessoa vai utilizar.
+     */
     public void setEstrategia(Estrategia estrategia) {
         this.estrategia = estrategia;
     }
 
+    /**
+     * Escolhe o projeto que mais corresponde aos interesses da pessoa.
+     *
+     * @param projetos o conjunto de projetos que tem relação com essa pessoa.
+     * @return a String que representa o código da proposta legislativa escolhida.
+     */
     public String escolheProjeto(HashSet<Projeto> projetos) {
         return this.estrategia.selecionaProjeto(projetos);
     }
