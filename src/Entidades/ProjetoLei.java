@@ -100,6 +100,16 @@ public class ProjetoLei extends ProjetoLegislativoAbstract {
         }
     }
 
+    private void PLSetSituacaoCCJC(boolean resultado, String proximoLocal) {
+        if (this.conclusivo && !resultado) {
+            this.situacaoAtual = "ARQUIVADO";
+            this.tramitacao.add("REJEITADO (CCJC)");
+            this.local = "-";
+            } else {
+            setSituacaoCCJC(resultado, proximoLocal);
+        }
+    }
+
     /**
      * Altera a situação atual do projeto de lei, com base no local onde está sendo votado.
      *
@@ -110,7 +120,7 @@ public class ProjetoLei extends ProjetoLegislativoAbstract {
     public void setSituacaoAtual(boolean resultado, String proximoLocal) {
         this.tramitacao.remove(this.tramitacao.size()-1);
         if ("CCJC".equals(this.local)) {
-            setSituacaoCCJC(resultado, proximoLocal);
+            PLSetSituacaoCCJC(resultado, proximoLocal);
         } else {
             setSituacao(resultado, proximoLocal);
         }

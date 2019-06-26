@@ -94,11 +94,7 @@ public abstract class ProjetoLegislativoAbstract implements Projeto {
     @Override
     public void setSituacaoAtual(boolean resultado, String proximoLocal) {
         this.tramitacao.remove(this.tramitacao.size()-1);
-        if ("CCJC".equals(this.local)) {
-            setSituacaoCCJC(resultado, proximoLocal);
-        } else {
-            setSituacao(resultado, proximoLocal);
-        }
+        setSituacao(resultado, proximoLocal);
     }
 
     protected String capitalize(String str)
@@ -119,9 +115,9 @@ public abstract class ProjetoLegislativoAbstract implements Projeto {
             this.tramitacao.add(situacaoAtual);
             this.local = proximoLocal;
         } else {
-            this.situacaoAtual = "ARQUIVADO";
+            this.situacaoAtual = String.format("EM VOTACAO (%s)", proximoLocal);
             this.tramitacao.add("REJEITADO (CCJC)");
-            this.local = "-";
+            this.local = proximoLocal;
         }
     }
 
@@ -159,13 +155,13 @@ public abstract class ProjetoLegislativoAbstract implements Projeto {
                 } else {
                     this.situacaoAtual = "ARQUIVADO";
                     this.tramitacao.add("REJEITADO (Plenario - 2o turno)");
+                    this.local = "-";
                 }
             } else {
                 if (resultado) {
                     this.situacaoAtual = "EM VOTACAO (Plenario - 2o turno)";
                     this.tramitacao.add("APROVADO (Plenario - 1o turno)");
                     this.tramitacao.add(situacaoAtual);
-                    this.local = "plenario";
                 } else {
                     this.situacaoAtual = "ARQUIVADO";
                     this.tramitacao.add("REJEITADO (Plenario - 1o turno)");

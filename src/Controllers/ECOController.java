@@ -294,6 +294,8 @@ public class ECOController implements Serializable {
         if (projetoInteressesEmComum.size() > 1) {
             return pessoa.escolheProjeto(projetoInteressesEmComum);
         }
-        return "";
+        String proposta = "";
+        for (Projeto projeto : projetoInteressesEmComum) proposta = projeto.getCodigo();
+        return proposta;
     }
 }
