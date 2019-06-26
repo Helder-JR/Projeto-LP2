@@ -229,7 +229,7 @@ public class LegislativoController implements Serializable {
                     interessesEmComum.addAll(copiaInteressesProjeto);
                     projetoInteressesEmComum.clear();
                     projetoInteressesEmComum.add(projeto);
-                }
+                } else
                 if (copiaInteressesProjeto.size() > 0 && copiaInteressesProjeto.size() == interessesEmComum.size() && !"-".equals(projeto.getLocal())) {
                     interessesEmComum.addAll(copiaInteressesProjeto);
                     projetoInteressesEmComum.add(projeto);

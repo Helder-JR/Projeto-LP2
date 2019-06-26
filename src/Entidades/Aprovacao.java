@@ -20,7 +20,7 @@ public class Aprovacao extends EstrategiaAbstract {
                 max = cont;
                 arrayProjetos.clear();
                 arrayProjetos.add(projeto);
-            }
+            } else
             if (cont == max) {
                 arrayProjetos.add(projeto);
             }

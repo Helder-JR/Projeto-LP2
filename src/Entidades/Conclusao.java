@@ -34,7 +34,7 @@ public class Conclusao extends EstrategiaAbstract {
 
                     if (projeto.getTramitacao().split(", ").length == max) {
                         arrayProjetos.add(projeto);
-                    }
+                    } else
                     if (projeto.getTramitacao().split(", ").length > max) {
                         arrayProjetos.clear();
                         arrayProjetos.add(projeto);
