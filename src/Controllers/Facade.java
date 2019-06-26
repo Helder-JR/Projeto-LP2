@@ -285,7 +285,8 @@ public class Facade {
      * @param args a classe responsável pelo início do sistema e os caminhos para os testes de aceitação.
      */
     public static void main(String[] args) {
-        args = new String[] {"Controllers.Facade", "acceptance_test/use_case_1.txt",
+        args = new String[] {"Controllers.Facade",
+                "acceptance_test/use_case_1.txt",
                 "acceptance_test/use_case_2.txt",
                 "acceptance_test/use_case_3.txt",
                 "acceptance_test/use_case_4.txt",
