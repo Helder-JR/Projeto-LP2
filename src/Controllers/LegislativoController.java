@@ -20,6 +20,7 @@ public class LegislativoController implements Serializable {
     private Map<Integer, Integer> codigoProjetosPL;
     private Map<Integer, Integer> codigoProjetosPLP;
     private Map<Integer, Integer> codigoProjetosPEC;
+    private int codigoGlobal;
     private AtomicInteger totalDeputados;
     private ValidaSystemController validador;
 
@@ -112,9 +113,10 @@ public class LegislativoController implements Serializable {
             ordemCodigo = 1;
         }
         String codigo = "PL " + ordemCodigo + "/" + ano;
-        ProjetoLei projeto = new ProjetoLei(dni, ano, ementa, interesses, url, conclusivo, codigo);
+        ProjetoLei projeto = new ProjetoLei(dni, ano, ementa, interesses, url, conclusivo, codigo, this.codigoGlobal);
         this.projetos.put(codigo, projeto);
         this.codigoProjetosPL.replace(ano, ordemCodigo + 1);
+        this.codigoGlobal++;
         return codigo;
     }
 
@@ -129,9 +131,10 @@ public class LegislativoController implements Serializable {
             ordemCodigo = 1;
         }
         String codigo = "PLP " + ordemCodigo + "/" + ano;
-        ProjetoLeiComplementar projeto = new ProjetoLeiComplementar(dni, ano, ementa, interesses, url, artigos.replace(",", ", "), codigo);
+        ProjetoLeiComplementar projeto = new ProjetoLeiComplementar(dni, ano, ementa, interesses, url, artigos.replace(",", ", "), codigo, this.codigoGlobal);
         this.projetos.put(codigo, projeto);
         this.codigoProjetosPLP.replace(ano, ordemCodigo + 1);
+        this.codigoGlobal++;
         return codigo;
     }
 
@@ -146,9 +149,10 @@ public class LegislativoController implements Serializable {
             ordemCodigo = 1;
         }
         String codigo = "PEC " + ordemCodigo + "/" + ano;
-        ProjetoEmendaConstitucional projeto = new ProjetoEmendaConstitucional(dni, ano, ementa, interesses, url, artigos.replace(",", ", "), codigo);
+        ProjetoEmendaConstitucional projeto = new ProjetoEmendaConstitucional(dni, ano, ementa, interesses, url, artigos.replace(",", ", "), codigo, this.codigoGlobal);
         this.projetos.put(codigo, projeto);
         this.codigoProjetosPEC.replace(ano, ordemCodigo + 1);
+        this.codigoGlobal++;
         return codigo;
     }
 

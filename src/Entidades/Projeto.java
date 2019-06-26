@@ -99,5 +99,7 @@ public interface Projeto extends Serializable {
      */
     String getCodigo();
 
+    int getCodigoGlobal();
+
     String getTramitacao();
 }

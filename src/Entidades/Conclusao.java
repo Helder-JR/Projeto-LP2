@@ -10,7 +10,7 @@ public class Conclusao extends EstrategiaAbstract {
     public String selecionaProjeto(HashSet<Projeto> projetos) {
         ArrayList<Projeto> arrayProjetos = new ArrayList<>();
         for (Projeto projeto : projetos) {
-            if (projeto.getSituacaoAtual().equals("EM VOTACAO (Plenario - 2o turno)") || projeto.getSituacaoAtual().equals("EM VOTACAO (Plenario)")) {
+            if (projeto.getSituacaoAtual().equals("EM VOTACAO (Plenario - 2o turno)") || projeto.getSituacaoAtual().equals("EM VOTACAO (plenario)")) {
                 arrayProjetos.add(projeto);
             }
         }

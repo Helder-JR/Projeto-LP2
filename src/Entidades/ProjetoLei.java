@@ -24,8 +24,8 @@ public class ProjetoLei extends ProjetoLegislativoAbstract {
      * @param conclusivo o estado da tramitação do projeto.
      * @param codigo o código que identifica esse projeto de lei.
      */
-    public ProjetoLei(String dni, int ano, String ementa, String interesses, String url, boolean conclusivo, String codigo) {
-        super(dni, ano, ementa, interesses, url, codigo);
+    public ProjetoLei(String dni, int ano, String ementa, String interesses, String url, boolean conclusivo, String codigo, int codigoGlobal) {
+        super(dni, ano, ementa, interesses, url, codigo, codigoGlobal);
         this.conclusivo = conclusivo;
         this.tipoProjeto = "PL";
     }

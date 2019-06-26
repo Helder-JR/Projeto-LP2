@@ -24,8 +24,8 @@ public class ProjetoLeiComplementar extends ProjetoLegislativoAbstract {
      * @param artigos os artigos da constituição que esse projteo complementa.
      * @param codigo o código que identifica esse projeto de lei complementar.
      */
-    public ProjetoLeiComplementar(String dni, int ano, String ementa, String interesses, String url, String artigos, String codigo) {
-        super(dni, ano, ementa, interesses, url, codigo);
+    public ProjetoLeiComplementar(String dni, int ano, String ementa, String interesses, String url, String artigos, String codigo, int codigoGlobal) {
+        super(dni, ano, ementa, interesses, url, codigo, codigoGlobal);
         this.artigos = artigos;
         this.tipoProjeto = "PLP";
     }

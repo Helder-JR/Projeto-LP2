@@ -10,6 +10,7 @@ import java.util.List;
  */
 public abstract class ProjetoLegislativoAbstract implements Projeto {
 
+    protected int codigoGlobal;
     /**
      * O autor da proposta legislativa.
      */
@@ -70,7 +71,7 @@ public abstract class ProjetoLegislativoAbstract implements Projeto {
      * @param url o enderaço na internet para o documento que contém a descrição completa da proposta.
      * @param codigo o código que identifica essa proposta.
      */
-    public ProjetoLegislativoAbstract(String dni, int ano, String ementa, String interesses, String url, String codigo) {
+    public ProjetoLegislativoAbstract(String dni, int ano, String ementa, String interesses, String url, String codigo, int codigoGlobal) {
         this.autor = dni;
         this.ano = ano;
         this.codigo = codigo;
@@ -81,6 +82,7 @@ public abstract class ProjetoLegislativoAbstract implements Projeto {
         this.enderecoDocumento = url;
         this.tramitacao = new ArrayList<>();
         this.tramitacao.add("EM VOTACAO (CCJC)");
+        this.codigoGlobal = codigoGlobal;
     }
 
     /**
@@ -241,6 +243,10 @@ public abstract class ProjetoLegislativoAbstract implements Projeto {
      */
     public String getCodigo() {
         return this.codigo;
+    }
+
+    public int getCodigoGlobal() {
+        return codigoGlobal;
     }
 
     public String getTramitacao() {
