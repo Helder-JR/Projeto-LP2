@@ -260,10 +260,23 @@ public class ECOController implements Serializable {
      * @param estrategia
      */
     public void configurarEstrategia(String dni, String estrategia){
+        pessoaController.configurarEstrategia(dni, estrategia);
+    }
 
+    private void validaPegarProposta(String dni) {
+        if (dni == null) {
+            throw new NullPointerException("Erro ao pegar proposta relacionada: pessoa nao pode ser vazia ou nula");
+        }
+        if ("".equals(dni.trim())) {
+            throw new IllegalArgumentException("Erro ao pegar proposta relacionada: pessoa nao pode ser vazia ou nula");
+        }
+        if (!dni.matches("\\d{9}[-]\\d")) {
+            throw new IllegalArgumentException("Erro ao pegar proposta relacionada: dni invalido");
+        }
     }
 
     public String pegarPropostaRelacionada(String dni) {
+        validaPegarProposta(dni);
         Pessoa pessoa = this.pessoaController.getPessoa(dni);
         HashSet<String> interessesPessoa = pessoa.getInteresses();
         HashSet<Projeto> projetoInteressesEmComum = this.legislativoController.pegarPropostaRelacionada(interessesPessoa);

@@ -1,7 +1,6 @@
 package Controllers;
 
-import Entidades.Deputado;
-import Entidades.Pessoa;
+import Entidades.*;
 import Validacao.ValidaDeputado;
 import Validacao.ValidaPessoa;
 
@@ -166,5 +165,41 @@ public class PessoaController implements Serializable {
 
     public Pessoa getPessoa(String dni) {
         return this.pessoas.get(dni);
+    }
+
+    private void validaConfigurarEstrategia(String dni, String estrategia) {
+        if (dni == null) {
+            throw new NullPointerException("Erro ao configurar estrategia: pessoa nao pode ser vazia ou nula");
+        }
+        if ("".equals(dni.trim())) {
+            throw new IllegalArgumentException("Erro ao configurar estrategia: pessoa nao pode ser vazia ou nula");
+        }
+        if (!dni.matches("\\d{9}[-]\\d")) {
+            throw new IllegalArgumentException("Erro ao configurar estrategia: dni invalido");
+        }
+        if (estrategia == null) {
+            throw new NullPointerException("Erro ao configurar estrategia: estrategia vazia");
+        }
+        if ("".equals(estrategia.trim())) {
+            throw new IllegalArgumentException("Erro ao configurar estrategia: estrategia vazia");
+        }
+
+    }
+
+    public void configurarEstrategia(String dni, String estrategia) {
+        validaConfigurarEstrategia(dni, estrategia);
+        switch (estrategia) {
+            case "CONSTITUCIONAL":
+                pessoas.get(dni).setEstrategia(new Constitucional());
+                break;
+            case "CONCLUSAO":
+                pessoas.get(dni).setEstrategia(new Conclusao());
+                break;
+            case "APROVACAO":
+                pessoas.get(dni).setEstrategia(new Aprovacao());
+                break;
+            default:
+                throw new IllegalArgumentException("Erro ao configurar estrategia: estrategia invalida");
+        }
     }
 }

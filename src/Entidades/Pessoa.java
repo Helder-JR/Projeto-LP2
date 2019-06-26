@@ -179,6 +179,10 @@ public class Pessoa implements Serializable {
         return this.funcao.getFuncao();
     }
 
+    public void setEstrategia(Estrategia estrategia) {
+        this.estrategia = estrategia;
+    }
+
     public String escolheProjeto(HashSet<Projeto> projetos) {
         return this.estrategia.selecionaProjeto(projetos);
     }

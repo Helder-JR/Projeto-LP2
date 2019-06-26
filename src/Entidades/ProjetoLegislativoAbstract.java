@@ -119,6 +119,7 @@ public abstract class ProjetoLegislativoAbstract implements Projeto {
         } else {
             this.situacaoAtual = "ARQUIVADO";
             this.tramitacao.add("REJEITADO (CCJC)");
+            this.local = "-";
         }
     }
 

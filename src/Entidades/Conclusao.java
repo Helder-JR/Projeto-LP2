@@ -1,14 +1,16 @@
 package Entidades;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashSet;
 
-public class Constitucional extends EstrategiaAbstract {
+public class Conclusao extends EstrategiaAbstract {
 
+    @Override
     public String selecionaProjeto(HashSet<Projeto> projetos) {
         ArrayList<Projeto> arrayProjetos = new ArrayList<>();
         for (Projeto projeto : projetos) {
-            if (projeto.getTipoProjeto().equals("PEC")) {
+            if (projeto.getSituacaoAtual().equals("EM VOTACAO (Plenario - 2o turno)") || projeto.getSituacaoAtual().equals("EM VOTACAO (Plenario)")) {
                 arrayProjetos.add(projeto);
             }
         }
@@ -18,7 +20,7 @@ public class Constitucional extends EstrategiaAbstract {
             return desempatePorData(arrayProjetos);
         } else {
             for (Projeto projeto : projetos) {
-                if (projeto.getTipoProjeto().equals("PLP")) {
+                if (projeto.getSituacaoAtual().equals("EM VOTACAO (Plenario - 1o turno)")) {
                     arrayProjetos.add(projeto);
                 }
             }
@@ -27,7 +29,18 @@ public class Constitucional extends EstrategiaAbstract {
             } else if (arrayProjetos.size() > 1) {
                 return desempatePorData(arrayProjetos);
             } else {
-                arrayProjetos.addAll(projetos);
+                int max = 0;
+                for (Projeto projeto : projetos) {
+
+                    if (projeto.getTramitacao().split(", ").length == max) {
+                        arrayProjetos.add(projeto);
+                    }
+                    if (projeto.getTramitacao().split(", ").length > max) {
+                        arrayProjetos.clear();
+                        arrayProjetos.add(projeto);
+                        max = projeto.getTramitacao().split(", ").length;
+                    }
+                }
             }
         }
         if (arrayProjetos.size() == 1) {
