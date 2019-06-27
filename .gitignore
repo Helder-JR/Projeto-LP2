@@ -43,4 +43,5 @@ hs_err_pid*
 
 # IntelliJ
 /out/
+/files/
 Projeto-LP2.iml

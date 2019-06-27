@@ -26,6 +26,7 @@ public class Facade {
      * Objeto que irá receber o nome da pasta que irá salvar os arquivos do sistema.
      */
     private File folder;
+
     /**
      * Objeto que irá receber o caminho para o arquivo que armazenará o estado atual do controlador do sistema.
      */
