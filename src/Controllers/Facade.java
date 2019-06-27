@@ -23,6 +23,10 @@ public class Facade {
     private ECOController ecoController;
 
     /**
+     * Objeto que irá receber o nome da pasta que irá salvar os arquivos do sistema.
+     */
+    private File folder;
+    /**
      * Objeto que irá receber o caminho para o arquivo que armazenará o estado atual do controlador do sistema.
      */
     private File save;
@@ -33,13 +37,19 @@ public class Facade {
     private File reset;
 
     /**
-     * Cria a fachada (onde serão definidos os caminhos para os arquivos do sistema).
+     * Cria a fachada (onde será instanciado o controller e definidos os caminhos para os arquivos do sistema).
      */
     public Facade() {
         this.dados = new Dados();
         this.ecoController = new ECOController();
-        this.save = new File("save/save.data");
-        this.reset = new File("save/reset.data");
+        this.folder = new File("files");
+        if (!this.folder.exists()) {
+            this.folder.mkdir();
+        }
+        if (this.folder.exists() && this.folder.isDirectory()) {
+            this.save = new File("files/save.data");
+            this.reset = new File("files/reset.data");
+        }
         this.dados.salvar(this.ecoController,this.reset);
     }
 

@@ -40,7 +40,7 @@ public class Dados {
      */
     public ECOController carregarBackUp() {
         ECOController controller = null;
-        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream("save/reset.data"))) {
+        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream("files/reset.data"))) {
             controller = (ECOController) in.readObject();
         } catch (IOException | ClassNotFoundException e) {
             System.out.println(e.getMessage());

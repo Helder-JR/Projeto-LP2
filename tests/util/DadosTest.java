@@ -18,7 +18,7 @@ class DadosTest {
     void setUp() {
         this.dados = new Dados();
         this.controller = new ECOController();
-        this.saveTest = new File("save/saveTest.data");
+        this.saveTest = new File("files/saveTest.data");
     }
 
     @Test
