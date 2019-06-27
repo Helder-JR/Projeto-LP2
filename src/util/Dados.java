@@ -40,7 +40,7 @@ public class Dados {
      */
     public ECOController carregarBackUp() {
         ECOController controller = null;
-        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream("reset.data"))) {
+        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream("save/reset.data"))) {
             controller = (ECOController) in.readObject();
         } catch (IOException | ClassNotFoundException e) {
             System.out.println(e.getMessage());
@@ -57,7 +57,7 @@ public class Dados {
      * @return o objeto controller que contém os dados salvos do sistema.
      */
     public ECOController carregar(File filePath) {
-        ECOController controller = null;
+        ECOController controller;
         try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(filePath))) {
             controller = (ECOController) in.readObject();
         } catch (IOException | ClassNotFoundException e) {

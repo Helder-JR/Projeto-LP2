@@ -49,68 +49,6 @@ public class ProjetoLei extends ProjetoLegislativoAbstract {
     }
 
     /**
-     * Altera a situação atual do projeto de lei.
-     *
-     * @param resultado o resultado da votação até o momento.
-     * @param proximoLocal o próximo local para onde a votação irá seguir.
-     */
-    private void setSituacao(boolean resultado, String proximoLocal) {
-        if (conclusivo) {
-            if (!"-".equals(proximoLocal)) {
-                if (resultado) {
-                    this.situacaoAtual = String.format("EM VOTACAO (%s)", proximoLocal);
-                    this.tramitacao.add(String.format("APROVADO (%s)", this.local));
-                    this.tramitacao.add(situacaoAtual);
-                } else {
-                    this.situacaoAtual = "ARQUIVADO";
-                    this.tramitacao.add(String.format("REJEITADO (%s)", this.local));
-                }
-            } else {
-                if (resultado) {
-                    this.situacaoAtual = "APROVADO";
-                    this.tramitacao.add(String.format("APROVADO (%s)", this.local));
-                    this.local = "-";
-                } else {
-                    this.situacaoAtual = "ARQUIVADO";
-                    this.tramitacao.add(String.format("REJEITADO (%s)", this.local));
-                    this.local = "-";
-                }
-            }
-        } else {
-            if (!"plenario".equals(this.local)) {
-                if (resultado) {
-                    this.tramitacao.add(String.format("APROVADO (%s)", this.local));
-                } else {
-                    this.tramitacao.add(String.format("REJEITADO (%s)", this.local));
-                }
-                this.situacaoAtual = String.format("EM VOTACAO (%s)", capitalize(proximoLocal));
-                this.tramitacao.add(situacaoAtual);
-                this.local = proximoLocal;
-            } else {
-                if (resultado) {
-                    this.situacaoAtual = "APROVADO";
-                    this.tramitacao.add(String.format("APROVADO (%s)", capitalize(this.local)));
-                    this.local = "-";
-                } else {
-                    this.situacaoAtual = "ARQUIVADO";
-                    this.tramitacao.add(String.format("REJEITADO (%s)", capitalize(this.local)));
-                    this.local = "-";
-                }
-            }
-        }
-    }
-
-    private void PLSetSituacaoCCJC(boolean resultado, String proximoLocal) {
-        if (this.conclusivo && !resultado) {
-            this.situacaoAtual = "ARQUIVADO";
-            this.tramitacao.add("REJEITADO (CCJC)");
-            this.local = "-";
-            } else {
-            setSituacaoCCJC(resultado, proximoLocal);
-        }
-    }
-
-    /**
      * Altera a situação atual do projeto de lei, com base no local onde está sendo votado.
      *
      * @param resultado o resultado da votação, sendo true caso a proposta seja aprovada ou false caso contrário.
@@ -119,10 +57,68 @@ public class ProjetoLei extends ProjetoLegislativoAbstract {
     @Override
     public void setSituacaoAtual(boolean resultado, String proximoLocal) {
         this.tramitacao.remove(this.tramitacao.size()-1);
-        if ("CCJC".equals(this.local)) {
-            PLSetSituacaoCCJC(resultado, proximoLocal);
+        setSituacao(resultado, proximoLocal);
+    }
+
+    /**
+     * Altera a situação atual do projeto de lei.
+     *
+     * @param resultado o resultado da votação até o momento.
+     * @param proximoLocal o próximo local para onde a votação irá seguir.
+     */
+    private void setSituacao(boolean resultado, String proximoLocal) {
+        if (conclusivo) {
+            setSituacaoConclusivo(resultado, proximoLocal);
         } else {
-            setSituacao(resultado, proximoLocal);
+            setSituacaoNaoConclusivo(resultado, proximoLocal);
+        }
+    }
+
+    private void setSituacaoNaoConclusivo(boolean resultado, String proximoLocal) {
+        if (!"plenario".equals(this.local)) { // Se o local da proposta nao for o plenario
+            if (resultado) {
+                this.tramitacao.add(String.format("APROVADO (%s)", this.local));
+            } else {
+                this.tramitacao.add(String.format("REJEITADO (%s)", this.local));
+            }
+            this.situacaoAtual = String.format("EM VOTACAO (%s)", capitalize(proximoLocal));
+            this.tramitacao.add(situacaoAtual);
+            this.local = proximoLocal;
+        } else {
+            if (resultado) {
+                this.situacaoAtual = "APROVADO";
+                this.tramitacao.add(String.format("APROVADO (%s)", capitalize(this.local)));
+                this.local = "-";
+            } else {
+                this.situacaoAtual = "ARQUIVADO";
+                this.tramitacao.add(String.format("REJEITADO (%s)", capitalize(this.local)));
+                this.local = "-";
+            }
+        }
+    }
+
+    private void setSituacaoConclusivo(boolean resultado, String proximoLocal) {
+        if (!"-".equals(proximoLocal)) { // Se nao tiver proximo local
+            if (resultado) {
+                this.situacaoAtual = String.format("EM VOTACAO (%s)", proximoLocal);
+                this.tramitacao.add(String.format("APROVADO (%s)", this.local));
+                this.tramitacao.add(situacaoAtual);
+                this.local = proximoLocal;
+            } else {
+                this.situacaoAtual = "ARQUIVADO";
+                this.tramitacao.add(String.format("REJEITADO (%s)", this.local));
+                this.local = "-";
+            }
+        } else {
+            if (resultado) {
+                this.situacaoAtual = "APROVADO";
+                this.tramitacao.add(String.format("APROVADO (%s)", this.local));
+                this.local = "-";
+            } else {
+                this.situacaoAtual = "ARQUIVADO";
+                this.tramitacao.add(String.format("REJEITADO (%s)", this.local));
+                this.local = "-";
+            }
         }
     }
 

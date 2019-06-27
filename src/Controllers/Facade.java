@@ -38,8 +38,8 @@ public class Facade {
     public Facade() {
         this.dados = new Dados();
         this.ecoController = new ECOController();
-        this.save = new File("save.data");
-        this.reset = new File("reset.data");
+        this.save = new File("save/save.data");
+        this.reset = new File("save/reset.data");
         this.dados.salvar(this.ecoController,this.reset);
     }
 
