@@ -23,6 +23,7 @@ public class ProjetoEmendaConstitucional extends ProjetoLegislativoAbstract {
      * @param url o endereço da internet que contém o documento com a descrição do projeto.
      * @param artigos os artigos da constituição que serão complementados pelo projeto.
      * @param codigo o código que serve para identificar esse projeto.
+     * @param codigoGlobal o código que identifica esse projeto de lei dentro do sistema.
      */
     public ProjetoEmendaConstitucional(String dni, int ano, String ementa, String interesses, String url, String artigos, String codigo, int codigoGlobal) {
         super(dni, ano, ementa, interesses, url, codigo, codigoGlobal);

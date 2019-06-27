@@ -23,6 +23,7 @@ public class ProjetoLei extends ProjetoLegislativoAbstract {
      * @param url o endereço da internet que contém o documento com a descrição do projeto.
      * @param conclusivo o estado da tramitação do projeto.
      * @param codigo o código que identifica esse projeto de lei.
+     * @param codigoGlobal o código que identifica esse projeto de lei dentro do sistema.
      */
     public ProjetoLei(String dni, int ano, String ementa, String interesses, String url, boolean conclusivo, String codigo, int codigoGlobal) {
         super(dni, ano, ementa, interesses, url, codigo, codigoGlobal);

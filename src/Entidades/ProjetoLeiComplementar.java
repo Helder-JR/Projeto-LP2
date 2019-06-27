@@ -23,6 +23,7 @@ public class ProjetoLeiComplementar extends ProjetoLegislativoAbstract {
      * @param url o endereço da internet que contém o documento com a descrição do projeto.
      * @param artigos os artigos da constituição que esse projteo complementa.
      * @param codigo o código que identifica esse projeto de lei complementar.
+     * @param codigoGlobal o código que identifica esse projeto de lei dentro do sistema.
      */
     public ProjetoLeiComplementar(String dni, int ano, String ementa, String interesses, String url, String artigos, String codigo, int codigoGlobal) {
         super(dni, ano, ementa, interesses, url, codigo, codigoGlobal);
