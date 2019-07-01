@@ -9,6 +9,9 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 
+/**
+ * Controlador responsável pela votação das propostas cadastradas no sistema.
+ */
 public class VotacaoController implements Serializable {
 
     public boolean votarComissao(Projeto projeto, String statusGovernista, ArrayList<String> deputadosComissao, String proximoLocal, HashMap<String, Pessoa> pessoas, int totalDeputados, HashSet<String> partidosGovernistas) {

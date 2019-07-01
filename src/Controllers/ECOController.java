@@ -262,6 +262,11 @@ public class ECOController implements Serializable {
         pessoaController.configurarEstrategia(dni, estrategia);
     }
 
+    /**
+     * Faz a validação necessária para que a partir de um DNI uma proposta seja consultada.
+     *
+     * @param dni o DNI da pessoa que terá a prooposta pega.
+     */
     private void validaPegarProposta(String dni) {
         if (dni == null) {
             throw new NullPointerException("Erro ao pegar proposta relacionada: pessoa nao pode ser vazia ou nula");

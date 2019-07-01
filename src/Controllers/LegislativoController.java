@@ -14,14 +14,49 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class LegislativoController implements Serializable {
 
+    /**
+     * O objeto controlador que irá realizar as operações referentes ao seu uso.
+     */
     private VotacaoController votacaoController;
+
+    /**
+     * O mapa com as comissões cadastradas no sistema.
+     */
     private Map<String, ArrayList<String>> comissoes;
+
+    /**
+     * O mapa que contém as propostas de lei cadastradas.
+     */
     private Map<String, Projeto> projetos;
+
+    /**
+     * O mapa que contém os códigos dos projetos de lei.
+     */
     private Map<Integer, Integer> codigoProjetosPL;
+
+    /**
+     * O mapa que contém os códigos dos projetos de lei complementares.
+     */
     private Map<Integer, Integer> codigoProjetosPLP;
+
+    /**
+     * O mapa que contém os códigos dos projetos de emenda constitucionais.
+     */
     private Map<Integer, Integer> codigoProjetosPEC;
+
+    /**
+     * O código global que guarda a quantidade de propostas cadastradas.
+     */
     private int codigoGlobal;
+
+    /**
+     * Armazena a quantidade total de deputados.ss
+     */
     private AtomicInteger totalDeputados;
+
+    /**
+     * Objeto responsável por fazer a validação das entradas de dados.
+     */
     private ValidaSystemController validador;
 
     /**
@@ -65,7 +100,14 @@ public class LegislativoController implements Serializable {
         return String.join(",", listaPartidos);
     }
 
-
+    /**
+     * Valida a existência de políticos necessária para cadastrar uma comissão.
+     *
+     * @param politicos os políticos que participarão da comissão.
+     * @param pessoas as pessoas que possivelmente serão políticos a serem cadastrados na comissão.
+     * @throws NullPointerException caso a pessoa não exista no cadastro.
+     * @throws IllegalArgumentException caso a pessoa específica não seja um(a) deputado(a).
+     */
     private void validaExistenciaCadastrarComissao(String politicos, HashMap<String, Pessoa> pessoas) {
         for (String politico : politicos.split(",")) {
             if (!pessoas.containsKey(politico)) {
@@ -77,6 +119,15 @@ public class LegislativoController implements Serializable {
         }
     }
 
+    /**
+     * Cadastra uma comissão no controlador.
+     *
+     * @param tema o tema que fará parte da comissão.
+     * @param politicos os políticos que irão compôr a comissão.
+     * @param pessoas as pessoas que possivelmente serão políticos a serem cadaastrados na comissão.
+     * @throws IllegalArgumentException caso já exista comissão com o tema escolhido.
+     * @throws IllegalArgumentException caso o DNI não seja válido.
+     */
     public void cadastrarComissao(String tema, String politicos, HashMap<String, Pessoa> pessoas) {
         ArrayList<String> lista = new ArrayList<String>(Arrays.asList(politicos.split(",")));
         if (this.comissoes.containsKey(tema)) {
@@ -93,6 +144,14 @@ public class LegislativoController implements Serializable {
         this.comissoes.put(tema, lista);
     }
 
+    /**
+     * Validação necessária para cadastrar uma proposta legislativa.
+     *
+     * @param dni o DNI da pessoa que criou a proposta.
+     * @param pessoas o mapa de pessoas.
+     * @throws NullPointerException caso a pessoa não esteja cadstrada no mapa.
+     * @throws IllegalArgumentException Caso a pessoa não seja um(a) deputado(a).
+     */
     private void validaCadastraProjeto(String dni, HashMap<String, Pessoa> pessoas) {
         if (!pessoas.containsKey(dni)) {
             throw new NullPointerException("Erro ao cadastrar projeto: pessoa inexistente");
@@ -102,6 +161,23 @@ public class LegislativoController implements Serializable {
         }
     }
 
+    /**
+     * Cadastra um projeto de lei.
+     *
+     * @param dni o DNI da pessoa que criou/propôs o projeto de lei.
+     * @param ano o ano em que o projeto de lei foi criado/proposto.
+     * @param ementa a ementa com uma descrição sobre do que se trata o projeto.
+     * @param interesses os interesses relacionados a esse projeto de lei.
+     * @param url o endereço da internet que contém o arquivo com a descrição completa do projeto de lei.
+     * @param conclusivo indica se o projeto pode ser aprecisado em comissões sem necessidade de ir ao plenário.
+     * @param pessoas o mapa com as pessoas cadastradas.
+     * @return o código em String referente ao projeto de lei cadastrado.
+     * @throws NullPointerException     caso o DNI, a ementa, os interesses ou a url sejam Strings nulas.
+     * @throws IllegalArgumentException caso alguma dessas entradas seja uma String vazia, composta apenas de espaços,
+     *                                  ou não esteja em um formato válido, como por exemplo o DNI não ser na forma
+     *                                  "XXXXXXXXX-X" ou o ano ser superior ou inferior a criação da proposta.
+     * @throws ParseException caso o ano não seja uma data válida.
+     */
     public String cadastrarPL(String dni, int ano, String ementa, String interesses, String url, boolean conclusivo, HashMap<String, Pessoa> pessoas) throws ParseException {
         this.validador.validaCadastrarPL(dni, ano, ementa, interesses, url, conclusivo);
         validaCadastraProjeto(dni, pessoas);
@@ -120,6 +196,22 @@ public class LegislativoController implements Serializable {
         return codigo;
     }
 
+    /**
+     *
+     * @param dni o DNI da pessoa que propôs o projeto.
+     * @param ano o ano em que o projeto foi proposto.
+     * @param ementa a ementa com a descrição do projeto.
+     * @param interesses os interesses defendidos no projeto.
+     * @param url o endereço da internet que contém a descrição completa referente ao projeto.
+     * @param artigos os artigos que serão complementados por esse projeto.
+     * @param pessoas o mapa com as pessoas que possivelmente faram parte do projeto
+     * @return o código em String referente ao projeto de lei cadastrado.
+     * @throws NullPointerException     caso alguma das entradas seja uma String nula.
+     * @throws IllegalArgumentException caso alguma das Strings seja vazia, composta apenas de espaços, o DNI não siga o
+     *                                  padrão proposto ou a data seja em algum momento do tempo diferente da real
+     *                                  criação da proposta de lei.
+     * @throws ParseException           caso o ano de criação do projeto não seja uma data válida.
+     */
     public String cadastrarPLP(String dni, int ano, String ementa, String interesses, String url, String artigos, HashMap<String, Pessoa> pessoas) throws ParseException {
         this.validador.validaCadastrarPLPouPEC(dni, ano, ementa, interesses, url, artigos);
         validaCadastraProjeto(dni, pessoas);
@@ -138,6 +230,22 @@ public class LegislativoController implements Serializable {
         return codigo;
     }
 
+    /**
+     * Cadastra um projeto de emenda constitucioal no sistema.
+     *
+     * @param dni o DNI da pessoa que criou/propôs o projeto.
+     * @param ano o ano em que o projeto foi proposto.
+     * @param ementa a ementa com a descrição do projeto.
+     * @param url o endereço da internet com a descrição completa referente ao projeto.
+     * @param artigos os artigos que serão emendados por esse projeto.
+     * @param pessoas o mapa com as pessoas cadastradas no sistema.
+     * @return o código em String referente ao projeto cadastrado.
+     * @throws NullPointerException     caso alguma das entradas seja uma String nula.
+     * @throws IllegalArgumentException caso alguma das Strings seja vazia, composta apenas de espaços, o DNI não siga o
+     *                                  padrão proposto ou a data seja em algum momento do tempo diferente da real
+     *                                  criação da proposta de lei.
+     * @throws ParseException           caso o ano de criação do projeto não seja uma data válida.
+     */
     public String cadastrarPEC(String dni, int ano, String ementa, String interesses, String url, String artigos, HashMap<String, Pessoa> pessoas) throws ParseException {
         this.validador.validaCadastrarPLPouPEC(dni, ano, ementa, interesses, url, artigos);
         validaCadastraProjeto(dni, pessoas);
@@ -156,21 +264,48 @@ public class LegislativoController implements Serializable {
         return codigo;
     }
 
+    /**
+     * Exibe uma proposta legislativa.
+     *
+     * @param codigo o código referente a proposta a ser exibida.
+     * @return a String referente a representação da proposta.
+     */
     public String exibirProjeto(String codigo) {
         return this.projetos.get(codigo).toString();
     }
 
+    /**
+     * Validação necessária para verificar a existência de uma proposta legislativa.
+     *
+     * @param codigo o código referente a proposta que será validada.
+     * @throws NullPointerException caso o projeto não exista.
+     */
     public void validaExistenciaProjeto(String codigo) {
         if (!this.projetos.containsKey(codigo))
             throw new NullPointerException("Erro ao votar proposta: projeto inexistente");
     }
 
+    /**
+     * Validação para a votação de uma proposta que talvez tenha sido enviada ao plenário.
+     *
+     * @param codigo o código referente a proposta que será validada.
+     * @throws IllegalArgumentException caso a proposta tenha sido encaminhada ao plenário.
+     */
     private void validaPropostaEmPlenario(String codigo) {
         if ("plenario".equals(this.projetos.get(codigo).getLocal())) {
             throw new IllegalArgumentException("Erro ao votar proposta: proposta encaminhada ao plenario");
         }
     }
 
+    /**
+     * Vota uma comissão.
+     *
+     * @param codigo o código da proposta.
+     * @param statusGovernista o status governista.
+     * @param proximoLocal o próximo local onde a proposta será votada.
+     * @param pessoas o mapa de pessoas cadastradas.
+     * @return um booleano true caso a proposta seja aprovada ou false do contrário.
+     */
     public boolean votarComissao(String codigo, String statusGovernista, String proximoLocal, HashMap<String, Pessoa> pessoas) {
         validaExistenciaProjeto(codigo);
         validaTramitacao(codigo);
@@ -185,6 +320,11 @@ public class LegislativoController implements Serializable {
         }
     }
 
+    /**
+     * Valida a tramitação de uma proposta.
+     *
+     * @param codigo o código referente ao projeto legislativo.
+     */
     private void validaTramitacao(String codigo) {
         String situacao = this.projetos.get(codigo).getSituacaoAtual();
         if ("ARQUIVADO".equals(situacao) || "APROVADO".equals(situacao)) {
