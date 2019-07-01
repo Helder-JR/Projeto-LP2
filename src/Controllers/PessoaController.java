@@ -163,10 +163,25 @@ public class PessoaController implements Serializable {
         }
     }
 
+    /**
+     * Recupera a informação referente a uma pessoa cadastrada no mapa.
+     *
+     * @param dni o DNI da pessoa.
+     * @return um objeto do tipo Pessoa presente no mapa.
+     */
     public Pessoa getPessoa(String dni) {
         return this.pessoas.get(dni);
     }
 
+    /**
+     * Validação necessária para configurar a estratégia que uma pessoa usará para escolher a proposta que mais é a ela
+     * relacionada.
+     *
+     * @param dni o DNI da pessoa.
+     * @param estrategia a estratégia escolhida a essa pessoa.
+     * @throws NullPointerException caso o DNI ou a estratégia sejam Strings nulas.
+     * @throws IllegalArgumentException caso o DNI ou a estratégia sejam Strings vazias ou compostas apenas de espaços.
+     */
     private void validaConfigurarEstrategia(String dni, String estrategia) {
         if (dni == null) {
             throw new NullPointerException("Erro ao configurar estrategia: pessoa nao pode ser vazia ou nula");
@@ -186,6 +201,12 @@ public class PessoaController implements Serializable {
 
     }
 
+    /**
+     * Configura a estratégia escolhida por uma pessoa para pegar a proposta legislativa que mais se relaciona.
+     *
+     * @param dni o DNI da pessoa.
+     * @param estrategia a estratégia escolhida para essa pessoa.
+     */
     public void configurarEstrategia(String dni, String estrategia) {
         validaConfigurarEstrategia(dni, estrategia);
         switch (estrategia) {
