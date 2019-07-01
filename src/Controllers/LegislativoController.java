@@ -50,7 +50,7 @@ public class LegislativoController implements Serializable {
     private int codigoGlobal;
 
     /**
-     * Armazena a quantidade total de deputados.ss
+     * Armazena a quantidade total de deputados.
      */
     private AtomicInteger totalDeputados;
 

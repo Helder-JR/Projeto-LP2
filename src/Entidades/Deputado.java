@@ -25,6 +25,9 @@ public class Deputado implements Funcao {
      */
     private AtomicInteger leisAprovadas;
 
+    /**
+     * Objeto responsável pela validação da entrada de dados dessa classe.
+     */
     private ValidaDeputado validaDeputado;
 
     /**
@@ -95,6 +98,11 @@ public class Deputado implements Funcao {
         return toString;
     }
 
+    /**
+     * Retorna a característica de Deputado.
+     *
+     * @return a String "Deputado".
+     */
     @Override
     public String getFuncao() {
         return "Deputado";
