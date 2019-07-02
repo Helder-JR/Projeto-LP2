@@ -7,7 +7,7 @@ pelo cadastramento de deputados(as), propostas legislativas e comissões.
 ***
 A especificação do projeto se encontra [neste link.](https://docs.google.com/document/d/e/2PACX-1vRMP1dmmr6DpXQECabYiR_pboa4P_XiXEywRX_wntWL0ego4KHlH25_Vsv0HB0_Io4nXn4lNI0eEaXU/pub)
 ***
-O relatório do projeto se encontra [neste link](https://docs.google.com/document/d/1wcggJy7FiR6TT8hH4tlPLfRPM24A4ywQoUy8S3HCyqc/edit?usp=sharing)
+O relatório do projeto se encontra [neste link.](https://docs.google.com/document/d/1wcggJy7FiR6TT8hH4tlPLfRPM24A4ywQoUy8S3HCyqc/edit?usp=sharing)
 ***
 O projeto adotará o padrão de releases para que cada parte concluída tenha seu destaque dentro de repositório:
 
